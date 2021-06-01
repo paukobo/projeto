@@ -11,7 +11,7 @@ class CarrinhoController extends Controller
 
     public function admin(Request $request)
     {
-        return view('carrinho.index')
+        return view('carrinho.admin')
             ->with('pageTitle', 'Carrinho de compras')
             ->with('carrinho', session('carrinho') ?? []);
     }
@@ -34,6 +34,7 @@ class CarrinhoController extends Controller
             'estampa_id' => $tshirt->estampa_id,
             'cor_codigo' => $tshirt->cor_codigo,
             'preco_un' => $tshirt->preco_un,
+            'preco_total' => $tshirt->preco_un * $qtd,
         ];
         $request->session()->put('carrinho', $carrinho);
         return back()
@@ -62,6 +63,7 @@ class CarrinhoController extends Controller
                 'estampa_id' => $tshirt->estampa_id,
                 'cor_codigo' => $tshirt->cor_codigo,
                 'preco_un' => $tshirt->preco_un,
+                'preco_total' => $tshirt->preco_un * $qtd,
             ];
         }
         $request->session()->put('carrinho', $carrinho);

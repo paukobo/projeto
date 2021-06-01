@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
     <link rel="stylesheet" href="/css/estilos.css">
 
-    <title>Example</title>
+    <title>MagicShirts</title>
 </head>
 
 <body>
@@ -17,7 +17,7 @@
         <div id="logo">
             <img src="/img/plain_white.png" alt="Logo">
         </div>
-        <h1>Departamento de Engenharia Informática</h1>
+        <h1>Loja MagicShirts</h1>
         @auth
             <div class="avatar-area">
                 <span class="name-user">{{ Auth::user()->name }}</span>

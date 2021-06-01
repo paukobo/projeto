@@ -32,6 +32,7 @@
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{ route('admin.dashboard') }}">
                 <div class="sidebar-brand-icon">
                     <img src="/img/plain_white.png" alt="Logo" class="logo-img">
+                    MagicShirts
                 </div>
             </a>
 
@@ -49,6 +50,18 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
+            <!-- Nav Item - Categorias -->
+            <li class="nav-item {{ Route::currentRouteName() == 'admin.categorias' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.categorias') }}">
+                <i class="fas fa-list"></i>
+                    <span>Categorias</span>
+                </a>
+            </li>
+
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
             <!-- Nav Item - Cores -->
             <li class="nav-item {{ Route::currentRouteName() == 'admin.cores' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('admin.cores') }}">
@@ -61,8 +74,8 @@
             <hr class="sidebar-divider">
 
             <!-- Nav Item - Tshirt -->
-            <li class="nav-item {{ Route::currentRouteName() == 'tshirt.index' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('tshirt.index') }}">
+            <li class="nav-item {{ Route::currentRouteName() == 'admin.tshirts' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.tshirts') }}">
                 <i class="fas fa-tshirt"></i>
                     <span>Tshirt</span>
                 </a>
@@ -82,57 +95,29 @@
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Nav Item
-            @can('viewAny', App\Models\Curso::class)
-                <li class="nav-item {{ Route::currentRouteName() == 'admin.cursos' ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin.cursos') }}">
-                        <i class="fas fa-fw fa-table"></i>
-                        <span>Cursos</span></a>
-                </li>
-            @endcan
+            <!-- Nav Item - Preços -->
+            <li class="nav-item {{ Route::currentRouteName() == 'admin.precos' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.precos') }}">
+                <i class="fas fa-dollar-sign"></i>
+                    <span>Preços</span>
+                </a>
+            </li>
 
-             Nav Item
-            @can('viewAny', App\Models\Curso::class)
-                <li class="nav-item {{ Route::currentRouteName() == 'admin.cursos' ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin.cursos') }}">
-                        <i class="fas fa-fw fa-table"></i>
-                        <span>Cursos</span></a>
-                </li>
-            @endcan
+            <!-- Divider -->
+            <hr class="sidebar-divider">
 
-             Nav Item
-            @can('viewAny', App\Models\Disciplina::class)
-                <li class="nav-item {{ Route::currentRouteName() == 'admin.disciplinas' ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin.disciplinas') }}">
-                        <i class="fas fa-fw fa-table"></i>
-                        <span>Disciplinas</span></a>
-                </li>
-            @endcan
+            <!-- Nav Item - Encomendas -->
+            <li class="nav-item {{ Route::currentRouteName() == 'admin.emcomendas' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.encomendas') }}">
+                <i class="fas fa-box-open"></i>
+                    <span>Encomendas</span>
+                </a>
+            </li>
 
-             Nav Item
-            @can('viewAny', App\Models\Docente::class)
-                <li class="nav-item {{ Route::currentRouteName() == 'admin.docentes' ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin.docentes') }}">
-                        <i class="fas fa-fw fa-table"></i>
-                        <span>Docentes</span>
-                    </a>
-                </li>
-            @endcan
+            <!-- Divider -->
+            <hr class="sidebar-divider">
 
-             Nav Item
-            @can('viewAny', App\Models\Aluno::class)
-                <li class="nav-item {{ Route::currentRouteName() == 'admin.alunos' ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin.alunos') }}">
-                        <i class="fas fa-fw fa-table"></i>
-                        <span>Alunos</span>
-                    </a>
-                </li>
-            @endcan
-
-             Divider
-            <hr class="sidebar-divider d-none d-md-block">
-
-             Nav Item -->
+            <!-- Nav Item -->
             <li class="nav-item">
                 <a class="nav-link" href="{{ url('/') }}">
                     <i class="fas fa-fw fa-home"></i>

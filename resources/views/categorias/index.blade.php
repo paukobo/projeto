@@ -4,16 +4,12 @@
 
 <h2>Cores</h2>
 <div class="cursos-area">
-    @foreach($cores as $cor)
+    @foreach($categorias as $categoria)
     <div class="curso">
         <div class="curso-info-area">
             <div class="curso-info">
-                <span class="curso-label">Código</span>
-                <span class="curso-info-desc">{{$cor->cor_codigo}}</span>
-            </div>
-            <div class="curso-info">
                 <span class="curso-label">Nome</span>
-                <span class="curso-info-desc">{{$cor->nome}}</span>
+                <span class="curso-info-desc">{{$categoria->nome}}</span>
             </div>
 
         </div>

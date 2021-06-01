@@ -17,9 +17,8 @@
             <input type="submit" class="btn btn-success" value="Confirmar carrinho">
         </form>
         </p>
-        <p style="float:right;">
+        <p>
             Preço Total:
-
         </p>
     </div>
 
@@ -32,6 +31,7 @@
                 <th>ID Estampa</th>
                 <th>Cor Código</th>
                 <th>Preço Unidade</th>
+                <th>Subtotal</th>
             </tr>
         </thead>
         <tbody>
@@ -42,14 +42,15 @@
                 <td>{{ $row['encomenda_id'] }} </td>
                 <td>{{ $row['estampa_id'] }} </td>
                 <td>{{ $row['cor_codigo'] }} </td>
-                <td>{{ $row['preco_un'] }}</td>
+                <td>{{ $row['preco_un'] }} </td>
+                <td>{{ $row['preco_un'] * $row['qtd'] }} </td>
 
                 <td>
                     <form action="{{route('carrinho.update_Tshirt', $row['id'])}}" method="POST">
                         @csrf
                         @method('put')
                         <input type="hidden" name="quantidade" value="1">
-                        <input type="submit" class="btn btn-info" value="Increment">
+                        <input type="submit" class="btn btn-info" value="+">
                     </form>
                 </td>
                 <td>
@@ -57,7 +58,7 @@
                         @csrf
                         @method('put')
                         <input type="hidden" name="quantidade" value="-1">
-                        <input type="submit" class="btn btn-info" value="Decrement">
+                        <input type="submit" class="btn btn-info" value="-">
                     </form>
                 </td>
                 <td>

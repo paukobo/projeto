@@ -14,7 +14,8 @@ class Tshirt extends Model
     protected $fillable=[
         'tamanho',
         'quantidade',
-        'preco_un'
+        'preco_un',
+        'subtotal'
     ];
 
     public function encomenda(){
