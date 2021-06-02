@@ -12,6 +12,8 @@ class Estampa extends Model
     use HasFactory;
 
     protected $fillable=[
+        'cliente_id',
+        'categoria_id',
         'nome',
         'descricao',
         'imagem_url',

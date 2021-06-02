@@ -1,17 +1,18 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
-
-use App\Http\Controllers\PageController;
-use App\Http\Controllers\CorController;
-use App\Http\Controllers\DashboardController;
-use App\Http\Controllers\TshirtController;
-use App\Http\Controllers\CategoriaController;
-use App\Http\Controllers\CarrinhoController;
-use App\Http\Controllers\PrecoController;
-use App\Http\Controllers\EncomendaController;
-
 use Illuminate\Support\Facades\Auth;
+
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CorController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\PrecoController;
+use App\Http\Controllers\TshirtController;
+use App\Http\Controllers\CarrinhoController;
+use App\Http\Controllers\CatalogoController;
+use App\Http\Controllers\CategoriaController;
+
+use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EncomendaController;
 
 /*
 |--------------------------------------------------------------------------
@@ -128,6 +129,9 @@ Route::delete('carrinho/tshirts/{tshirt}', [CarrinhoController::class, 'destroy_
 Route::post('carrinho', [CarrinhoController::class, 'store'])->name('carrinho.store');
 Route::delete('carrinho', [CarrinhoController::class, 'destroy'])->name('carrinho.destroy');
 
+//catalogo
+Route::get('admin/estampa/{estampa}/image', [CatalogoController::class, 'imagemEstampa'])->name('imagemEstampa');
+Route::get('catalogo', [CatalogoController::class, 'index'])->name('catalogo.index');
 
 Auth::routes(['register' => true, 'verifiy' => true]);
 
