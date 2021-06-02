@@ -5,11 +5,11 @@
         @csrf
         @method('PUT')
         @include('precos.partials.create-edit')
-        @can('update', $preco)
+
         <div class="form-group text-right">
                 <button type="submit" class="btn btn-success" name="ok">Save</button>
                 <a href="{{route('admin.precos')}}" class="btn btn-secondary">Cancel</a>
         </div>
-        @endcan
+
     </form>
 @endsection

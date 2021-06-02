@@ -2,27 +2,28 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Cor extends Model
 {
-    use SoftDeletes;
     use HasFactory;
+    use SoftDeletes;
 
-    protected $table = 'cores';
-    protected $primaryKey='codigo';
-    protected $keyType='string';
     public $timestamps = false;
 
+    protected $table= 'cores';
+    protected $primaryKey = 'codigo';
+    protected $keyType = 'string';
+    public $incrementing = false;
+
     protected $fillable=[
-        'nome',
-        'codigo'
+        'codigo',
+        'nome'
     ];
 
-    public function tshirts(){
-        return $this->hasMany(Tshirt::class, 'cor_codigo', 'codigo');
+    public function tshirt(){
+        return $this->hasMany('App\Models\Tshirt', 'cor_codigo', 'codigo');
     }
-
 }

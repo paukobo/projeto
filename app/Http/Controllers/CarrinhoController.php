@@ -103,3 +103,20 @@ class CarrinhoController extends Controller
             ->with('alert-type', 'danger');
     }
 }
+
+
+/*
+public function adicionarCarrinho(Request $request)
+{
+    $estampa = Estampa::find($request->id);
+    $cor = Cor::find($request->cor);
+    $antCarrinho = session('carrinho', null);
+    $carrinho = new Carrinho($antCarrinho);
+    $carrinho->add(estampa, cor, )
+    session(['carrinho' => carrinho]);
+}
+
+
+
+
+*/

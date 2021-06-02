@@ -35,3 +35,31 @@ class Carrinho
         $this->precoTotal += $item->price;
     }
 }
+
+/*
+public function add($estampa, $cor, $qtd, $tamanho)
+{
+    $id = $estampa->id . "_" . $cor_codigo . "_" $tamanho;
+    $storedItem = ['qtd' => 0, 'cor' => 0,'estampa' => 0,'tamanho' => 0,'qtd' => 0]
+    if ($this->items) {
+        if (array_key_exists($id, $qtd))
+    }
+
+    $storedItem['qtd'] = $qtd;
+    ...
+}
+
+
+
+public function getPrecoUnitario($qtd, $proprio)
+{
+    $preco = Preco::first();
+    if ($qtd < $preco->quantidade_desconto)
+}
+
+
+
+
+
+
+*/

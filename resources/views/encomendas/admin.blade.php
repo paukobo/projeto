@@ -1,9 +1,9 @@
 @extends('layout_admin')
-@section('title', 'Categorias')
+@section('title', 'Encomendas')
 @section('content')
-<div class="row mb-3">
+<!-- <div class="row mb-3">
     <a href="{{ route('admin.encomendas.create') }}" class="btn btn-success" role="button" aria-pressed="true">Nova Encomenda</a>
-</div>
+</div> -->
     <table class="table">
         <thead>
             <tr>

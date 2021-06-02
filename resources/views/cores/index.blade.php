@@ -9,7 +9,7 @@
         <div class="curso-info-area">
             <div class="curso-info">
                 <span class="curso-label">Código</span>
-                <span class="curso-info-desc">{{$cor->cor_codigo}}</span>
+                <span class="curso-info-desc">{{$cor->codigo}}</span>
             </div>
             <div class="curso-info">
                 <span class="curso-label">Nome</span>

@@ -24,7 +24,7 @@ class CorPost extends FormRequest
     public function rules()
     {
         return [
-            'cor_codigo' => 'required|string|max:6',
+            'codigo' => 'required|string|max:6',
             'nome' => 'required',
         ];
     }
