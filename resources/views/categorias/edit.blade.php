@@ -5,11 +5,11 @@
         @csrf
         @method('PUT')
         @include('categorias.partials.create-edit')
-        @can('update', $categoria)
+
         <div class="form-group text-right">
                 <button type="submit" class="btn btn-success" name="ok">Save</button>
                 <a href="{{route('admin.categorias')}}" class="btn btn-secondary">Cancel</a>
         </div>
-        @endcan
+
     </form>
 @endsection

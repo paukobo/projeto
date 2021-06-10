@@ -5,11 +5,11 @@
         @csrf
         @method('PUT')
         @include('encomendas.partials.create-edit')
-        @can('update', $encomenda)
+
         <div class="form-group text-right">
                 <button type="submit" class="btn btn-success" name="ok">Save</button>
                 <a href="{{route('admin.encomendas')}}" class="btn btn-secondary">Cancel</a>
         </div>
-        @endcan
+
     </form>
 @endsection

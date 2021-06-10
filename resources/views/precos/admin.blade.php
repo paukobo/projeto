@@ -1,9 +1,9 @@
 @extends('layout_admin')
 @section('title', 'Preços')
 @section('content')
-<div class="row mb-3">
+<!-- <div class="row mb-3">
     <a href="{{ route('admin.precos.create') }}" class="btn btn-success" role="button" aria-pressed="true">Novo Preço</a>
-</div>
+</div> -->
     <table class="table">
         <thead>
             <tr>
