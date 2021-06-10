@@ -17,25 +17,25 @@
                     <td>{{ $categoria->nome }}</td>
                     <td nowrap>
 
-                    <a href="{{ route('admin.categorias.edit', $categoria) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">
-                        <i class="fas fa-eye"></i>
-                    </a>
+                    @can('update', $categoria)
+                        <a href="{{ route('admin.categorias.edit', $categoria) }}" class="btn btn-warning btn-sm" role="button" aria-pressed="true">
+                            <i class="fas fa-pen"></i>
+                        </a>
+                    @else
+                        <span class="btn btn-secondary btn-sm disabled"><i class="fas fa-pen"></i></span>
+                    @endcan
 
-
-
-                    <a href="{{ route('admin.categorias.edit', $categoria) }}" class="btn btn-warning btn-sm" role="button" aria-pressed="true">
-                        <i class="fas fa-pen"></i>
-                    </a>
-
-
-
-                    <form class="d-inline" action="{{ route('admin.categorias.destroy', $categoria) }}" method="POST">
-                        @csrf
-                        @method("DELETE")
-                        <button type="submit" class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </form>
+                    @can('delete', $categoria)
+                        <form class="d-inline" action="{{ route('admin.categorias.destroy', $categoria) }}" method="POST">
+                            @csrf
+                            @method("DELETE")
+                            <button type="submit" class="btn btn-danger btn-sm">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                        </form>
+                    @else
+                        <span class="btn btn-secondary btn-sm disabled"><i class="fas fa-trash"></i></span>
+                    @endcan
 
             </td>
                 </tr>

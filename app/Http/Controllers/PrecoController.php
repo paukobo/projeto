@@ -31,34 +31,6 @@ class PrecoController extends Controller
     }
 
     /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        $preco = new Preco();
-        return view('precos.create', compact('preco'));
-    }
-
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
-    public function store(PrecoPost $request)
-    {
-        $preco = new Preco();
-        $preco->fill($request->validated());
-        $preco->save();
-        return redirect()->route('admin.precos')
-            ->with('alert-msg', 'Preço "' . $preco->id . '" foi criado com sucesso!')
-            ->with('alert-type', 'success');
-    }
-
-
-    /**
      * Show the form for editing the specified resource.
      *
      * @param  \App\Models\Preco  $preco
@@ -82,16 +54,6 @@ class PrecoController extends Controller
         $preco->save();
         return redirect()->route('admin.precos')
             ->with('alert-msg', 'Preço "' . $preco->id . '" foi alterado com sucesso!')
-            ->with('alert-type', 'success');
-    }
-
-    public function destroy(Preco $preco)
-    {
-        $oldName = $preco->nome;
-
-        $preco->delete();
-        return redirect()->route('admin.precos')
-            ->with('alert-msg', 'Preço "' . $oldName . '" foi apagado com sucesso!')
             ->with('alert-type', 'success');
     }
 }

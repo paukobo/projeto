@@ -7,13 +7,13 @@ use Illuminate\Database\Eloquent\Model;
 
 class Encomenda extends Model
 {
-
     use HasFactory;
 
     public $timestamps = false;
 
     protected $fillable=[
         'estado',
+        'cliente_id',
         'data',
         'preco_total',
         'notas',
@@ -25,7 +25,7 @@ class Encomenda extends Model
     ];
 
     public function tshirts(){
-        return $this->hasMany(Tshirt::class, 'cor_codigo', 'codigo');
+        return $this->hasMany(Tshirt::class, 'encomenda_id', 'id');
     }
 
     public function cliente(){

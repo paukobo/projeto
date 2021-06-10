@@ -19,18 +19,9 @@
             <td>{{ $cor->codigo }}</td>
             <td>{{ $cor->nome }}</td>
             <td nowrap>
-
-                    <a href="{{ route('admin.cores.edit', $cor) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">
-                        <i class="fas fa-eye"></i>
-                    </a>
-
-
-
                     <a href="{{ route('admin.cores.edit', $cor) }}" class="btn btn-warning btn-sm" role="button" aria-pressed="true">
                         <i class="fas fa-pen"></i>
                     </a>
-
-
 
                     <form class="d-inline" action="{{ route('admin.cores.destroy', $cor) }}" method="POST">
                         @csrf

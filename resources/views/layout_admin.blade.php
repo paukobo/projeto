@@ -11,9 +11,7 @@
 
     <!-- Custom fonts for this template-->
     <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
-    <link
-        href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i"
-        rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
     <link href="{{ asset('css/sb-admin-2.min.css') }}" rel="stylesheet">
@@ -51,27 +49,24 @@
             <hr class="sidebar-divider">
 
             <!-- Nav Item - Categorias -->
-            <li class="nav-item {{ Route::currentRouteName() == 'admin.categorias' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.categorias') }}">
-                <i class="fas fa-list"></i>
-                    <span>Categorias</span>
-                </a>
-            </li>
-
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+            @can('viewAny', App\Models\Categoria::class)
+                <li class="nav-item {{ Route::currentRouteName() == 'admin.categorias' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.categorias') }}">
+                    <i class="fas fa-list"></i>
+                        <span>Categorias</span>
+                    </a>
+                </li>
+            @endcan
 
             <!-- Nav Item - Cores -->
-            <li class="nav-item {{ Route::currentRouteName() == 'admin.cores' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.cores') }}">
-                <i class="fas fa-palette"></i>
-                    <span>Cores</span>
-                </a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+            @can('viewAny', App\Models\Cor::class)
+                <li class="nav-item {{ Route::currentRouteName() == 'admin.cores' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.cores') }}">
+                    <i class="fas fa-palette"></i>
+                        <span>Cores</span>
+                    </a>
+                </li>
+            @endcan
 
             <!-- Nav Item - Tshirt -->
             <li class="nav-item {{ Route::currentRouteName() == 'admin.tshirts' ? 'active' : '' }}">
@@ -81,30 +76,26 @@
                 </a>
             </li>
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
             <!-- Nav Item - Carrinho -->
-            <li class="nav-item {{ Route::currentRouteName() == 'carrinho.index' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('carrinho.index') }}">
-                <i class="fas fa-shopping-cart"></i>
-                    <span>Carrinho</span>
-                </a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
+            @can('viewAny', App\Models\Carrinho::class)
+                <li class="nav-item {{ Route::currentRouteName() == 'carrinho.index' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('carrinho.index') }}">
+                    <i class="fas fa-shopping-cart"></i>
+                        <span>Carrinho</span>
+                    </a>
+                </li>
+            @endcan
 
             <!-- Nav Item - Preços -->
-            <li class="nav-item {{ Route::currentRouteName() == 'admin.precos' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.precos') }}">
-                <i class="fas fa-dollar-sign"></i>
-                    <span>Preços</span>
-                </a>
-            </li>
+            @can('viewAny', App\Models\Preco::class)
+                <li class="nav-item {{ Route::currentRouteName() == 'admin.precos' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.precos') }}">
+                    <i class="fas fa-dollar-sign"></i>
+                        <span>Preços</span>
+                    </a>
+                </li>
+            @endcan
 
-            <!-- Divider -->
-            <hr class="sidebar-divider">
 
             <!-- Nav Item - Encomendas -->
             <li class="nav-item {{ Route::currentRouteName() == 'admin.emcomendas' ? 'active' : '' }}">
@@ -114,15 +105,11 @@
                 </a>
             </li>
 
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
-
             <!-- Nav Item - Catalogo -->
             <li class="nav-item {{ Route::currentRouteName() == 'admin.catalogo' ? 'active' : '' }}">
                 <a class="nav-link" href="{{ route('admin.catalogo') }}">
                 <i class="fas fa-box-open"></i>
-                    <span>Catalogo</span>
+                    <span>Catálogo</span>
                 </a>
             </li>
 
@@ -177,20 +164,24 @@
                                         class="mr-2 d-none d-lg-inline text-gray-600 small">{{ Auth::user()->name }}</span>
                                     @isset(Auth::user()->url_foto)
                                         <img class="img-profile rounded-circle"
-                                            src="{{Auth::user()->url_foto ? asset('storage/fotos/' . Auth::user()->url_foto) : asset('img/default_img.png') }}">
+                                            src="{{ asset('storage/fotos/' . Auth::user()->url_foto) }}">
+                                    @else
+                                        <div class="circle">
+                                            <span class="initials">{{ generateInitials(Auth::user()->name) }}</span>
+                                        </div>
                                     @endisset
                                 </a>
                                 <!-- Dropdown - User Information -->
                                 <div class="dropdown-menu dropdown-menu-right shadow animated--grow-in"
                                     aria-labelledby="userDropdown">
-                                    <!-- @if (auth()->user()->tipo == 'A' || auth()->user()->tipo == 'D') -->
+                                    @if (auth()->user()->tipo == 'A' || auth()->user()->tipo == 'C')
                                         <a class="dropdown-item"
-                                            href="{{ auth()->user()->tipo == 'A' ? route('admin.dashboard', auth()->user()->aluno) : route('admin.dashboard', auth()->user()->docente) }}">
+                                            href="#">
                                             <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                             Perfil
                                         </a>
                                         <div class="dropdown-divider"></div>
-                                    <!-- @endif -->
+                                    @endif
                                     <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                         <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                         Logout

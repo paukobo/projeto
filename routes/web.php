@@ -13,6 +13,7 @@ use App\Http\Controllers\CategoriaController;
 
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EncomendaController;
+use App\Http\Controllers\EstatisticasController;
 
 /*
 |--------------------------------------------------------------------------
@@ -60,43 +61,38 @@ Route::middleware(['auth','verified'])->prefix('admin')->name('admin.')->group(f
 
     // admininstração de cores
     Route::get('cores', [CorController::class, 'admin'])->name('cores');
-    Route::get('cores/{cor}/edit', [CorController::class, 'edit'])->name('cores.edit');
-        //->middleware('can:view,cor');
-    Route::get('cores/create', [CorController::class, 'create'])->name('cores.create');
-        //->middleware('can:create,App\Models\Cor');
-    Route::post('cores', [CorController::class, 'store'])->name('cores.store');
-        //->middleware('can:create,App\Models\Cor');
-    Route::put('cores/{cor}', [CorController::class, 'update'])->name('cores.update');
-        //->middleware('can:update,cor');
-    Route::delete('cores/{cor}', [CorController::class, 'destroy'])->name('cores.destroy');
-        //->middleware('can:delete,cor');
+    Route::get('cores/{cor}/edit', [CorController::class, 'edit'])->name('cores.edit')
+        ->middleware('can:view,cor');
+    Route::get('cores/create', [CorController::class, 'create'])->name('cores.create')
+        ->middleware('can:create,App\Models\Cor');
+    Route::post('cores', [CorController::class, 'store'])->name('cores.store')
+        ->middleware('can:create,App\Models\Cor');
+    Route::put('cores/{cor}', [CorController::class, 'update'])->name('cores.update')
+        ->middleware('can:update,cor');
+    Route::delete('cores/{cor}', [CorController::class, 'destroy'])->name('cores.destroy')
+        ->middleware('can:delete,cor');
 
 
     // admininstração de categorias
     Route::get('categorias', [CategoriaController::class, 'admin'])->name('categorias');
-    Route::get('categorias/{categoria}/edit', [CategoriaController::class, 'edit'])->name('categorias.edit');
-        //->middleware('can:view,categoria');
-    Route::get('categorias/create', [CategoriaController::class, 'create'])->name('categorias.create');
-        //->middleware('can:create,App\Models\Categoria');
-    Route::post('categorias', [CategoriaController::class, 'store'])->name('categorias.store');
-        //->middleware('can:create,App\Models\Categoria');
-    Route::put('categorias/{categoria}', [CategoriaController::class, 'update'])->name('categorias.update');
-        //->middleware('can:update,categoria');
-    Route::delete('categorias/{categoria}', [CategoriaController::class, 'destroy'])->name('categorias.destroy');
-        //->middleware('can:delete,categoria');
+    Route::get('categorias/{categoria}/edit', [CategoriaController::class, 'edit'])->name('categorias.edit')
+        ->middleware('can:view,categoria');
+    Route::get('categorias/create', [CategoriaController::class, 'create'])->name('categorias.create')
+        ->middleware('can:create,App\Models\Categoria');
+    Route::post('categorias', [CategoriaController::class, 'store'])->name('categorias.store')
+        ->middleware('can:create,App\Models\Categoria');
+    Route::put('categorias/{categoria}', [CategoriaController::class, 'update'])->name('categorias.update')
+        ->middleware('can:update,categoria');
+    Route::delete('categorias/{categoria}', [CategoriaController::class, 'destroy'])->name('categorias.destroy')
+        ->middleware('can:delete,categoria');
 
     // admininstração de preços
     Route::get('precos', [PrecoController::class, 'admin'])->name('precos');
-    Route::get('precos/{preco}/edit', [PrecoController::class, 'edit'])->name('precos.edit');
-        //->middleware('can:view,preco');
-    Route::get('precos/create', [PrecoController::class, 'create'])->name('precos.create');
-        //->middleware('can:create,App\Models\Preco');
-    Route::post('precos', [PrecoController::class, 'store'])->name('precos.store');
-        //->middleware('can:create,App\Models\Preco');
-    Route::put('precos/{preco}', [PrecoController::class, 'update'])->name('precos.update');
-        //->middleware('can:update,preco');
-    Route::delete('precos/{preco}', [PrecoController::class, 'destroy'])->name('precos.destroy');
-        //->middleware('can:delete,preco');
+    Route::get('precos/{preco}/edit', [PrecoController::class, 'edit'])->name('precos.edit')
+        ->middleware('can:view,preco');
+    Route::put('precos/{preco}', [PrecoController::class, 'update'])->name('precos.update')
+        ->middleware('can:update,preco');
+
 
 
     // admininstração de encomendas
@@ -125,13 +121,10 @@ Route::middleware(['auth','verified'])->prefix('admin')->name('admin.')->group(f
     Route::delete('catalogo/{estampa}', [CatalogoController::class, 'destroy'])->name('catalogo.estampas.destroy');
         //->middleware('can:delete,estampa');
 
+
+
 });
 
-//cores
-Route::get('cores', [CorController::class, 'index'])->name('cores.index');
-
-// tshirts
-Route::get('tshirts', [TshirtController::class, 'index'])->name('tshirt.index');
 
 // carrinho de compras
 Route::get('carrinho', [CarrinhoController::class, 'index'])->name('carrinho.index');

@@ -27,8 +27,8 @@ class Cliente extends Model
         return $this->belongsTo(Cliente::class, 'id', 'id');
     }
 
-    public function encomenda(){
-        return $this->hasOne(Encomenda::class, 'encomenda_id', 'id');
+    public function encomendas(){
+        return $this->hasMany(Encomenda::class, 'encomenda_id', 'id');
     }
 
 }

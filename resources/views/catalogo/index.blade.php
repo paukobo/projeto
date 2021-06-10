@@ -54,6 +54,8 @@
                 @endforeach
             </div>
         </div>
-    </div>{{ $estampas->withQueryString()->links() }}</div>
+    </div>
+    {{ $estampas->withQueryString()->links() }}
+</div>
 
 @endsection

@@ -9,26 +9,21 @@ use App\Http\Requests\EncomendaPost;
 
 class EncomendaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $encomendas = Encomenda::all();
-        return view('categorias.index', compact('categorias'));
-    }
-
     public function admin(Request $request)
     {
-        $selectedNome = $request->nome ?? '';
+        $selectedID = $request->cliente_id ?? '';
         $qry = Encomenda::query();
-        if ($selectedNome) {
-            $qry->where('nome', $selectedNome);
+
+        if (auth()->user()->tipo == 'A'){
+            $encomendas = $qry->paginate(9);
+            return view('encomendas.admin', compact('encomendas'));
+        } elseif (auth()->user()->tipo == 'F') {
+            $encomendas = $qry->paginate(9);
+            return view('encomendas.admin', compact('encomendas', 'selectedID'))->with('estado', $encomendas->estado == 'pendente' || $encomendas->estado == 'fechada');
+        } elseif (auth()->user()->tipo == 'C') {
+            $encomendas = $qry->paginate(9);
+            return view('encomendas.admin', compact('encomendas', 'selectedID'))->with('cliente_id', auth()->user()->id);
         }
-        $encomendas = $qry->paginate(7);
-        return view('encomendas.admin', compact('encomendas', 'selectedNome'));
     }
 
     /**
@@ -50,11 +45,21 @@ class EncomendaController extends Controller
      */
     public function store(EncomendaPost $request)
     {
-        $encomenda = new Encomenda();
+        //criar encomenda
+        $encomenda = new Encomenda;
         $encomenda->fill($request->validated());
+
+        if (auth()->user()->tipo == 'C'){
+            $encomenda->cliente_id = auth()->user()->id;
+            $encomenda->preco_total = 0;
+        }
+
         $encomenda->save();
+
+        //criar tshirts para cada item do carrinho
+
         return redirect()->route('admin.encomendas')
-            ->with('alert-msg', 'Encomenda "' . $encomenda->nome . '" foi criada com sucesso!')
+            ->with('alert-msg', 'Encomenda nº "' . $encomenda->id . '" foi criada com sucesso!')
             ->with('alert-type', 'success');
     }
 
@@ -82,17 +87,7 @@ class EncomendaController extends Controller
         $encomenda->fill($request->validated());
         $encomenda->save();
         return redirect()->route('admin.encomendas')
-            ->with('alert-msg', 'Encomenda "' . $encomenda->nome . '" foi alterada com sucesso!')
-            ->with('alert-type', 'success');
-    }
-
-    public function destroy(Encomenda $encomenda)
-    {
-        $oldName = $encomenda->nome;
-
-        $encomenda->delete();
-        return redirect()->route('admin.encomendas')
-            ->with('alert-msg', 'Encomenda "' . $oldName . '" foi apagada com sucesso!')
+            ->with('alert-msg', 'Encomenda "' . $encomenda->id . '" foi alterada com sucesso!')
             ->with('alert-type', 'success');
     }
 }

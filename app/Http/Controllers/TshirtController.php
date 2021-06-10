@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Carrinho;
 use App\Models\Tshirt;
+use App\Models\Encomenda;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -18,37 +19,46 @@ class TshirtController extends Controller
     {
         //$tshirts = Tshirt::all();
         //return view('tshirt.index', ['tshirts' => $tshirts]);
-        $selectedTamanho = $request->tamanho ?? '';
+        $selectedCategoria = $request->categoria ?? '';
         $qry = Tshirt::query();
-        if ($selectedTamanho) {
-            $qry->where('tamanho', $selectedTamanho);
+        if ($selectedCategoria) {
+            $qry->where('categoria', $selectedCategoria);
         }
         $tshirts = $qry->paginate(10);
-        return view('tshirt.index', compact('tshirts', 'selectedTamanho'));
+        return view('tshirt.index', compact('tshirts', 'selectedCategoria'));
     }
 
     public function admin_index(Request $request)
     {
-        $selectedTamanho = $request->tamanho ?? '';
+        $encomenda = $request->encomenda ?? '';
+        $search = $request->search ?? '';
+
         $qry = Tshirt::query();
-        if ($selectedTamanho) {
-            $qry->where('tamanho', $selectedTamanho);
+
+        if($search){
+            $qry = $qry->where('id','like', $search)->orwhere('id','like', $search);
+         }
+
+        if ($encomenda) {
+            $qry = $qry->where('encomenda_id', $encomenda);
         }
+
         $tshirts = $qry->paginate(10);
-        return view('tshirt.admin', compact('tshirts', 'selectedTamanho'));
+        $encomendas = Encomenda::pluck('id');
+        return view('tshirt.admin', compact('tshirts', 'encomendas', 'encomenda'));
     }
 
-    public function getAddToCart(Request $request, $id)
-    {
-        $tshirt = Tshirt::find($id);
-        $oldCarrinho = Session::has('carrinho') ? Session::get('carrinho') : null;
-        $carrinho = new Carrinho($oldCarrinho);
-        $carrinho->add($tshirt, $tshirt->id);
+    // public function getAddToCart(Request $request, $id)
+    // {
+    //     $tshirt = Tshirt::find($id);
+    //     $oldCarrinho = Session::has('carrinho') ? Session::get('carrinho') : null;
+    //     $carrinho = new Carrinho($oldCarrinho);
+    //     $carrinho->add($tshirt, $tshirt->id);
 
-        $request->session()->put('carrinho', $carrinho);
-        dd($request->session()->get('carrinho'));
-        return redirect()->route('tshirt.index');
-    }
+    //     $request->session()->put('carrinho', $carrinho);
+    //     dd($request->session()->get('carrinho'));
+    //     return redirect()->route('tshirt.index');
+    // }
 
     /**
      * Show the form for creating a new resource.
