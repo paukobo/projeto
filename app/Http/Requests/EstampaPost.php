@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class CorPost extends FormRequest
+class EstampaPost extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,9 +23,15 @@ class CorPost extends FormRequest
      */
     public function rules()
     {
-        return [
-            'codigo' => 'required|string|max:6',
-            'nome' => 'required',
+       $regras = [
+            'nome' => 'required|string',
+            'descricao' => 'nullable|string',
+            'imagem_url' => 'required|image',
+            'informacao_extra' => 'nullable',
         ];
+        if(auth()->user()->tipo!='C'){
+            $regras['categoria_id']='nullable|exists:categorias,id';
+        }
+        return $regras;
     }
 }

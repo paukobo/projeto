@@ -5,20 +5,19 @@
 @endsection
 @section('content')
     <div class="col-9">
+        <a href="{{route('admin.catalogo.estampas.create')}}" class="btn mr-2 center catalogo">Criar Estampa</a>
         <form method="GET" action="{{route('catalogo.index')}}" class="form-group">
+                <label for="inputCategoria">Categoria</label>
                 <select class="custom-select" name="categoria" id="inputCategoria" aria-label="Categoria">
                     <option value="" {{'' == old('categoria', $categoria) ? 'selected' : ''}}>Todas Categorias</option>
                     @foreach ($categorias as $id => $nome)
-                    <option value={{$id}} {{$id == old('categoria', $categoria) ? 'selected' : ''}}>{{$nome}}</option>
+                    <option value={{$id}} {{$id == $categoria ? 'selected' : ''}}>{{$nome}}</option>
                     @endforeach
                 </select>
                 <label for="search">Procurar:</label>
-                <input type="text" class="form-control" name="search" id="search">
+                <input type="text" class="form-control" name="search" id="search" value="{{Request::input('search')}}">
                 <div class="input-group-append">
-                    <button class="btn btn-outline-secondary" type="submit">Filtrar</button>
-                </div>
-                <div class="input-group-append">
-                    <button class="btn btn-outline-secondary">Reset<a href="{{route('catalogo.index')}}"></a></button>
+                    <button class="btn btn-outline-secondary catalogo" type="submit">Filtrar</button>
                 </div>
         </form>
     </div>
@@ -34,7 +33,21 @@
                             <div class="card-body">
                                 <h5 class="card-title">{{$estampa->nome}}</h5>
                                 <p class="card-text">{{$estampa->descricao}}</p>
-                                <a href="#" class="btn mr-2 center">Check offer</a>
+                                <a href="#" class="btn mr-2 center catalogo">Check offer</a>
+
+                                @if ($estampa->cliente)
+                                <a href="{{ route('admin.catalogo.estampas.edit', $estampa) }}" class="btn btn-warning btn-sm" role="button" aria-pressed="true">
+                                    <i class="fas fa-pen"></i>
+                                </a>
+
+                                <form class="d-inline" action="{{ route('admin.catalogo.estampas.destroy', $estampa) }}" method="POST">
+                                    @csrf
+                                    @method("DELETE")
+                                    <button type="submit" class="btn btn-danger btn-sm">
+                                        <i class="fas fa-trash"></i>
+                                    </button>
+                                </form>
+                                @endif
                             </div>
                         </div>
                     </div>

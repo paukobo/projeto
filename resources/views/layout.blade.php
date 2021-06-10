@@ -42,6 +42,11 @@
                     <a href="{{ route('home') }}">Apresentação</a>
                 </li>
 
+                <li class="{{ Route::currentRouteName() == 'catalogo.index' ? 'sel' : '' }}">
+                    <i class="fas fa-info-circle"></i>
+                    <a href="{{ route('catalogo.index') }}">Catálogo</a>
+                </li>
+
                 @auth
                     <li>
                         <i class="fab fa-wpforms"></i>

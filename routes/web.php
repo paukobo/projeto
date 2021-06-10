@@ -112,6 +112,18 @@ Route::middleware(['auth','verified'])->prefix('admin')->name('admin.')->group(f
     Route::delete('encomendas/{encomenda}', [EncomendaController::class, 'destroy'])->name('encomendas.destroy');
         //->middleware('can:delete,encomenda');
 
+    //admininstração de estampas/catalogo
+    Route::get('catalogo', [CatalogoController::class, 'admin'])->name('catalogo');
+    Route::get('catalogo/{estampa}/edit', [CatalogoController::class, 'edit'])->name('catalogo.estampas.edit');
+        //->middleware('can:view,estampa');
+    Route::get('catalogo/create', [CatalogoController::class, 'create'])->name('catalogo.estampas.create');
+        //->middleware('can:create,App\Models\Estampa');
+    Route::post('catalogo', [CatalogoController::class, 'store'])->name('catalogo.estampas.store');
+        //->middleware('can:create,App\Models\Estampa');
+    Route::put('catalogo/{estampa}', [CatalogoController::class, 'update'])->name('catalogo.estampas.update');
+        //->middleware('can:update,estampa');
+    Route::delete('catalogo/{estampa}', [CatalogoController::class, 'destroy'])->name('catalogo.estampas.destroy');
+        //->middleware('can:delete,estampa');
 
 });
 

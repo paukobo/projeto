@@ -114,6 +114,18 @@
                 </a>
             </li>
 
+
+            <!-- Divider -->
+            <hr class="sidebar-divider">
+
+            <!-- Nav Item - Catalogo -->
+            <li class="nav-item {{ Route::currentRouteName() == 'admin.catalogo' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.catalogo') }}">
+                <i class="fas fa-box-open"></i>
+                    <span>Catalogo</span>
+                </a>
+            </li>
+
             <!-- Divider -->
             <hr class="sidebar-divider">
 
