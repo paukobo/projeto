@@ -1,4 +1,4 @@
-@extends('layout_admin')
+@extends('layouts.app')
 
 @section('content')
 <div class="container">
@@ -8,6 +8,9 @@
                 <div class="card-header">{{ __('Login') }}</div>
 
                 <div class="card-body">
+                    @if (session('message'))
+                        <div class="alert alert-danger">{{ session('message') }}</div>  {{-- block check --}}
+                    @endif
                     <form method="POST" action="{{ route('login') }}">
                         @csrf
 
