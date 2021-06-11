@@ -18,9 +18,7 @@ class EncomendaPolicy
      */
     public function viewAny(User $user)
     {
-        if($user->tipo=='A'){
-            return ($user->tipo=='F' || $user->tipo=='A');
-        }
+        return $user->tipo == 'A';
     }
 
     /**
@@ -32,11 +30,7 @@ class EncomendaPolicy
      */
     public function view(User $user, Encomenda $encomenda)
     {
-        if($user->tipo=='A'){
-            return ($user->tipo=='F' || $user->tipo=='A' || $user->id);
-        }elseif($user->tipo=='F'){
-            return $user->id;
-        }
+        return ($user->tipo=='A' || $user->tipo=='F' || $user->id==$encomenda->cliente_id);
     }
 
     /**
@@ -61,7 +55,12 @@ class EncomendaPolicy
      */
     public function update(User $user, Encomenda $encomenda)
     {
-        return $user->id == (auth()->user()->tipo == 'F' || auth()->user()->tipo == 'A');
+        if ($user->tipo=='F'){
+            if ($encomenda->estado == 'paga' || $encomenda->estado == 'pendente'){
+                return true;
+            }
+        }
+        return ($user->tipo=='A' || $user->id==$encomenda->cliente_id);
     }
 
     /**
@@ -74,29 +73,5 @@ class EncomendaPolicy
     public function delete(User $user, Encomenda $encomenda)
     {
         return false;
-    }
-
-    /**
-     * Determine whether the user can restore the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Encomenda  $encomenda
-     * @return mixed
-     */
-    public function restore(User $user, Encomenda $encomenda)
-    {
-        //
-    }
-
-    /**
-     * Determine whether the user can permanently delete the model.
-     *
-     * @param  \App\Models\User  $user
-     * @param  \App\Models\Encomenda  $encomenda
-     * @return mixed
-     */
-    public function forceDelete(User $user, Encomenda $encomenda)
-    {
-        //
     }
 }

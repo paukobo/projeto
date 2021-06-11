@@ -16,9 +16,6 @@ use Illuminate\Support\Facades\Auth;
 
 class CarrinhoController extends Controller
 {
-
-
-
     public function admin(Request $request)
     {
         return view('carrinho.admin')

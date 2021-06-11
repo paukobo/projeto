@@ -11,18 +11,40 @@ class EncomendaController extends Controller
 {
     public function admin(Request $request)
     {
-        $selectedID = $request->cliente_id ?? '';
+        $encomenda = $request->cliente_id ?? '';
+        $estado = $request->estado ?? '';
         $qry = Encomenda::query();
 
-        if (auth()->user()->tipo == 'A'){
-            $encomendas = $qry->paginate(9);
-            return view('encomendas.admin', compact('encomendas'));
-        } elseif (auth()->user()->tipo == 'F') {
-            $encomendas = $qry->paginate(9);
-            return view('encomendas.admin', compact('encomendas', 'selectedID'))->with('estado', $encomendas->estado == 'pendente' || $encomendas->estado == 'fechada');
-        } elseif (auth()->user()->tipo == 'C') {
-            $encomendas = $qry->paginate(9);
-            return view('encomendas.admin', compact('encomendas', 'selectedID'))->with('cliente_id', auth()->user()->id);
+        if(auth()->check() && auth()->user()->tipo == 'C'){
+
+            $qry = $qry->where('cliente_id', auth()->user()->id)->orwhere('cliente_id', null);
+
+            if($encomenda){
+                $qry =  $qry->where([['cliente_id', $encomenda]]);
+            }
+
+            $encomendas = $qry->paginate(10);
+
+            return view('encomendas.admin', compact('encomendas', 'encomenda'));
+        }
+
+        if (auth()->check() && auth()->user()->tipo == 'A') {
+
+            $encomendas = $qry->paginate(10);
+            return view('encomendas.admin', compact('encomendas', 'encomenda'));
+        }
+
+        if (auth()->check() && auth()->user()->tipo == 'F') {
+
+            $qry = $qry->where('estado', 'pendente')->orwhere('estado', 'paga');
+
+            if ($estado) {
+                $qry =  $qry->where([['estado', $estado]]);
+            }
+
+            $encomendas = $qry->paginate(10);
+
+            return view('encomendas.admin', compact('encomendas', 'estado'));
         }
     }
 
@@ -51,7 +73,7 @@ class EncomendaController extends Controller
 
         if (auth()->user()->tipo == 'C'){
             $encomenda->cliente_id = auth()->user()->id;
-            $encomenda->preco_total = 0;
+            $encomenda->preco_total = 10;
         }
 
         $encomenda->save();
@@ -67,7 +89,7 @@ class EncomendaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Categoria  $categoria
+     * @param  \App\Models\Encomenda  $encomenda
      * @return \Illuminate\Http\Response
      */
     public function edit(Encomenda $encomenda)

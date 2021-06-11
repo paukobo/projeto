@@ -24,7 +24,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -47,6 +47,18 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider">
+
+             <!-- Nav Item - Users -->
+            {{-- @can('viewAny', App\Models\Cliente::class) --}}
+                @if  (auth()->check() && (auth()->user()->tipo == 'F' || auth()->user()->tipo == 'A'))
+                    <li class="nav-item {{ Route::currentRouteName()=='admin.users' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin.users') }}">
+                            <i class="fas fa-fw fa-table"></i>
+                            <span>Users</span>
+                        </a>
+                    </li>
+                @endif
+            {{-- @endcan --}}
 
             <!-- Nav Item - Categorias -->
             @can('viewAny', App\Models\Categoria::class)

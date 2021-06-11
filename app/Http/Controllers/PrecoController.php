@@ -8,17 +8,6 @@ use App\Http\Requests\PrecoPost;
 
 class PrecoController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $precos = Preco::all();
-        return view('precos.index', compact('precos'));
-    }
-
     public function admin(Request $request)
     {
         $selectedId = $request->id ?? '';

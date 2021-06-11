@@ -54,12 +54,14 @@
             </li>
 
             <!-- Nav Item - Carrinho -->
-            <li class="nav-item {{ Route::currentRouteName() == 'carrinho.index' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('carrinho.index') }}">
-                    <i class="fas fa-shopping-cart"></i>
-                    <span>Carrinho</span>
-                </a>
-            </li>
+            @can('viewAny', App\Models\Carrinho::class)
+                <li class="nav-item {{ Route::currentRouteName() == 'carrinho.index' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('carrinho.index') }}">
+                        <i class="fas fa-shopping-cart"></i>
+                        <span>Carrinho</span>
+                    </a>
+                </li>
+            @endcan
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">

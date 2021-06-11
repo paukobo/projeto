@@ -15,7 +15,9 @@ class CategoriaPolicy
         if ($user->tipo == 'A') {
             return true;
         }
-        return false;
+        else {
+            return false;
+        }
     }
 
     /**

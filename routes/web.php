@@ -1,17 +1,23 @@
 <?php
 
-use Illuminate\Support\Facades\Route;
+use App\Mail\MailTester;
 
-//use App\Http\Controllers\PageController;
-use App\Http\Controllers\HomeController;
+
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\CorController;
+use App\Http\Controllers\PageController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\PrecoController;
+use App\Http\Controllers\TshirtController;
+use App\Http\Controllers\ClienteController;
+use App\Http\Controllers\CarrinhoController;
+use App\Http\Controllers\CatalogoController;
+use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EncomendaController;
 use App\Http\Controllers\EstatisticasController;
-use Illuminate\Support\Facades\Auth;
-use App\Http\Controllers\UserController;
-use App\Http\Controllers\ClienteController;
-use App\Mail\MailTester;
-use Illuminate\Support\Facades\Mail;
 
 /*
 |--------------------------------------------------------------------------
@@ -163,6 +169,12 @@ Route::put('carrinho/tshirts/{tshirt}', [CarrinhoController::class, 'update_Tshi
 Route::delete('carrinho/tshirts/{tshirt}', [CarrinhoController::class, 'destroy_Tshirt'])->name('carrinho.destroy_Tshirt');
 Route::post('carrinho', [CarrinhoController::class, 'store'])->name('carrinho.store');
 Route::delete('carrinho', [CarrinhoController::class, 'destroy'])->name('carrinho.destroy');
+
+
+// catalogo
+Route::get('admin/estampa/{estampa}/image', [CatalogoController::class, 'imagemEstampa'])->name('imagemEstampa');
+Route::get('catalogo', [CatalogoController::class, 'index'])->name('catalogo.index');
+
 
 /* Route::get('send-mail', function () {
     $details = [
