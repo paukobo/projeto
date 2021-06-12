@@ -17,16 +17,12 @@ class CatalogoController extends Controller
 
         $qry = Estampa::query();
 
-
-
         if(auth()->check() && auth()->user()->tipo=='C'){
 
             $qry = $qry->where('cliente_id', auth()->user()->id)->orwhere('cliente_id', null);
         }else{
             $qry = $qry->where('cliente_id', null);
         }
-
-
 
         if($categoria){
             $qry =  $qry->where([['categoria_id',$categoria]]);

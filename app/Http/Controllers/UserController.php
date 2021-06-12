@@ -42,7 +42,6 @@ class UserController extends Controller
         $validated_data = $request->validated();
         $newUser = new User;
         $newUser->fill($validated_data);
-        $newUser->admin = false;
         $newUser->tipo = 'F';
         $newUser->password = Hash::make('123');
         if ($request->hasFile('foto')) {
@@ -51,7 +50,7 @@ class UserController extends Controller
         }
         $newUser->save();
         //Enviar email para verificação do email:
-        $user->sendEmailVerificationNotification();
+        $newUser->sendEmailVerificationNotification();
         return redirect()->route('admin.users')
             ->with('alert-msg', 'User "' . $validated_data['name'] . '" foi criado com sucesso!')
             ->with('alert-type', 'success');
@@ -62,7 +61,7 @@ class UserController extends Controller
         $validated_data = $request->validated();
         $user->fill($validated_data);
         if ($request->hasFile('foto')) {
-            Storage::delete('public/fotos') . $user->foto_url;
+            Storage::delete('public/fotos' . $user->foto_url);
             $path = $request->foto->store('public/fotos');
             $user->foto_url = basename($path);
         }

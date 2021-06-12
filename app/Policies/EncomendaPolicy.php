@@ -30,7 +30,12 @@ class EncomendaPolicy
      */
     public function view(User $user, Encomenda $encomenda)
     {
-        return ($user->tipo=='A' || $user->tipo=='F' || $user->id==$encomenda->cliente_id);
+        if ($user->tipo=='F'){
+            if ($encomenda->estado == 'paga' || $encomenda->estado == 'pendente'){
+                return true;
+            }
+        }
+        return ($user->tipo=='A' || $user->id==$encomenda->cliente_id);
     }
 
     /**

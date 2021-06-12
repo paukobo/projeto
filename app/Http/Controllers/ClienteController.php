@@ -66,7 +66,7 @@ class ClienteController extends Controller
         $validated_data = $request->validated();
         $cliente->user->fill($validated_data);
         if ($request->hasFile('foto')) {
-            Storage::delete('public/fotos') . $cliente->user->foto_url;
+            Storage::delete('public/fotos' . $cliente->user->foto_url);
             $path = $request->foto->store('public/fotos');
             $cliente->user->foto_url = basename($path);
         }

@@ -7,16 +7,16 @@
         <input type="hidden" name="id" value="{{$user->id}}">
         @include('users.partials.create-edit')
 
-        @isset($user->user->url_foto)
+        @isset($user->foto_url)
             <div class="form-group">
-                <img src="{{$user->user->url_foto ? asset('storage/fotos/' . $user->user->url_foto) : asset('img/default_img.png') }}"
+                <img src="{{$user->foto_url ? asset('storage/fotos/' . $user->foto_url) : asset('img/default_img.png') }}"
                      alt="Foto do docente"  class="img-profile"
                      style="max-width:100%">
             </div>
         @endisset
         @can('update',$user)
         <div class="form-group text-right">
-            @isset($user->user->url_foto)
+            @isset($user->foto_url)
                 <button type="submit" class="btn btn-danger" name="deletefoto" form="form_delete_photo">Apagar Foto</button>
             @endisset
             <button type="submit" class="btn btn-success" name="ok">Save</button>

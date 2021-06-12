@@ -1,37 +1,32 @@
 <div class="form-group">
 
+    <input type="hidden" class="form-control" name="encomenda_id" id="inputEncomendaID" value="{{old('encomenda_id', ($tshirt->encomenda_id))}}" >
 
-    <label for="inputEstado">Estado</label>
-    <input type="text" class="form-control" name="estado" id="inputEstado" value="{{old('estado', $encomenda->estado??'pendente')}}" >
-    @error('estado')
+    <input type="hidden" class="form-control" name="estampa_id" id="inputEstampaID" value="{{old('estampa_id', ($tshirt->estampa_id))}}" >
+
+    <input type="hidden" class="form-control" name="cor_codigo" id="inputCorCodigo" value="{{old('cor_codigo', ($tshirt->cor_codigo))}}" >
+
+    <label for="inputTamanho">Tamanho</label>
+    <input type="text" class="form-control" name="tamanho" id="inputTamanho" value="{{old('tamanho', $tshirt->tamanho)}}" >
+    @error('tamanho')
         <div class="small text-danger">{{$message}}</div>
     @enderror
 
-
-    <input type="hidden" class="form-control" name="cliente_id" id="inputClienteID" value="{{old('cliente_id', ($encomenda->cliente_id??auth()->user()->id))}}" >
-
-
-    <label for="inputData">Data Encomenda</label>
-    <input type="text" class="form-control" name="data" id="inputData" value="{{old('data', $encomenda->data??date('Y-m-d'))}}" >
-    @error('data')
+    <label for="inputQuantidade">Quantidade</label>
+    <input type="number" class="form-control" name="quandidade" id="inputQuantidade" value="{{old('quantidade', $tshirt->quantidade)}}" >
+    @error('quantidade')
         <div class="small text-danger">{{$message}}</div>
     @enderror
 
-    <label for="inputPrecoTotal">Preço Total</label>
-    <input type="text" class="form-control" name="precoTotal" id="inputPrecoTotal" value="{{old('precoTotal', $encomenda->preco_total??($total??0))}}" disabled >
-    @error('preco_total')
+    <label for="inputPrecoUnidade">Preço Unidade</label>
+    <input type="text" class="form-control" name="precoUnidade" id="inputPrecoUnidade" value="{{old('precoUnidade', $tshirt->preco_un)}}" disabled >
+    @error('preco_un')
         <div class="small text-danger">{{$message}}</div>
     @enderror
 
-    <label for="inputNotas">Notas</label>
-    <input type="text" class="form-control" name="notas" id="inputNotas" value="{{old('notas', $encomenda->notas)}}" >
-    @error('notas')
-        <div class="small text-danger">{{$message}}</div>
-    @enderror
-
-    <label for="inputNIF">NIF</label>
-    <input type="text" class="form-control" name="nif" id="inputNIF" value="{{old('nif', $encomenda->nif??auth()->user()->cliente->nif)}}" >
-    @error('nif')
+    <label for="inputSubtotal">Subtotal</label>
+    <input type="number" class="form-control" name="subtotal" id="inputSubtotal" value="{{old('subtotal', $tshirt->subtotal)}}" >
+    @error('subtotal')
         <div class="small text-danger">{{$message}}</div>
     @enderror
 

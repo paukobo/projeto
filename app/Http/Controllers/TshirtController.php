@@ -2,7 +2,8 @@
 
 namespace App\Http\Controllers;
 
-use App\Carrinho;
+use App\Http\Requests\TshirtPost;
+use App\Models\Carrinho;
 use App\Models\Tshirt;
 use App\Models\Encomenda;
 use Illuminate\Http\Request;
@@ -30,22 +31,37 @@ class TshirtController extends Controller
 
     public function admin_index(Request $request)
     {
-        $encomenda = $request->encomenda ?? '';
+
+        $tshirt = $request->encomenda_id ?? '';
         $search = $request->search ?? '';
 
         $qry = Tshirt::query();
 
-        if($search){
-            $qry = $qry->where('id','like', $search)->orwhere('id','like', $search);
-         }
+        if(auth()->check() && auth()->user()->tipo == 'C'){
 
-        if ($encomenda) {
-            $qry = $qry->where('encomenda_id', $encomenda);
+            if($search){
+                $qry = $qry->where('id','like', $search)->orwhere('id','like', $search);
+            }
+
+            if($tshirt){
+                $qry =  $qry->where([['encomenda_id', $tshirt]]);
+            }
+
+            $tshirts = $qry->paginate(10);
+
+            return view('tshirts.admin', compact('tshirts', 'tshirt'));
         }
 
-        $tshirts = $qry->paginate(10);
-        $encomendas = Encomenda::pluck('id');
-        return view('tshirt.admin', compact('tshirts', 'encomendas', 'encomenda'));
+        if (auth()->check() && auth()->user()->tipo == 'A') {
+
+            if($search){
+                $qry = $qry->where('id','like', $search)->orwhere('id','like', $search);
+            }
+
+            $tshirts = $qry->paginate(10);
+            return view('tshirts.admin', compact('tshirts', 'tshirt'));
+        }
+
     }
 
     // public function getAddToCart(Request $request, $id)
@@ -67,7 +83,8 @@ class TshirtController extends Controller
      */
     public function create()
     {
-        //
+        $tshirt = new Tshirt();
+        return view('tshirts.create', compact('tshirt'));
     }
 
     /**
@@ -76,9 +93,17 @@ class TshirtController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(TshirtPost $request)
     {
-        //
+        //criar tshirt
+        $tshirt = new Tshirt;
+        $tshirt->fill($request->validated());
+        $tshirt->save();
+
+        return redirect()->route('admin.tshirts')
+            ->with('alert-msg', 'Tshirt nº "' . $tshirt->id . '" foi criada com sucesso!')
+            ->with('alert-type', 'success');
+
     }
 
 
@@ -90,7 +115,7 @@ class TshirtController extends Controller
      */
     public function edit(Tshirt $tshirt)
     {
-        //
+        return view('tshirts.edit', compact('tshirt'));
     }
 
     /**
@@ -100,19 +125,12 @@ class TshirtController extends Controller
      * @param  \App\Models\Tshirt  $tshirt
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Tshirt $tshirt)
+    public function update(TshirtPost $request, Tshirt $tshirt)
     {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  \App\Models\Tshirt  $tshirt
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy(Tshirt $tshirt)
-    {
-        //
+        $tshirt->fill($request->validated());
+        $tshirt->save();
+        return redirect()->route('admin.tshirts')
+            ->with('alert-msg', 'Tshirt nº"' . $tshirt->id . '" foi alterada com sucesso!')
+            ->with('alert-type', 'success');
     }
 }

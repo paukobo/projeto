@@ -3,7 +3,7 @@
 namespace App\Http\Controllers;
 
 use session;
-use App\Carrinho;
+use App\Models\Carrinho;
 use App\Models\Cor;
 use App\Models\Tshirt;
 use App\Models\Cliente;

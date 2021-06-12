@@ -13,6 +13,8 @@ class EncomendaController extends Controller
     {
         $encomenda = $request->cliente_id ?? '';
         $estado = $request->estado ?? '';
+        $search = $request->search ?? '';
+
         $qry = Encomenda::query();
 
         if(auth()->check() && auth()->user()->tipo == 'C'){
@@ -29,6 +31,10 @@ class EncomendaController extends Controller
         }
 
         if (auth()->check() && auth()->user()->tipo == 'A') {
+
+            if($search){
+                $qry = $qry->where('id','like', $search)->orwhere('id','like', $search);
+            }
 
             $encomendas = $qry->paginate(10);
             return view('encomendas.admin', compact('encomendas', 'encomenda'));
