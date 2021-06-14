@@ -6,12 +6,9 @@ use session;
 use App\Models\Carrinho;
 use App\Models\Cor;
 use App\Models\Tshirt;
-use App\Models\Cliente;
 use App\Models\Estampa;
-use App\Models\Encomenda;
 use Illuminate\Http\Request;
-use App\Http\Requests\EncomendaPost;
-use Illuminate\Support\Facades\Auth;
+
 
 
 class CarrinhoController extends Controller
@@ -37,7 +34,6 @@ class CarrinhoController extends Controller
         $carrinho[$tshirt->id] = [
             'id' => $tshirt->id,
             'qtd' => $qtd,
-            'encomenda_id' => $tshirt->encomenda_id,
             'estampa_id' => $tshirt->estampa_id,
             'cor_codigo' => $tshirt->cor_codigo,
             'tamanho' => $tshirt->tamanho,
@@ -66,7 +62,6 @@ class CarrinhoController extends Controller
             $carrinho[$tshirt->id] = [
                 'id' => $tshirt->id,
                 'qtd' => $qtd,
-                'encomenda_id' => $tshirt->encomenda_id,
                 'estampa_id' => $tshirt->estampa_id,
                 'cor_codigo' => $tshirt->cor_codigo,
                 'tamanho' => $tshirt->tamanho,
@@ -115,6 +110,7 @@ class CarrinhoController extends Controller
         $tamanho = Tshirt::find($request->tamanho);
         $qtd = Tshirt::find($request->quantidade);
         $antCarrinho = session('carrinho', null);
+        //dd($antCarrinho);
         $carrinho = new Carrinho($antCarrinho);
         $carrinho->add($estampa, $cor, $tamanho, $qtd);
         session(['carrinho' => $carrinho]);

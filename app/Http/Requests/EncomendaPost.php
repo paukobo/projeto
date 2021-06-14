@@ -34,7 +34,7 @@ class EncomendaPost extends FormRequest
         }
 
         return [
-            'estado' => 'required|string',
+            'estado' => 'required|string|in:"paga", "pendente", "anulada", "fechada"',
             'data' => 'required|date',
             'notas' => 'nullable|string',
             'nif' => 'required|digits:9',

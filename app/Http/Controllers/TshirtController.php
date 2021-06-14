@@ -18,8 +18,6 @@ class TshirtController extends Controller
      */
     public function index(Request $request)
     {
-        //$tshirts = Tshirt::all();
-        //return view('tshirt.index', ['tshirts' => $tshirts]);
         $selectedCategoria = $request->categoria ?? '';
         $qry = Tshirt::query();
         if ($selectedCategoria) {
@@ -37,13 +35,13 @@ class TshirtController extends Controller
 
         $qry = Tshirt::query();
 
-        if(auth()->check() && auth()->user()->tipo == 'C'){
+        if (auth()->check() && auth()->user()->tipo == 'C') {
 
-            if($search){
-                $qry = $qry->where('id','like', $search)->orwhere('id','like', $search);
+            if ($search) {
+                $qry = $qry->where('id', 'like', $search)->orwhere('id', 'like', $search);
             }
 
-            if($tshirt){
+            if ($tshirt) {
                 $qry =  $qry->where([['encomenda_id', $tshirt]]);
             }
 
@@ -54,14 +52,13 @@ class TshirtController extends Controller
 
         if (auth()->check() && auth()->user()->tipo == 'A') {
 
-            if($search){
-                $qry = $qry->where('id','like', $search)->orwhere('id','like', $search);
+            if ($search) {
+                $qry = $qry->where('id', 'like', $search)->orwhere('id', 'like', $search);
             }
 
             $tshirts = $qry->paginate(10);
             return view('tshirts.admin', compact('tshirts', 'tshirt'));
         }
-
     }
 
     // public function getAddToCart(Request $request, $id)
@@ -103,7 +100,6 @@ class TshirtController extends Controller
         return redirect()->route('admin.tshirts')
             ->with('alert-msg', 'Tshirt nº "' . $tshirt->id . '" foi criada com sucesso!')
             ->with('alert-type', 'success');
-
     }
 
 

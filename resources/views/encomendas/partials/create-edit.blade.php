@@ -3,13 +3,15 @@
 
     <label for="inputEstado">Estado</label>
     <input type="text" class="form-control" name="estado" id="inputEstado" value="{{old('estado', $encomenda->estado??'pendente')}}" >
+    <a href="#" class="btn btn-primary">Mudar estado</a>
     @error('estado')
         <div class="small text-danger">{{$message}}</div>
     @enderror
 
+    <br>
+    <br>
 
     <input type="hidden" class="form-control" name="cliente_id" id="inputClienteID" value="{{old('cliente_id', ($encomenda->cliente_id??auth()->user()->id))}}" >
-
 
     <label for="inputData">Data Encomenda</label>
     <input type="text" class="form-control" name="data" id="inputData" value="{{old('data', $encomenda->data??date('Y-m-d'))}}" >
@@ -18,7 +20,7 @@
     @enderror
 
     <label for="inputPrecoTotal">Preço Total</label>
-    <input type="text" class="form-control" name="precoTotal" id="inputPrecoTotal" value="{{old('precoTotal', $encomenda->preco_total??($total??0))}}" disabled >
+    <input type="text" class="form-control" name="precoTotal" id="inputPrecoTotal" value="{{old('precoTotal', $encomenda->preco_total??($precoTotal??0))}}" disabled >
     @error('preco_total')
         <div class="small text-danger">{{$message}}</div>
     @enderror

@@ -3,22 +3,14 @@
 namespace App\Models;
 
 use App\Models\Preco;
+use Illuminate\Database\Eloquent\Model;
 
-class Carrinho
+class Carrinho extends Model
 {
     public $items = null;
     public $quantTotal = 0;
     public $precoTotal = 0;
 
-    // reconstroi o carrinho antigo baseando se num carrinho antigo (caso algo se perca)
-    public function __construct($oldCart)
-    {
-        if  ($oldCart){
-            $this->items = $oldCart->items;
-            $this->quantTotal = $oldCart->quantTotal;
-            $this->precoTotal = $oldCart->precoTotal;
-        }
-    }
 
     // adicionar um item novo (está constantemente a dar overwrite pq
     // só quero guardar cada produto 1 vez (só preciso da informação 1 vez))
@@ -37,14 +29,14 @@ class Carrinho
         $storedItem['preco_un'] = $this->getPreco($qtd, $estampa->cliente_id != null);
         $storedItem['subtotal'] = $storedItem['preco_un'] * $qtd;
         $this->items[$id] = $storedItem;
-        $this->quantTotal+=$qtd;
+        $this->quantTotal += $qtd;
         $this->precoTotal +=  $storedItem['subtotal'];
     }
 
-    public function getPreco($qty, $cliente){
+    public function getPreco($qtd, $cliente){
 
         $preco = Preco::first();
-        if ($qty < $preco->quantidade_desconto){
+        if ($qtd < $preco->quantidade_desconto){
             if ($cliente){
                 return $preco->preco_un_proprio;
             }

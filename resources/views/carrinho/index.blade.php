@@ -24,7 +24,6 @@
             <tr>
                 <th>Quantidade</th>
                 <th>ID Tshirt</th>
-                <th>ID Encomenda</th>
                 <th>ID Estampa</th>
                 <th>Cor Código</th>
                 <th>Preço Unidade</th>
@@ -36,7 +35,6 @@
             <tr>
                 <td>{{ $cart['qtd'] }} </td>
                 <td>{{ $cart['id'] }} </td>
-                <td>{{ $cart['encomenda_id'] }} </td>
                 <td>{{ $cart['estampa_id'] }} </td>
                 <td>{{ $cart['cor_codigo'] }} </td>
                 <td>{{ $cart['preco_un'] }} </td>

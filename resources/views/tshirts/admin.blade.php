@@ -1,5 +1,4 @@
 @extends('layout_admin')
-
 @section('content')
 <div class="row mb-3">
     <div class="col-3">
@@ -28,13 +27,11 @@
         <tr>
             <th></th>
             <th>ID Tshirt</th>
-            <th>ID Encomenda</th>
             <th>ID Estampa</th>
             <th>Código Cor</th>
+            <th></th>
             <th>Tamanho</th>
-            <th>Quantidade</th>
             <th>Preco por Unidade</th>
-            <th>Subtotal</th>
             <th></th>
         </tr>
     </thead>
@@ -48,13 +45,11 @@
                 </form>
             </td>
             <td>{{ $tshirt->id }}</td>
-            <td>{{ $tshirt->encomenda_id }}</td>
             <td>{{ $tshirt->estampa_id }}</td>
-            <td>{{ $tshirt->cor_codigo }}</td>
+            <td>#{{ $tshirt->cor_codigo }}</td>
+            <td><span style="height: 20px; width: 20px; background-color: #{{ $tshirt->cor_codigo }}; border-radius: 50%; border: 1px solid black; display: inline-block;"></span></td>
             <td>{{ $tshirt->tamanho }}</td>
-            <td>{{ $tshirt->quantidade }}</td>
             <td>{{ $tshirt->preco_un }}</td>
-            <td>{{ $tshirt->subtotal }}</td>
         </tr>
         @endforeach
     </tbody>
