@@ -13,11 +13,12 @@ class Categoria extends Model
 
     public $timestamps = false;
 
-    protected $fillable=[
+    protected $fillable = [
         'nome',
     ];
 
-    public function estampas(){
+    public function estampas()
+    {
         return $this->hasMany(Estampa::class, 'categoria_id', 'id')->withTrashed();
     }
 }

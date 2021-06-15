@@ -1,9 +1,9 @@
 @extends('layout_admin')
 @section('content')
 <div class="row mb-3">
-    <div class="col-3">
-        <a href="#" class="btn btn-success" role="button" aria-pressed="true">Nova Tshirt</a>
-    </div>
+    <!-- <div class="col-3">
+        <a href="{{ route('admin.tshirts.create') }}" class="btn btn-success" role="button" aria-pressed="true">Nova Tshirt</a>
+    </div> -->
     <div class="col-9">
         <form method="GET" action="{{ route('admin.tshirts') }}" class="form-group">
             <div class="input-group">

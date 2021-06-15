@@ -5,21 +5,30 @@ namespace App\Models;
 use App\Models\Preco;
 use Illuminate\Database\Eloquent\Model;
 
-class Carrinho extends Model
+class Carrinho
 {
-    public $items = null;
+    public $items;
     public $quantTotal = 0;
     public $precoTotal = 0;
 
+    public function __construct($antCarrinho){
+        if ($antCarrinho) {
+            $this->items = $antCarrinho->items;
+            $this->quantTotal = $antCarrinho->quantTotal;
+            $this->precoTotal = $antCarrinho->precoTotal;
+        }
+    }
 
-    // adicionar um item novo (está constantemente a dar overwrite pq
-    // só quero guardar cada produto 1 vez (só preciso da informação 1 vez))
+
+    //adicionar um item novo (está constantemente a dar overwrite pq
+    //só quero guardar cada produto 1 vez (só preciso da informação 1 vez))
     public function add($estampa, $cor, $tamanho, $qtd)
     {
         $id = $estampa->id . '_' . $cor->codigo . '_' . $tamanho;
         $storedItem = ['qtd' => 0, 'preco_un' => 0 , 'cor' => $cor, 'estampa' => $estampa, 'subtotal' => 0, 'tamanho' => $tamanho];
+        dd($storedItem);
         if ($this->items) {
-            if (array_key_exists($id, $this->items)) {
+            if (array_key_exists($estampa, $cor, $tamanho, $qtd, $this->items)) {
                 $storedItem = $this->items[$id];
             }
         }

@@ -24,13 +24,11 @@ class TshirtPost extends FormRequest
     public function rules()
     {
         return [
-            'encomenda_id' => 'required',
             'estampa_id' => 'required',
-            'cor_codigo' => 'required|string',
-            'tamanho' => 'required|string',
-            'quantidade' => 'required',
-            'preco_un' => 'required',
-            'subtotal' => 'required'
+            'cor_codigo' => 'required|string|max:6',
+            'tamanho' => 'required|in:"XS", "S", "M", "L", "XL"',
+            'quantidade' => 'required|integer|min:1|max:99',
+            'preco_un' => 'required|integer'
         ];
     }
 }

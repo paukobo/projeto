@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Cor;
+use App\Models\Tshirt;
 use App\Models\Estampa;
 use App\Models\Categoria;
 use Illuminate\Http\Request;

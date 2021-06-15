@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use session;
-use App\Models\Carrinho;
 use App\Models\Cor;
 use App\Models\Tshirt;
 use App\Models\Estampa;
+use App\Models\Carrinho;
 use Illuminate\Http\Request;
+use Symfony\Component\HttpFoundation\Session\Session;
 
 
 
@@ -105,23 +105,15 @@ class CarrinhoController extends Controller
 
     public function adicionarCarrinho(Request $request)
     {
-        $estampa = Estampa::find($request->id);
-        $cor = Cor::find($request->codigo);
-        $tamanho = Tshirt::find($request->tamanho);
-        $qtd = Tshirt::find($request->quantidade);
-        $antCarrinho = session('carrinho', null);
-        //dd($antCarrinho);
+        $estampa = Estampa::findOrFail($request->id);
+        $cor = Cor::findOrFail($request->codigo);
+        $tamanho = Tshirt::findOrFail($request->tamanho);
+        $qtd = Tshirt::findOrFail($request->quantidade);
+        $antCarrinho = $request->session()->get('carrinho');
         $carrinho = new Carrinho($antCarrinho);
         $carrinho->add($estampa, $cor, $tamanho, $qtd);
-        session(['carrinho' => $carrinho]);
+        $request->session()->put('carrinho', $carrinho);
+        //dd($request->session()->get('carrinho'));
+        return redirect()->route('carrinho.index');
     }
 }
-
-
-
-
-
-
-
-
-

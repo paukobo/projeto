@@ -34,7 +34,7 @@ use App\Http\Controllers\EstatisticasController;
 Route::get('/', [PageController::class, 'index'])->name('home');
 
 
-Route::middleware(['auth','verified'])->prefix('admin')->name('admin.')->group(function () {
+Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
 
     Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
 
@@ -109,28 +109,31 @@ Route::middleware(['auth','verified'])->prefix('admin')->name('admin.')->group(f
     // administração de tshirts
     Route::get('tshirts', [TshirtController::class, 'index'])->name('tshirts');
     Route::get('tshirts', [TshirtController::class, 'admin_index'])->name('tshirts');
-    Route::get('tshirts/{tshirt}/edit', [TshirtController::class, 'edit'])->name('tshirts.edit');
-        //->middleware('can:view,tshirt');
-    Route::get('tshirts/create', [TshirtController::class, 'create'])->name('tshirts.create');
-        //->middleware('can:create,App\Models\Tshirt');
-    Route::post('tshirts', [TshirtController::class, 'store'])->name('tshirts.store');
-        //->middleware('can:create,App\Models\Tshirt');
-    Route::put('tshirts/{tshirt}', [TshirtController::class, 'update'])->name('tshirts.update');
-        //->middleware('can:update,tshirt');
-    Route::delete('tshirts/{tshirt}', [TshirtController::class, 'destroy'])->name('tshirts.destroy');
-        //->middleware('can:delete,tshirt');
+    Route::get('tshirts/{tshirt}/edit', [TshirtController::class, 'edit'])->name('tshirts.edit')
+        ->middleware('can:view,tshirt');
+    Route::get('tshirts/create', [TshirtController::class, 'create'])->name('tshirts.create')
+        ->middleware('can:create,App\Models\Tshirt');
+    Route::post('tshirts', [TshirtController::class, 'store'])->name('tshirts.store')
+        ->middleware('can:create,App\Models\Tshirt');
+    Route::put('tshirts/{tshirt}', [TshirtController::class, 'update'])->name('tshirts.update')
+        ->middleware('can:update,tshirt');
+    Route::delete('tshirts/{tshirt}', [TshirtController::class, 'destroy'])->name('tshirts.destroy')
+        ->middleware('can:delete,tshirt');
 
 
     // admininstração de encomendas
     Route::get('encomendas', [EncomendaController::class, 'admin'])->name('encomendas');
+    Route::get('verTshirtsEncomendas/{encomenda}', [EncomendaController::class, 'verTshirtsEncomendas'])->name('verTshirtsEncomendas');
     Route::get('encomendas/{encomenda}/edit', [EncomendaController::class, 'edit'])->name('encomendas.edit')
         ->middleware('can:view,encomenda');
     Route::get('encomendas/create', [EncomendaController::class, 'create'])->name('encomendas.create')
         ->middleware('can:create,App\Models\Encomenda');
     Route::post('encomendas', [EncomendaController::class, 'store'])->name('encomendas.store')
         ->middleware('can:create,App\Models\Encomenda');
-    Route::put('encomendas/{encomenda}', [EncomendaController::class, 'update'])->name('encomendas.update')
+    Route::put('encomendasEstado/{encomenda}', [EncomendaController::class, 'update'])->name('encomendas.update')
         ->middleware('can:update,encomenda');
+    Route::put('encomendas/{encomenda}', [EncomendaController::class, 'updateEstado'])->name('encomendas.updateEstado');
+        //->middleware('can:update,encomenda');
     Route::delete('encomendas/{encomenda}', [EncomendaController::class, 'destroy'])->name('encomendas.destroy')
         ->middleware('can:delete,encomenda');
 
@@ -139,15 +142,15 @@ Route::middleware(['auth','verified'])->prefix('admin')->name('admin.')->group(f
     //admininstração de estampas/catalogo
     Route::get('catalogo', [CatalogoController::class, 'admin'])->name('catalogo');
     Route::get('catalogo/{estampa}/edit', [CatalogoController::class, 'edit'])->name('catalogo.estampas.edit');
-        //->middleware('can:view,estampa');
+    //->middleware('can:view,estampa');
     Route::get('catalogo/create', [CatalogoController::class, 'create'])->name('catalogo.estampas.create');
-        //->middleware('can:create,App\Models\Estampa');
+    //->middleware('can:create,App\Models\Estampa');
     Route::post('catalogo', [CatalogoController::class, 'store'])->name('catalogo.estampas.store');
-        //->middleware('can:create,App\Models\Estampa');
+    //->middleware('can:create,App\Models\Estampa');
     Route::put('catalogo/{estampa}', [CatalogoController::class, 'update'])->name('catalogo.estampas.update');
-        //->middleware('can:update,estampa');
+    //->middleware('can:update,estampa');
     Route::delete('catalogo/{estampa}', [CatalogoController::class, 'destroy'])->name('catalogo.estampas.destroy');
-        //->middleware('can:delete,estampa');
+    //->middleware('can:delete,estampa');
 
 
     //verificação do email
@@ -159,14 +162,13 @@ Route::middleware(['auth','verified'])->prefix('admin')->name('admin.')->group(f
     //estatisticas
     Route::get('charts', [ChartController::class, 'index'])->name('charts');
     Route::get('charts_encomendas', [ChartController::class, 'index_encomendas'])->name('charts.index_encomendas');
-
-
+    Route::get('charts_estatisticas_gerais', [ChartController::class, 'numbers_encomendas'])->name('charts.numbers_encomendas');
 });
 
 // carrinho de compras
 Route::get('carrinho', [CarrinhoController::class, 'index'])->name('carrinho.index');
 Route::post('carrinho/tshirts/{tshirt}', [CarrinhoController::class, 'store_Tshirt'])->name('carrinho.store_Tshirt');
-//Route::post('carrinho/tshirts/{tshirt}', [CarrinhoController::class, 'adicionarCarrinho'])->name('carrinho.adicionarCarrinho');
+Route::get('carrinho/adicionarCarrinho', [CarrinhoController::class, 'adicionarCarrinho'])->name('carrinho.adicionarCarrinho');
 Route::put('carrinho/tshirts/{tshirt}', [CarrinhoController::class, 'update_Tshirt'])->name('carrinho.update_Tshirt');
 Route::delete('carrinho/tshirts/{tshirt}', [CarrinhoController::class, 'destroy_Tshirt'])->name('carrinho.destroy_Tshirt');
 Route::post('carrinho', [CarrinhoController::class, 'store'])->name('carrinho.store');

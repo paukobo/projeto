@@ -12,6 +12,7 @@ class Encomenda extends Model
     public $timestamps = false;
 
     protected $fillable=[
+        'id',
         'estado',
         'cliente_id',
         'data',
