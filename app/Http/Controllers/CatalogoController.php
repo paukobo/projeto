@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Cor;
 use App\Models\Estampa;
 use App\Models\Categoria;
 use Illuminate\Http\Request;
@@ -14,13 +15,11 @@ class CatalogoController extends Controller
     {
         $categoria = $request->categoria ?? '';
         $search = $request->search ?? '';
-
         $qry = Estampa::query();
 
 
 
         if(auth()->check() && auth()->user()->tipo=='C'){
-
             $qry = $qry->where('cliente_id', auth()->user()->id)->orwhere('cliente_id', null);
         }else{
             $qry = $qry->where('cliente_id', null);
@@ -38,7 +37,9 @@ class CatalogoController extends Controller
 
         $estampas = $qry->paginate(20);
         $categorias = Categoria::pluck('nome','id');
-        return view('catalogo.index',compact('estampas', 'categorias', 'categoria'));
+        $cores = Cor::pluck('codigo','nome');
+        $tamanho = ['XS','S','M','L','XL'];
+        return view('catalogo.index',compact('estampas', 'categorias', 'categoria', 'cores', 'tamanho'));
     }
 
     public function admin(Request $request){
