@@ -46,7 +46,7 @@ class CarrinhoController extends Controller
             ->with('alert-type', 'success');
     }
 
-    public function update_Tshirt(Request $request, Tshirt $tshirt)
+    public function update_Tshirt(Request $request, $item)
     {
         $carrinho = $request->session()->get('carrinho', []);
         $qtd = $carrinho[$tshirt->id]['qtd'] ?? 0;
@@ -76,18 +76,19 @@ class CarrinhoController extends Controller
     }
 
 
-    public function destroy_Tshirt(Request $request, Tshirt $tshirt)
+    public function destroy_Tshirt(Request $request, $item)
     {
         $carrinho = $request->session()->get('carrinho', []);
-        if (array_key_exists($tshirt->id, $carrinho)) {
-            unset($carrinho[$tshirt->id]);
+        $key = $carrinho->getKey($item['estampa'],$item['cor'],$item['tamanho']);
+        if (array_key_exists($key, $carrinho)) {
+            unset($carrinho[$key]);
             $request->session()->put('carrinho', $carrinho);
             return back()
-                ->with('alert-msg', 'Foram removidas todas as tshirts "' . $tshirt->id . '"')
+                ->with('alert-msg', 'Foram removidas as tshirts')
                 ->with('alert-type', 'success');
         }
         return back()
-            ->with('alert-msg', 'A tshirt "' . $tshirt->id . '" já não estava no carrinho!')
+            ->with('alert-msg', 'A tshirt não existe no carrinho!')
             ->with('alert-type', 'warning');
     }
 
