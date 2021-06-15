@@ -2,22 +2,20 @@
 
 namespace App\Policies;
 
-use App\Models\Categoria;
+use App\Carrinho;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CategoriaPolicy
+class CarrinhoPolicy
 {
     use HandlesAuthorization;
 
     public function before($user, $ability)
     {
-        if ($user->tipo == 'A') {
+        if($user->tipo == 'C'){
             return true;
         }
-        else {
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -28,17 +26,17 @@ class CategoriaPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->tipo == 'A';
+        return $user->tipo == 'C';
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Categoria $categoria
+     * @param  \App\Models\Carrinho  $carrinho
      * @return mixed
      */
-    public function view(User $user, Categoria $categoria)
+    public function view(User $user, Carrinho $carrinho)
     {
         return false;
     }
@@ -58,10 +56,10 @@ class CategoriaPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Categoria $categoria
+     * @param  \App\Models\Carrinho  $carrinho
      * @return mixed
      */
-    public function update(User $user, Categoria $categoria)
+    public function update(User $user, Carrinho $carrinho)
     {
         return false;
     }
@@ -70,11 +68,12 @@ class CategoriaPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Categoria $categoria
+     * @param  \App\Models\Carrinho  $carrinho
      * @return mixed
      */
-    public function delete(User $user, Categoria $categoria)
+    public function delete(User $user, Carrinho $carrinho)
     {
         return false;
     }
+
 }

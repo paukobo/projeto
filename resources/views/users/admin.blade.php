@@ -62,12 +62,18 @@
                         @can('block', $user)
                         <form class="d-inline" action="{{ route('admin.users.block', $user) }}" method="PUT">
                             @csrf
-                            <button type="submit" class="btn btn-danger btn-sm">
-                                <i class="fas fa-lock"></i>
-                            </button>
+                            @if ($user->bloqueado=='0')
+                                <button type="submit" class="btn btn-danger btn-sm">
+                                    <i class="fas fa-lock"></i>
+                                </button>
+                            @elseif ($user->bloqueado=='1')
+                                <button type="submit" class="btn btn-success btn-sm">
+                                    <i class="fas fa-unlock"></i>
+                                </button>
+                            @endif
                         </form>
                         @else
-                        <span class="btn btn-secondary btn-sm disabled"><i class="fas fa-trash"></i></span>
+                        <span class="btn btn-secondary btn-sm disabled"><i class="fas fa-lock"></i></span>
                         @endcan
                         @can('delete', $user)
                             <form class="d-inline" action="{{ route('admin.users.destroy', $user) }}" method="POST">

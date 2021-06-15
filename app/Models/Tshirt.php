@@ -22,15 +22,15 @@ class Tshirt extends Model
     ];
 
     public function encomenda(){
-        return $this->belongsTo(Encomenda::class, 'encomenda_id', 'id');
+        return $this->belongsTo(Encomenda::class, 'encomenda_id', 'id')->withTrashed();
     }
 
     public function cor(){
-        return $this->belongsTo(Cor::class, 'cor_codigo', 'codigo');
+        return $this->belongsTo(Cor::class, 'cor_codigo', 'codigo')->withTrashed();
     }
 
     public function estampa(){
-        return $this->belongsTo(Estampa::class, 'estampa_id', 'id');
+        return $this->belongsTo(Estampa::class, 'estampa_id', 'id')->withTrashed();
     }
 
 }

@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Categoria;
+use App\Models\Preco;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CategoriaPolicy
+class PrecoPolicy
 {
     use HandlesAuthorization;
 
@@ -35,10 +35,10 @@ class CategoriaPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Categoria $categoria
+     * @param  \App\Models\Preco  $preco
      * @return mixed
      */
-    public function view(User $user, Categoria $categoria)
+    public function view(User $user, Preco $preco)
     {
         return false;
     }
@@ -58,10 +58,10 @@ class CategoriaPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Categoria $categoria
+     * @param  \App\Models\Preco  $preco
      * @return mixed
      */
-    public function update(User $user, Categoria $categoria)
+    public function update(User $user, Preco $preco)
     {
         return false;
     }
@@ -70,10 +70,10 @@ class CategoriaPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Categoria $categoria
+     * @param  \App\Models\Preco  $preco
      * @return mixed
      */
-    public function delete(User $user, Categoria $categoria)
+    public function delete(User $user, Preco $preco)
     {
         return false;
     }

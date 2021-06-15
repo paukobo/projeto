@@ -2,23 +2,13 @@
 
 namespace App\Policies;
 
-use App\Models\Categoria;
+use App\Models\Encomenda;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CategoriaPolicy
+class EncomendaPolicy
 {
     use HandlesAuthorization;
-
-    public function before($user, $ability)
-    {
-        if ($user->tipo == 'A') {
-            return true;
-        }
-        else {
-            return false;
-        }
-    }
 
     /**
      * Determine whether the user can view any models.
@@ -35,12 +25,12 @@ class CategoriaPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Categoria $categoria
+     * @param  \App\Models\Encomenda  $encomenda
      * @return mixed
      */
-    public function view(User $user, Categoria $categoria)
+    public function view(User $user, Encomenda $encomenda)
     {
-        return false;
+        return ($user->tipo=='A' || $user->tipo=='F' || $user->id==$encomenda->cliente_id);
     }
 
     /**
@@ -51,29 +41,36 @@ class CategoriaPolicy
      */
     public function create(User $user)
     {
-        return false;
+        if ($user->tipo == 'C'){
+            return true;
+        }
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Categoria $categoria
+     * @param  \App\Models\Encomenda  $encomenda
      * @return mixed
      */
-    public function update(User $user, Categoria $categoria)
+    public function update(User $user, Encomenda $encomenda)
     {
-        return false;
+        if ($user->tipo=='F'){
+            if ($encomenda->estado == 'paga' || $encomenda->estado == 'pendente'){
+                return true;
+            }
+        }
+        return ($user->tipo=='A' || $user->id==$encomenda->cliente_id);
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Categoria $categoria
+     * @param  \App\Models\Encomenda  $encomenda
      * @return mixed
      */
-    public function delete(User $user, Categoria $categoria)
+    public function delete(User $user, Encomenda $encomenda)
     {
         return false;
     }

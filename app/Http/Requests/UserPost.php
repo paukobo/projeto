@@ -28,6 +28,7 @@ class UserPost extends FormRequest
             'name' =>           'required',
             'email' =>          'required|email|unique:users,email,'.$this->id,
             'foto' =>           'nullable|image|max:8192',
+            'tipo' =>           'required'
         ];
     }
 }

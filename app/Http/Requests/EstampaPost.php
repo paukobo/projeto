@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class PrecoPost extends FormRequest
+class EstampaPost extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,12 +23,15 @@ class PrecoPost extends FormRequest
      */
     public function rules()
     {
-        return [
-            'preco_un_catalogo' => 'required',
-            'preco_un_proprio' => 'required',
-            'preco_un_catalogo_desconto' => 'required',
-            'preco_un_proprio_desconto' => 'required',
-            'quantidade_desconto' => 'required',
+       $regras = [
+            'nome' => 'required|string',
+            'descricao' => 'nullable|string',
+            'imagem_url' => 'required|image',
+            'informacao_extra' => 'nullable',
         ];
+        if(auth()->user()->tipo!='C'){
+            $regras['categoria_id']='nullable|exists:categorias,id';
+        }
+        return $regras;
     }
 }

@@ -24,7 +24,8 @@ class User extends Authenticatable implements MustVerifyEmail
         'name',
         'email',
         'password',
-        'foto',
+        'tipo',
+        'foto_url',
         'bloqueado',
     ];
 
@@ -46,10 +47,6 @@ class User extends Authenticatable implements MustVerifyEmail
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
-
-    /* public function sendEmailVerificationNotification(){
-        $this->notify(new App\Notifications\CustomVerifyEmail);
-    } */
 
     public function cliente()
     {

@@ -9,26 +9,43 @@ use App\Http\Requests\EncomendaPost;
 
 class EncomendaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $encomendas = Encomenda::all();
-        return view('categorias.index', compact('categorias'));
-    }
-
     public function admin(Request $request)
     {
-        $selectedNome = $request->nome ?? '';
+        $encomenda = $request->cliente_id ?? '';
+        $estado = $request->estado ?? '';
         $qry = Encomenda::query();
-        if ($selectedNome) {
-            $qry->where('nome', $selectedNome);
+
+        if(auth()->check() && auth()->user()->tipo == 'C'){
+
+            $qry = $qry->where('cliente_id', auth()->user()->id)->orwhere('cliente_id', null);
+
+            if($encomenda){
+                $qry =  $qry->where([['cliente_id', $encomenda]]);
+            }
+
+            $encomendas = $qry->paginate(10);
+
+            return view('encomendas.admin', compact('encomendas', 'encomenda'));
         }
-        $encomendas = $qry->paginate(7);
-        return view('encomendas.admin', compact('encomendas', 'selectedNome'));
+
+        if (auth()->check() && auth()->user()->tipo == 'A') {
+
+            $encomendas = $qry->paginate(10);
+            return view('encomendas.admin', compact('encomendas', 'encomenda'));
+        }
+
+        if (auth()->check() && auth()->user()->tipo == 'F') {
+
+            $qry = $qry->where('estado', 'pendente')->orwhere('estado', 'paga');
+
+            if ($estado) {
+                $qry =  $qry->where([['estado', $estado]]);
+            }
+
+            $encomendas = $qry->paginate(10);
+
+            return view('encomendas.admin', compact('encomendas', 'estado'));
+        }
     }
 
     /**
@@ -50,11 +67,21 @@ class EncomendaController extends Controller
      */
     public function store(EncomendaPost $request)
     {
-        $encomenda = new Encomenda();
+        //criar encomenda
+        $encomenda = new Encomenda;
         $encomenda->fill($request->validated());
+
+        if (auth()->user()->tipo == 'C'){
+            $encomenda->cliente_id = auth()->user()->id;
+            $encomenda->preco_total = 10;
+        }
+
         $encomenda->save();
+
+        //criar tshirts para cada item do carrinho
+
         return redirect()->route('admin.encomendas')
-            ->with('alert-msg', 'Encomenda "' . $encomenda->nome . '" foi criada com sucesso!')
+            ->with('alert-msg', 'Encomenda nº "' . $encomenda->id . '" foi criada com sucesso!')
             ->with('alert-type', 'success');
     }
 
@@ -62,7 +89,7 @@ class EncomendaController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Categoria  $categoria
+     * @param  \App\Models\Encomenda  $encomenda
      * @return \Illuminate\Http\Response
      */
     public function edit(Encomenda $encomenda)
@@ -82,17 +109,7 @@ class EncomendaController extends Controller
         $encomenda->fill($request->validated());
         $encomenda->save();
         return redirect()->route('admin.encomendas')
-            ->with('alert-msg', 'Encomenda "' . $encomenda->nome . '" foi alterada com sucesso!')
-            ->with('alert-type', 'success');
-    }
-
-    public function destroy(Encomenda $encomenda)
-    {
-        $oldName = $encomenda->nome;
-
-        $encomenda->delete();
-        return redirect()->route('admin.encomendas')
-            ->with('alert-msg', 'Encomenda "' . $oldName . '" foi apagada com sucesso!')
+            ->with('alert-msg', 'Encomenda "' . $encomenda->id . '" foi alterada com sucesso!')
             ->with('alert-type', 'success');
     }
 }

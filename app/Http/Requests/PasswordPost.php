@@ -2,9 +2,11 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\VerifyPass;
+use Illuminate\Validation\Rule;
 use Illuminate\Foundation\Http\FormRequest;
 
-class PrecoPost extends FormRequest
+class PasswordPost extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,11 +26,9 @@ class PrecoPost extends FormRequest
     public function rules()
     {
         return [
-            'preco_un_catalogo' => 'required',
-            'preco_un_proprio' => 'required',
-            'preco_un_catalogo_desconto' => 'required',
-            'preco_un_proprio_desconto' => 'required',
-            'quantidade_desconto' => 'required',
+            'oldPass' =>        ['required',new VerifyPass()],
+            'newPass' =>        'required',
+            'confirmPass' =>    'required',
         ];
     }
 }

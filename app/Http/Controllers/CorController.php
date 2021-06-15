@@ -8,18 +8,6 @@ use Illuminate\Http\Request;
 
 class CorController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $cores = Cor::all();
-        return view('cores.index', compact('cores'));
-
-    }
-
     public function admin(Request $request)
     {
         $selectedCor = $request->codigo ?? '';

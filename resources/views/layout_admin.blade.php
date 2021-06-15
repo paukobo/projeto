@@ -10,7 +10,7 @@
     <title>Dashboard</title>
 
     <!-- Custom fonts for this template-->
-    <link href="{{asset('vendor/fontawesome-free/css/all.min.css')}}" rel="stylesheet" type="text/css">
+    <link href="{{ asset('vendor/fontawesome-free/css/all.min.css') }}" rel="stylesheet" type="text/css">
     <link href="https://fonts.googleapis.com/css?family=Nunito:200,200i,300,300i,400,400i,600,600i,700,700i,800,800i,900,900i" rel="stylesheet">
 
     <!-- Custom styles for this template-->
@@ -24,7 +24,7 @@
     <div id="wrapper">
 
         <!-- Sidebar -->
-        <ul class="navbar-nav bg-gradient-primary sidebar sidebar-dark accordion" id="accordionSidebar">
+        <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
             <a class="sidebar-brand d-flex align-items-center justify-content-center" href="index.html">
@@ -41,23 +41,89 @@
             <li class="nav-item {{Route::currentRouteName()=='admin.dashboard'? 'active': ''}}">
                 <a class="nav-link" href="{{route('admin.dashboard')}}">
                     <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span></a>
+                    <span>Dashboard</span>
+                </a>
             </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider">
 
-            <!-- Nav Item -->
-            {{-- @can('viewAny', App\Models\Cliente::class) --}}
-            @if  (auth()->check() && (auth()->user()->tipo == 'F' || auth()->user()->tipo == 'A'))
-                <li class="nav-item {{ Route::currentRouteName()=='admin.users' ? 'active' : '' }}">
-                    <a class="nav-link" href="{{ route('admin.users') }}">
-                        <i class="fas fa-fw fa-table"></i>
-                        <span>Users</span>
+             <!-- Nav Item - Users -->
+            {{-- @can('viewAny', App\Models\User::class) --}}
+                @if  (auth()->check() && (auth()->user()->tipo == 'A'))
+                    <li class="nav-item {{ Route::currentRouteName()=='admin.users' ? 'active' : '' }}">
+                        <a class="nav-link" href="{{ route('admin.users') }}">
+                            <i class="fas fa-fw fa-table"></i>
+                            <span>Users</span>
+                        </a>
+                    </li>
+                @endif
+            {{-- @endcan --}}
+
+            <!-- Nav Item - Categorias -->
+            @can('viewAny', App\Models\Categoria::class)
+                <li class="nav-item {{ Route::currentRouteName() == 'admin.categorias' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.categorias') }}">
+                    <i class="fas fa-list"></i>
+                        <span>Categorias</span>
                     </a>
                 </li>
-            @endif
-            {{-- @endcan --}}
+            @endcan
+
+            <!-- Nav Item - Cores -->
+            @can('viewAny', App\Models\Cor::class)
+                <li class="nav-item {{ Route::currentRouteName() == 'admin.cores' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.cores') }}">
+                    <i class="fas fa-palette"></i>
+                        <span>Cores</span>
+                    </a>
+                </li>
+            @endcan
+
+            <!-- Nav Item - Tshirt -->
+            <li class="nav-item {{ Route::currentRouteName() == 'admin.tshirts' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.tshirts') }}">
+                <i class="fas fa-tshirt"></i>
+                    <span>Tshirt</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Carrinho -->
+            @can('viewAny', App\Models\Carrinho::class)
+                <li class="nav-item {{ Route::currentRouteName() == 'carrinho.index' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('carrinho.index') }}">
+                    <i class="fas fa-shopping-cart"></i>
+                        <span>Carrinho</span>
+                    </a>
+                </li>
+            @endcan
+
+            <!-- Nav Item - Preços -->
+            @can('viewAny', App\Models\Preco::class)
+                <li class="nav-item {{ Route::currentRouteName() == 'admin.precos' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.precos') }}">
+                    <i class="fas fa-dollar-sign"></i>
+                        <span>Preços</span>
+                    </a>
+                </li>
+            @endcan
+
+
+            <!-- Nav Item - Encomendas -->
+            <li class="nav-item {{ Route::currentRouteName() == 'admin.emcomendas' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.encomendas') }}">
+                <i class="fas fa-box-open"></i>
+                    <span>Encomendas</span>
+                </a>
+            </li>
+
+            <!-- Nav Item - Catalogo -->
+            <li class="nav-item {{ Route::currentRouteName() == 'admin.catalogo' ? 'active' : '' }}">
+                <a class="nav-link" href="{{ route('admin.catalogo') }}">
+                <i class="fas fa-box-open"></i>
+                    <span>Catálogo</span>
+                </a>
+            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -123,11 +189,10 @@
                                     Perfil
                                 </a>
                             @endif
-                            {{-- <a class="dropdown-item" href="{{ route('admin.users.resetPass', auth()->user())}}">
+                            <a class="dropdown-item" href="{{route('admin.users.editPassword')}}">
                                 <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Alterar Password
-                            </a> --}}
-
+                            </a>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Logout

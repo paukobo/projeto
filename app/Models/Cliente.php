@@ -21,8 +21,15 @@ class Cliente extends Model
 
     public $incrementing=false;
 
-    public function user()
-    {
+    public function estampas(){
+        return $this->hasMany(Estampa::class, 'estampa_id', 'id')->withTrashed();
+    }
+
+    public function encomendas(){
+        return $this->hasMany(Encomenda::class, 'encomenda_id', 'id');
+    }
+
+    public function user(){
         return $this->belongsTo(User::class, 'id', 'id')->withTrashed();
     }
 

@@ -2,13 +2,20 @@
 
 namespace App\Http\Controllers;
 
+use session;
+use App\Models\Carrinho;
+use App\Models\Cor;
 use App\Models\Tshirt;
+use App\Models\Cliente;
+use App\Models\Estampa;
+use App\Models\Encomenda;
 use Illuminate\Http\Request;
+use App\Http\Requests\EncomendaPost;
+use Illuminate\Support\Facades\Auth;
 
 
 class CarrinhoController extends Controller
 {
-
     public function admin(Request $request)
     {
         return view('carrinho.admin')
@@ -33,8 +40,8 @@ class CarrinhoController extends Controller
             'encomenda_id' => $tshirt->encomenda_id,
             'estampa_id' => $tshirt->estampa_id,
             'cor_codigo' => $tshirt->cor_codigo,
+            'tamanho' => $tshirt->tamanho,
             'preco_un' => $tshirt->preco_un,
-            'preco_total' => $tshirt->preco_un * $qtd,
         ];
         $request->session()->put('carrinho', $carrinho);
         return back()
@@ -62,8 +69,8 @@ class CarrinhoController extends Controller
                 'encomenda_id' => $tshirt->encomenda_id,
                 'estampa_id' => $tshirt->estampa_id,
                 'cor_codigo' => $tshirt->cor_codigo,
+                'tamanho' => $tshirt->tamanho,
                 'preco_un' => $tshirt->preco_un,
-                'preco_total' => $tshirt->preco_un * $qtd,
             ];
         }
         $request->session()->put('carrinho', $carrinho);
@@ -71,6 +78,7 @@ class CarrinhoController extends Controller
             ->with('alert-msg', $msg)
             ->with('alert-type', 'success');
     }
+
 
     public function destroy_Tshirt(Request $request, Tshirt $tshirt)
     {
@@ -89,10 +97,7 @@ class CarrinhoController extends Controller
 
     public function store(Request $request)
     {
-        dd(
-            'Place code to store the shopping cart / transform the cart into a sale',
-            $request->session()->get('carrinho')
-        );
+        return redirect()->route('admin.encomendas.create');
     }
 
     public function destroy(Request $request)
@@ -102,21 +107,25 @@ class CarrinhoController extends Controller
             ->with('alert-msg', 'Carrinho foi limpo!')
             ->with('alert-type', 'danger');
     }
+
+    public function adicionarCarrinho(Request $request)
+    {
+        $estampa = Estampa::find($request->id);
+        $cor = Cor::find($request->codigo);
+        $tamanho = Tshirt::find($request->tamanho);
+        $qtd = Tshirt::find($request->quantidade);
+        $antCarrinho = session('carrinho', null);
+        $carrinho = new Carrinho($antCarrinho);
+        $carrinho->add($estampa, $cor, $tamanho, $qtd);
+        session(['carrinho' => $carrinho]);
+    }
 }
 
 
-/*
-public function adicionarCarrinho(Request $request)
-{
-    $estampa = Estampa::find($request->id);
-    $cor = Cor::find($request->cor);
-    $antCarrinho = session('carrinho', null);
-    $carrinho = new Carrinho($antCarrinho);
-    $carrinho->add(estampa, cor, )
-    session(['carrinho' => carrinho]);
-}
 
 
 
 
-*/
+
+
+
