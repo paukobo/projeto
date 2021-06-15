@@ -9,8 +9,8 @@
             <label for="search">PROCURAR:</label>
             &nbsp;
             <input type="text" class="form-control" placeholder="paga / pendente / fechada / anulada" name="searchEstado" id="searchEstado">
-            <input type="number" min=1 class="form-control" placeholder="1 - 9999" name="searchCliente" id="searchCliente">
-            <input type="text" class="form-control" placeholder="YYYY-mm-dd" required pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" name="searchData" id="searchData">
+            <input type="number" min=22 class="form-control" placeholder="Id cliente: 22 - 9999" name="searchCliente" id="searchCliente">
+            <input type="text" class="form-control" placeholder="YYYY-mm-dd" pattern="[0-9]{4}-[0-9]{2}-[0-9]{2}" name="searchData" id="searchData">
             &nbsp;
             <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="submit">Filtrar</button>
