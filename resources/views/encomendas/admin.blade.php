@@ -1,9 +1,25 @@
 @extends('layout_admin')
 @section('title', 'Encomendas')
 @section('content')
-<!-- <div class="row mb-3">
-    <a href="{{ route('admin.encomendas.create') }}" class="btn btn-success" role="button" aria-pressed="true">Nova Encomenda</a>
-</div> -->
+    @if(auth()->check() && auth()->user()->tipo == 'A')
+        <div class="col-9">
+            <form method="GET" action="{{ route('admin.encomendas') }}" class="form-group">
+                <div class="input-group">
+                    <label for="search">PROCURAR:</label>
+                    &nbsp;
+                    <input type="number" min="1" class="form-control" name="search" id="search">
+                    &nbsp;
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary" type="submit">Filtrar</button>
+                    </div>
+                    &nbsp;
+                    <div class="input-group-append">
+                        <button class="btn btn-outline-secondary">Reset<a href="{{route('admin.encomendas')}}"></a></button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    @endif
     <table class="table">
         <thead>
             <tr>
@@ -37,28 +53,22 @@
                     <td>{{ $encomenda->recibo_url }}</td>
 
                     <td nowrap>
+                        @can('view', $encomenda)
+                            <a href="#" class="btn btn-primary btn-sm" role="button" aria-pressed="true">
+                                <i class="fas fa-tshirt"></i>
+                            </a>
+                        @else
+                            <span class="btn btn-secondary btn-sm disabled"><i class="fas fa-tshirt"></i></span>
+                        @endcan
 
-                    <a href="{{ route('admin.encomendas.edit', $encomenda) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">
-                        <i class="fas fa-eye"></i>
-                    </a>
-
-
-
-                    <a href="{{ route('admin.encomendas.edit', $encomenda) }}" class="btn btn-warning btn-sm" role="button" aria-pressed="true">
-                        <i class="fas fa-pen"></i>
-                    </a>
-
-
-
-                    <form class="d-inline" action="{{ route('admin.encomendas.destroy', $encomenda) }}" method="POST">
-                        @csrf
-                        @method("DELETE")
-                        <button type="submit" class="btn btn-danger btn-sm">
-                            <i class="fas fa-trash"></i>
-                        </button>
-                    </form>
-
-            </td>
+                        @can('update', $encomenda)
+                            <a href="{{ route('admin.encomendas.edit', $encomenda) }}" class="btn btn-warning btn-sm" role="button" aria-pressed="true">
+                                <i class="fas fa-pen"></i>
+                            </a>
+                        @else
+                            <span class="btn btn-secondary btn-sm disabled"><i class="fas fa-pen"></i></span>
+                        @endcan
+                    </td>
                 </tr>
             @endforeach
         </tbody>

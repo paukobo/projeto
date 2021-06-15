@@ -12,8 +12,11 @@ class CategoriaPolicy
 
     public function before($user, $ability)
     {
-        if ($user->admin) {
+        if ($user->tipo == 'A') {
             return true;
+        }
+        else {
+            return false;
         }
     }
 
@@ -25,14 +28,14 @@ class CategoriaPolicy
      */
     public function viewAny(User $user)
     {
-        return $user->tipo == 'A' || $user->tipo == 'C' || $user->tipo == 'F';
+        return $user->tipo == 'A';
     }
 
     /**
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Cor  $cor
+     * @param  \App\Models\Categoria $categoria
      * @return mixed
      */
     public function view(User $user, Categoria $categoria)
@@ -55,7 +58,7 @@ class CategoriaPolicy
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Cor  $cor
+     * @param  \App\Models\Categoria $categoria
      * @return mixed
      */
     public function update(User $user, Categoria $categoria)
@@ -67,7 +70,7 @@ class CategoriaPolicy
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Cor  $cor
+     * @param  \App\Models\Categoria $categoria
      * @return mixed
      */
     public function delete(User $user, Categoria $categoria)

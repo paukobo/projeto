@@ -2,7 +2,7 @@
 
 @section('content')
 
-<h2>Cores</h2>
+<h2>Categorias</h2>
 <div class="cursos-area">
     @foreach($categorias as $categoria)
     <div class="curso">

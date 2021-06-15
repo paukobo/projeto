@@ -9,6 +9,7 @@
     <thead>
         <tr>
             <th>Código</th>
+            <th></th>
             <th>Nome</th>
             <th></th>
         </tr>
@@ -16,21 +17,13 @@
     <tbody>
         @foreach ($cores as $cor)
         <tr>
-            <td>{{ $cor->codigo }}</td>
+            <td>#{{ $cor->codigo }}</td>
+            <td><span style="height: 20px; width: 20px; background-color: #{{ $cor->codigo }}; border-radius: 50%; border: 1px solid black; display: inline-block;"></span></td>
             <td>{{ $cor->nome }}</td>
             <td nowrap>
-
-                    <a href="{{ route('admin.cores.edit', $cor) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">
-                        <i class="fas fa-eye"></i>
-                    </a>
-
-
-
                     <a href="{{ route('admin.cores.edit', $cor) }}" class="btn btn-warning btn-sm" role="button" aria-pressed="true">
                         <i class="fas fa-pen"></i>
                     </a>
-
-
 
                     <form class="d-inline" action="{{ route('admin.cores.destroy', $cor) }}" method="POST">
                         @csrf

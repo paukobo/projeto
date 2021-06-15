@@ -1,6 +1,6 @@
-@extends('layout_admin')
+@extends('layout_cart')
 @section('content')
-<h1>TESTE CARRINHO</h1>
+<h1>Carrinho de Compras</h1>
 
 <hr>
     <div>
@@ -17,17 +17,13 @@
             <input type="submit" class="btn btn-success" value="Confirmar carrinho">
         </form>
         </p>
-        <p>
-            Preço Total:
-        </p>
     </div>
 
     <table class="table table-bordered">
         <thead>
             <tr>
                 <th>Quantidade</th>
-                <th>ID</th>
-                <th>ID Encomenda</th>
+                <th>ID Tshirt</th>
                 <th>ID Estampa</th>
                 <th>Cor Código</th>
                 <th>Preço Unidade</th>
@@ -35,18 +31,17 @@
             </tr>
         </thead>
         <tbody>
-            @foreach ($carrinho as $row)
+            @foreach ($carrinho as $cart)
             <tr>
-                <td>{{ $row['qtd'] }} </td>
-                <td>{{ $row['id'] }} </td>
-                <td>{{ $row['encomenda_id'] }} </td>
-                <td>{{ $row['estampa_id'] }} </td>
-                <td>{{ $row['cor_codigo'] }} </td>
-                <td>{{ $row['preco_un'] }} </td>
-                <td>{{ $row['preco_un'] * $row['qtd'] }} </td>
+                <td>{{ $cart['qtd'] }} </td>
+                <td>{{ $cart['id'] }} </td>
+                <td>{{ $cart['estampa_id'] }} </td>
+                <td>{{ $cart['cor_codigo'] }} </td>
+                <td>{{ $cart['preco_un'] }} </td>
+                <td>{{ $cart['preco_un'] * $cart['qtd'] }} </td>
 
                 <td>
-                    <form action="{{route('carrinho.update_Tshirt', $row['id'])}}" method="POST">
+                    <form action="{{route('carrinho.update_Tshirt', $cart['id'])}}" method="POST">
                         @csrf
                         @method('put')
                         <input type="hidden" name="quantidade" value="1">
@@ -54,7 +49,7 @@
                     </form>
                 </td>
                 <td>
-                    <form action="{{route('carrinho.update_Tshirt', $row['id'])}}" method="POST">
+                    <form action="{{route('carrinho.update_Tshirt', $cart['id'])}}" method="POST">
                         @csrf
                         @method('put')
                         <input type="hidden" name="quantidade" value="-1">
@@ -62,7 +57,7 @@
                     </form>
                 </td>
                 <td>
-                    <form action="{{route('carrinho.destroy_Tshirt', $row['id'])}}" method="POST">
+                    <form action="{{route('carrinho.destroy_Tshirt', $cart['id'])}}" method="POST">
                         @csrf
                         @method('delete')
                         <input type="submit" class="btn btn-danger" value="Remove">

@@ -3,32 +3,58 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Tshirt;
+use App\Models\Carrinho;
 use App\Models\Encomenda;
 use Illuminate\Http\Request;
+use App\Http\Requests\TshirtPost;
 use App\Http\Requests\EncomendaPost;
 
 class EncomendaController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function index()
-    {
-        $encomendas = Encomenda::all();
-        return view('categorias.index', compact('categorias'));
-    }
-
     public function admin(Request $request)
     {
-        $selectedNome = $request->nome ?? '';
+        $encomenda = $request->cliente_id ?? '';
+        $estado = $request->estado ?? '';
+        $search = $request->search ?? '';
+
         $qry = Encomenda::query();
-        if ($selectedNome) {
-            $qry->where('nome', $selectedNome);
+
+        if(auth()->check() && auth()->user()->tipo == 'C'){
+
+            $qry = $qry->where('cliente_id', auth()->user()->id)->orwhere('cliente_id', null);
+
+            if($encomenda){
+                $qry =  $qry->where([['cliente_id', $encomenda]]);
+            }
+
+            $encomendas = $qry->paginate(10);
+
+            return view('encomendas.admin', compact('encomendas', 'encomenda'));
         }
-        $encomendas = $qry->paginate(7);
-        return view('encomendas.admin', compact('encomendas', 'selectedNome'));
+
+        if (auth()->check() && auth()->user()->tipo == 'A') {
+
+            if($search){
+                $qry = $qry->where('id','like', $search)->orwhere('id','like', $search);
+            }
+
+            $encomendas = $qry->paginate(10);
+            return view('encomendas.admin', compact('encomendas', 'encomenda'));
+        }
+
+        if (auth()->check() && auth()->user()->tipo == 'F') {
+
+            $qry = $qry->where('estado', 'pendente')->orwhere('estado', 'paga');
+
+            if ($estado) {
+                $qry =  $qry->where([['estado', $estado]]);
+            }
+
+            $encomendas = $qry->paginate(10);
+
+            return view('encomendas.admin', compact('encomendas', 'estado'));
+        }
     }
 
     /**
@@ -36,9 +62,29 @@ class EncomendaController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(Request $request)
     {
-        $encomenda = new Encomenda();
+
+        $carrinho = $request->session()->get('carrinho', []);
+
+        if ($carrinho == null) {
+            return redirect()->route('carrinho.index')
+            ->with('alert-msg', 'A encomenda não foi criada pois o carrinho está vazio!')
+            ->with('alert-type', 'danger');
+        }
+
+        $encomenda = new Encomenda;
+
+        if (auth()->user()->tipo == 'C'){
+            $encomenda->cliente_id = auth()->user()->id;
+
+            foreach ($carrinho as $cart) {
+                $encomenda->preco_total += ($cart['qtd'] * $cart['preco_un']);
+            }
+
+        }
+
+
         return view('encomendas.create', compact('encomenda'));
     }
 
@@ -50,19 +96,42 @@ class EncomendaController extends Controller
      */
     public function store(EncomendaPost $request)
     {
-        $encomenda = new Encomenda();
+        $carrinho = session('carrinho', null);
+
+        if ($carrinho == null) {
+            return redirect()->route('carrinho.index')
+            ->with('alert-msg', 'Não foram criadas encomendas pois o carrinho está vazio!')
+            ->with('alert-type', 'danger');
+        }
+
+        //criar encomenda
+        $encomenda = new Encomenda;
         $encomenda->fill($request->validated());
+
+        if (auth()->user()->tipo == 'C'){
+            $encomenda->cliente_id = auth()->user()->id;
+
+            foreach ($carrinho as $cart) {
+                $encomenda->preco_total += ($cart['qtd'] * $cart['preco_un']);
+            }
+        }
+
         $encomenda->save();
+
+        //criar tshirts para cada item do carrinho
+
         return redirect()->route('admin.encomendas')
-            ->with('alert-msg', 'Encomenda "' . $encomenda->nome . '" foi criada com sucesso!')
-            ->with('alert-type', 'success');
+        ->with('alert-msg', 'Encomenda nº "' . $encomenda->id . '" foi criada com sucesso!')
+        ->with('alert-type', 'success');
+
+
     }
 
 
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  \App\Models\Categoria  $categoria
+     * @param  \App\Models\Encomenda  $encomenda
      * @return \Illuminate\Http\Response
      */
     public function edit(Encomenda $encomenda)
@@ -82,17 +151,26 @@ class EncomendaController extends Controller
         $encomenda->fill($request->validated());
         $encomenda->save();
         return redirect()->route('admin.encomendas')
-            ->with('alert-msg', 'Encomenda "' . $encomenda->nome . '" foi alterada com sucesso!')
+            ->with('alert-msg', 'Encomenda "' . $encomenda->id . '" foi alterada com sucesso!')
             ->with('alert-type', 'success');
     }
 
-    public function destroy(Encomenda $encomenda)
+    public function updateEstado(EncomendaPost $request, Encomenda $encomenda)
     {
-        $oldName = $encomenda->nome;
+        $encomenda->fill($request->validated());
+        if (auth()->check() && auth()->user()->tipo == 'F'){
+            if ($encomenda->estado == 'paga'){
+                $encomenda->estado = 'fechada';
+            }
 
-        $encomenda->delete();
+            if ($encomenda->estado == 'pendente'){
+                $encomenda->estado = 'paga';
+            }
+        }
+
+        $encomenda->save();
         return redirect()->route('admin.encomendas')
-            ->with('alert-msg', 'Encomenda "' . $oldName . '" foi apagada com sucesso!')
+            ->with('alert-msg', 'Estado da Encomenda nº "' . $encomenda->id . '" foi alterado com sucesso para "' . $encomenda->estado . "'!'")
             ->with('alert-type', 'success');
     }
 }

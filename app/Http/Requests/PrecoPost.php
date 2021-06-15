@@ -24,7 +24,11 @@ class PrecoPost extends FormRequest
     public function rules()
     {
         return [
-            'id' => 'required',
+            'preco_un_catalogo' => 'required',
+            'preco_un_proprio' => 'required',
+            'preco_un_catalogo_desconto' => 'required',
+            'preco_un_proprio_desconto' => 'required',
+            'quantidade_desconto' => 'required',
         ];
     }
 }

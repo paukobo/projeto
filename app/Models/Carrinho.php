@@ -1,65 +1,50 @@
 <?php
 
-namespace App;
+namespace App\Models;
 
-class Carrinho
+use App\Models\Preco;
+use Illuminate\Database\Eloquent\Model;
+
+class Carrinho extends Model
 {
     public $items = null;
     public $quantTotal = 0;
     public $precoTotal = 0;
 
-    // reconstroi o carrinho antigo baseando se num carrinho antigo (caso algo se perca)
-    public function __construct($oldCart)
-    {
-        if  ($oldCart){
-            $this->items = $oldCart->items;
-            $this->quantTotal = $oldCart->quantTotal;
-            $this->precoTotal = $oldCart->precoTotal;
-        }
-    }
 
     // adicionar um item novo (está constantemente a dar overwrite pq
     // só quero guardar cada produto 1 vez (só preciso da informação 1 vez))
-    public function add($item, $id)
+    public function add($estampa, $cor, $tamanho, $qtd)
     {
-        $storedItem = ['qty' => 0, 'price' => $item->price, 'item' => $item];
+        $id = $estampa->id . '_' . $cor->codigo . '_' . $tamanho;
+        $storedItem = ['qtd' => 0, 'preco_un' => 0 , 'cor' => $cor, 'estampa' => $estampa, 'subtotal' => 0, 'tamanho' => $tamanho];
         if ($this->items) {
             if (array_key_exists($id, $this->items)) {
                 $storedItem = $this->items[$id];
             }
         }
-        $storedItem['qty']++;
-        $storedItem['price'] = $item->price * $storedItem['qty'];
+        $this->quantTotal-= $storedItem['qtd'];
+        $this->precoTotal -=  $storedItem['subtotal'];
+        $storedItem['qtd'] += $qtd;
+        $storedItem['preco_un'] = $this->getPreco($qtd, $estampa->cliente_id != null);
+        $storedItem['subtotal'] = $storedItem['preco_un'] * $qtd;
         $this->items[$id] = $storedItem;
-        $this->quantTotal++;
-        $this->precoTotal += $item->price;
-    }
-}
-
-/*
-public function add($estampa, $cor, $qtd, $tamanho)
-{
-    $id = $estampa->id . "_" . $cor_codigo . "_" $tamanho;
-    $storedItem = ['qtd' => 0, 'cor' => 0,'estampa' => 0,'tamanho' => 0,'qtd' => 0]
-    if ($this->items) {
-        if (array_key_exists($id, $qtd))
+        $this->quantTotal += $qtd;
+        $this->precoTotal +=  $storedItem['subtotal'];
     }
 
-    $storedItem['qtd'] = $qtd;
-    ...
+    public function getPreco($qtd, $cliente){
+
+        $preco = Preco::first();
+        if ($qtd < $preco->quantidade_desconto){
+            if ($cliente){
+                return $preco->preco_un_proprio;
+            }
+            return $preco->preco_un_catalogo;
+        }
+        if ($cliente){
+            return $preco->preco_un_proprio_desconto;
+        }
+        return $preco->preco_un_catalogo_desconto;
+    }
 }
-
-
-
-public function getPrecoUnitario($qtd, $proprio)
-{
-    $preco = Preco::first();
-    if ($qtd < $preco->quantidade_desconto)
-}
-
-
-
-
-
-
-*/
