@@ -26,7 +26,7 @@ class Carrinho
     public function add($estampa, $cor, $tamanho, $qtd)
     {
         $key = (string)$estampa->id.'_'.(string)$cor->codigo.'_'.(string)$tamanho;
-        $storedItem = ['qtd' => 0, 'preco_un' => 0 , 'cor' => $cor, 'estampa' => $estampa, 'subtotal' => 0, 'tamanho' => $tamanho];
+        $storedItem = ['qtd' => 0, 'preco_un' => 0 , 'cor' => $cor->codigo, 'estampa' => $estampa->id, 'subtotal' => 0, 'tamanho' => $tamanho];
         if ($this->items) {
             if (array_key_exists($key, $this->items)) {
                 $storedItem = $this->items[$key];

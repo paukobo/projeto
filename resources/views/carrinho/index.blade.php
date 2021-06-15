@@ -23,7 +23,6 @@
     <thead>
         <tr>
             <th>Quantidade</th>
-            <th>ID Tshirt</th>
             <th>ID Estampa</th>
             <th>Cor Código</th>
             <th>Preço Unidade</th>
@@ -31,15 +30,15 @@
         </tr>
     </thead>
     <tbody>
-        @foreach ($carrinho as $cart)
+        @foreach ($carrinho->items as $cart)
         <tr>
             <td>{{ $cart['qtd'] }} </td>
-            <td>{{ $cart['id'] }} </td>
-            <td>{{ $cart['estampa_id'] }} </td>
-            <td>{{ $cart['cor_codigo'] }} </td>
+            <td>{{ $cart['estampa'] }} </td>
+            <td>{{ $cart['cor'] }} </td>
             <td>{{ $cart['preco_un'] }} </td>
             <td>{{ $cart['preco_un'] * $cart['qtd'] }} </td>
 
+            {{--
             <td>
                 <form action="{{route('carrinho.update_Tshirt', $cart['id'])}}" method="POST">
                     @csrf
@@ -62,17 +61,11 @@
                     @method('delete')
                     <input type="submit" class="btn btn-danger" value="Remove">
                 </form>
-            </td>
+            </td>--}}
         </tr>
         @endforeach
     </tbody>
 </table>
 
-<?php
-    $preco = 0;
-    foreach ($carrinho as $cart){
-        $preco += ($cart['qtd'] * $cart['preco_un']);
-    }
-?>
-<div>Preço Total: <?php echo $preco ?> €</div>
+<div>Preço Total: <?php echo $carrinho->precoTotal ?> €</div>
 @endsection
