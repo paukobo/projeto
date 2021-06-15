@@ -7,14 +7,16 @@
 
 <div id="overlay" class="tshirt-preview">
     <div class="preview-body">
-        <form method="POST" action="" class="form-group">
+        <form method="POST" action="{{ route('carrinho.adicionarCarrinho') }}" class="form-group">
+            @csrf
+            <input type="hidden" id="inputId" name="id">
             <label for="inputQuantidade">Quantidade:</label>
             <input type="number" id="inputQuantidade" name="quantidade" min="1" max="99" value="1">
             <br>
             <label for="inputCor">Cor:</label>
             <select class="custom-select" name="cor" id="inputCor" aria-label="Cor">
                 @foreach ($cores as $nome => $codigo)
-                <option value={{$codigo}}>{{$nome}}</option>
+                    <option value={{$codigo}}>{{$nome}}</option>
                 @endforeach
             </select>
             <br>
@@ -25,7 +27,7 @@
                 @endforeach
             </select>
             <div class="input-group-append">
-                <a href="{{ route('carrinho.adicionarCarrinho') }}" class="btn btn-success" role="button" aria-pressed="true">Adicionar ao Carrinho</a>
+                <button type="submit" class="btn btn-success" name="ok">Adicionar ao Carrinho</button>
             </div>
         </form>
     </div>
@@ -93,7 +95,7 @@
     function on(id) {
         document.getElementById("overlay").style.display = "block";
         document.getElementById("inputQuantidade").value = "1";
-        console.log(id);
+        document.getElementById("inputId").value = id;
     }
 
     function off() {

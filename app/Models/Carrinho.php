@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Preco;
 use Illuminate\Database\Eloquent\Model;
+use Ramsey\Uuid\Type\Integer;
 
 class Carrinho
 {
@@ -24,20 +25,20 @@ class Carrinho
     //só quero guardar cada produto 1 vez (só preciso da informação 1 vez))
     public function add($estampa, $cor, $tamanho, $qtd)
     {
-        $id = $estampa->id . '_' . $cor->codigo . '_' . $tamanho;
+        $key = (string)$estampa->id.'_'.(string)$cor->codigo.'_'.(string)$tamanho;
         $storedItem = ['qtd' => 0, 'preco_un' => 0 , 'cor' => $cor, 'estampa' => $estampa, 'subtotal' => 0, 'tamanho' => $tamanho];
-        dd($storedItem);
         if ($this->items) {
-            if (array_key_exists($estampa, $cor, $tamanho, $qtd, $this->items)) {
-                $storedItem = $this->items[$id];
+            if (array_key_exists($key, $this->items)) {
+                $storedItem = $this->items[$key];
+
             }
         }
-        $this->quantTotal-= $storedItem['qtd'];
+        $this->quantTotal -= $storedItem['qtd'];
         $this->precoTotal -=  $storedItem['subtotal'];
         $storedItem['qtd'] += $qtd;
         $storedItem['preco_un'] = $this->getPreco($qtd, $estampa->cliente_id != null);
         $storedItem['subtotal'] = $storedItem['preco_un'] * $qtd;
-        $this->items[$id] = $storedItem;
+        $this->items[$key] = $storedItem;
         $this->quantTotal += $qtd;
         $this->precoTotal +=  $storedItem['subtotal'];
     }

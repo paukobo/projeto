@@ -6,6 +6,7 @@ use App\Models\Cor;
 use App\Models\Tshirt;
 use App\Models\Estampa;
 use App\Models\Carrinho;
+use App\Models\Preco;
 use Illuminate\Http\Request;
 use Symfony\Component\HttpFoundation\Session\Session;
 
@@ -106,14 +107,29 @@ class CarrinhoController extends Controller
     public function adicionarCarrinho(Request $request)
     {
         $estampa = Estampa::findOrFail($request->id);
-        $cor = Cor::findOrFail($request->codigo);
-        $tamanho = Tshirt::findOrFail($request->tamanho);
-        $qtd = Tshirt::findOrFail($request->quantidade);
+
+        $cor = Cor::findOrFail($request->cor);
+        $tamanho = $request->tamanho;
+        if (!in_array ($tamanho,['XS','S','M','L', 'XL'])){
+            return redirect()->back()
+            ->with('alert-msg', 'Tamanho invalido!')
+            ->with('alert-type', 'danger');
+        }
+
+        $qtd = $request->quantidade;
+        if($qtd < 1  || $qtd > 99){
+            return redirect()->back()
+                ->with('alert-msg', 'Quantidade invalida!')
+                ->with('alert-type', 'danger');
+        }
+
         $antCarrinho = $request->session()->get('carrinho');
         $carrinho = new Carrinho($antCarrinho);
         $carrinho->add($estampa, $cor, $tamanho, $qtd);
         $request->session()->put('carrinho', $carrinho);
         //dd($request->session()->get('carrinho'));
-        return redirect()->route('carrinho.index');
+        return redirect()->back()
+            ->with('alert-msg', 'Tshirt adicionada ao carrinho!')
+            ->with('alert-type', 'success');
     }
 }

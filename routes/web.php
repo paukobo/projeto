@@ -168,7 +168,7 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 // carrinho de compras
 Route::get('carrinho', [CarrinhoController::class, 'index'])->name('carrinho.index');
 Route::post('carrinho/tshirts/{tshirt}', [CarrinhoController::class, 'store_Tshirt'])->name('carrinho.store_Tshirt');
-Route::get('carrinho/adicionarCarrinho', [CarrinhoController::class, 'adicionarCarrinho'])->name('carrinho.adicionarCarrinho');
+Route::post('carrinho/adicionarCarrinho', [CarrinhoController::class, 'adicionarCarrinho'])->name('carrinho.adicionarCarrinho');
 Route::put('carrinho/tshirts/{tshirt}', [CarrinhoController::class, 'update_Tshirt'])->name('carrinho.update_Tshirt');
 Route::delete('carrinho/tshirts/{tshirt}', [CarrinhoController::class, 'destroy_Tshirt'])->name('carrinho.destroy_Tshirt');
 Route::post('carrinho', [CarrinhoController::class, 'store'])->name('carrinho.store');
