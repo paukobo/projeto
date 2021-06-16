@@ -8,6 +8,7 @@
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css">
     <link rel="stylesheet" href="/css/estilos.css">
+    <link rel="stylesheet" href="/css/catalogo.css">
 
     <title>MagicShirts</title>
 </head>
@@ -30,12 +31,12 @@
                 @endisset
             </div>
         @else
-            <div class="avatar-area">
-                <a class="nav-link" href="{{ route('login') }}">Login</a>
+        <div class="form-group avatar-area">
+            <a class="nav-link" href="{{ route('login') }}">Login</a>
             </div>
-            <div class="avatar-area">
-                <a class="nav-link" href="{{ route('clientes.create') }}">Register</a>
+            <a class="nav-link" href="{{ route('clientes.create') }}">Register</a>
             </div>
+        </div>
         @endauth
         <div id="menuIcon">
             <div class="bar1"></div>
@@ -69,9 +70,7 @@
 
                     <li>
                         <i class="fab fa-wpforms"></i>
-                        <a href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                            document.getElementById('logout-form').submit();">Logout</a>
+                        <a href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>

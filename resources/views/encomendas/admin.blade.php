@@ -4,7 +4,6 @@
 @if(auth()->check() && auth()->user()->tipo == 'A')
 <div class="col-9">
     <form method="GET" action="{{ route('admin.encomendas') }}" class="form-group">
-
         <div class="input-group">
             <label for="search">PROCURAR:</label>
             &nbsp;
@@ -53,9 +52,19 @@
             <td>{{ $encomenda->endereco }}</td>
             <td>{{ $encomenda->tipo_pagamento }}</td>
             <td>{{ $encomenda->ref_pagamento }}</td>
-            <td>{{ $encomenda->recibo_url }}</td>
 
             <td nowrap>
+                @if(auth()->check() && auth()->user()->tipo == 'C')
+                    @if($encomenda->estado=='fechada')
+                        <a href="{{ route('pdfview') }}" class="btn btn-success" role="button" aria-pressed="true">
+                            Ver Recibo
+                        </a>
+                    @else
+                        <a class="btn btn-secondary text-light" role="button" aria-pressed="true">
+                            Ver Recibo
+                        </a>
+                    @endif
+                @endif
                 @can('view', $encomenda)
                     @if(((auth()->check() && auth()->user()->tipo == 'F') && ($encomenda->estado == 'pendente' || $encomenda->estado == 'paga')) || (auth()->check() && auth()->user()->tipo == 'C')|| (auth()->check() && auth()->user()->tipo == 'A'))
                         <a href="{{ route('admin.verTshirtsEncomendas', $encomenda) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">
