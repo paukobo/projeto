@@ -49,7 +49,6 @@
 </div>
 
 <div class="col-9">
-    <a href="{{route('admin.catalogo.estampas.create')}}" class="btn btn-outline-secondary catalogo">Criar Estampa</a>
     <form method="GET" action="{{route('catalogo.index')}}" class="form-group">
         <label for="inputCategoria">Categoria:</label>
         <select class="custom-select" name="categoria" id="inputCategoria" aria-label="Categoria">
@@ -63,7 +62,7 @@
         <input type="text" class="form-control" name="search" id="search" value="{{Request::input('search')}}">
         <br>
         <div class="input-group-append">
-            <button class="btn btn-outline-secondary catalogo" type="submit" style="z-index: 1">Filtrar</button>
+            <button class="btn btn-outline-secondary catalogo" type="submit" style="z-index: 0">Filtrar</button>
         </div>
     </form>
 </div>
@@ -102,9 +101,7 @@
     </div>
 </div>
 
-<a href="{{route('home')}}" style="float: right;" class="btn btn-primary btn-sm" role="button" aria-pressed="true">
-    Voltar Atrás
-</a>
+
 {{ $estampas->withQueryString()->links() }}
 
 </div>

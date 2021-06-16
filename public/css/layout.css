@@ -1,29 +1,176 @@
-.back-to-top {
-  position: fixed;
-  visibility: hidden;
-  opacity: 0;
-  right: 15px;
-  bottom: 15px;
-  z-index: 996;
-  background: #2487ce;
-  width: 40px;
-  height: 40px;
-  border-radius: 4px;
-  transition: all 0.4s;
+/*
+=====
+DEPENDENCES
+=====
+*/
+
+.r-link {
+    display: var(--rLinkDisplay, inline-flex) !important;
 }
 
-.back-to-top i {
-  font-size: 28px;
-  color: #fff;
-  line-height: 0;
+.r-link[href] {
+    color: var(--rLinkColor) !important;
+    text-decoration: var(--rLinkTextDecoration, none) !important;
 }
 
-.back-to-top:hover {
-  background: #3e9bdd;
-  color: #fff;
+.r-list {
+    padding-left: var(--rListPaddingLeft, 0) !important;
+    margin-top: var(--rListMarginTop, 0) !important;
+    margin-bottom: var(--rListMarginBottom, 0) !important;
+    list-style: var(--rListListStyle, none) !important;
 }
 
-.back-to-top.active {
-  visibility: visible;
-  opacity: 1;
+/*
+  =====
+  CORE STYLES
+  =====
+  */
+
+.menu {
+    --rLinkColor: var(--menuLinkColor, currentColor);
+}
+
+.menu__link {
+    display: var(--menuLinkDisplay, block);
+}
+
+/*
+  focus state
+  */
+
+.menu__link:focus {
+    outline: var(--menuLinkOutlineWidth, 2px) solid var(--menuLinkOutlineColor, currentColor);
+    outline-offset: var(--menuLinkOutlineOffset);
+}
+
+/*
+  fading siblings
+  */
+
+.menu:hover .menu__link:not(:hover) {
+    --rLinkColor: var(--menuLinkColorUnactive, rgba(22, 22, 22, .35));
+}
+
+/*
+  =====
+  PRESENTATION STYLES
+  =====
+  */
+
+.menu {
+    background-color: var(--menuBackgroundColor, #f0f0f0);
+    box-shadow: var(--menuBoxShadow, 0 1px 3px 0 rgba(0, 0, 0, .12), 0 1px 2px 0 rgba(0, 0, 0, .24));
+}
+
+.menu__list {
+    display: flex;
+}
+
+.menu__link {
+    padding: var(--menuLinkPadding, 1.5rem 2.5rem);
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+/*
+  =====
+  TEXT UNDERLINED
+  =====
+  */
+
+.text-underlined {
+    position: relative;
+    overflow: hidden;
+    will-change: color;
+    transition: color .25s ease-out;
+}
+
+.text-underlined::before, .text-underlined::after {
+    content: "";
+    width: 0;
+    height: 3px;
+    background-color: var(--textUnderlinedLineColor, currentColor);
+    will-change: width;
+    transition: width .1s ease-out;
+    position: absolute;
+    bottom: 0;
+}
+
+.text-underlined::before {
+    left: 50%;
+    transform: translateX(-50%);
+}
+
+.text-underlined::after {
+    right: 50%;
+    transform: translateX(50%);
+}
+
+.text-underlined:hover::before, .text-underlined:hover::after {
+    width: 100%;
+    transition-duration: .2s;
+}
+
+/*
+  =====
+  SETTINGS
+  =====
+  */
+
+.page__custom-settings {
+    --menuBackgroundColor: #6c5ce7;
+    --menuLinkColor: #fff;
+    --menuLinkColorUnactive: #241c69;
+    --menuLinkOutlineOffset: -.5rem;
+}
+
+#logo {
+    text-align: center;
+    width: 150px;
+}
+
+#logo img {
+    height: 70px;
+}
+
+.avatar-area img {
+    height: 30px;
+    border-radius: 50%;
+    margin-left: 10px;
+}
+
+.avatar-area {
+    display: flex;
+    flex-direction: row;
+    padding-right: 20px;
+    align-items: center;
+    justify-content: flex-end;
+    flex-grow: 1;
+}
+
+
+.main {
+    margin-top: 90px;
+}
+
+body {
+    font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Open Sans, Ubuntu, Fira Sans, Helvetica Neue, sans-serif;
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    position: sticky;
+}
+
+.page {
+    position: fixed;
+    height: auto;
+    z-index: 1;
+    box-sizing: border-box;
+    width: 100%;
+    margin: auto;
+}
+
+.page__menu:nth-child(n+2) {
+    margin-top: 3rem;
 }
