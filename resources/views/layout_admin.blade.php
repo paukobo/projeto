@@ -199,7 +199,7 @@
                                     src="{{ asset('storage/fotos/' . Auth::user()->url_foto) }}">
                             @else
                                 <div class="circle">
-                                    <span class="initials">{{ generateInitials(Auth::user()->name) }}</span>
+                                    <span class="initials">{{generateInitials(Auth::user()->name) }}</span>
                                 </div>
                             @endisset
                         </a>

@@ -3,7 +3,9 @@
 namespace App\Http\Controllers;
 
 
+use App\Models\Cor;
 use App\Models\Tshirt;
+use App\Models\Estampa;
 use App\Models\Carrinho;
 use App\Models\Encomenda;
 use Illuminate\Http\Request;
@@ -91,13 +93,12 @@ class EncomendaController extends Controller
                 ->with('alert-type', 'danger');
         }
 
-        $encomenda = new Encomenda();
 
         if (auth()->check() && auth()->user()->tipo == 'C') {
+            $encomenda = new Encomenda();
+
             $encomenda->cliente_id = auth()->user()->id;
-            foreach ($carrinho->items as $cart) {
-                $encomenda->preco_total += ($cart['subtotal']);
-            }
+            $encomenda->preco_total += $carrinho->precoTotal;
             return view('encomendas.create', compact('encomenda'));
         }
         else if ((auth()->check() && auth()->user()->tipo == 'A') || (auth()->check() && auth()->user()->tipo == 'F')){
@@ -123,20 +124,30 @@ class EncomendaController extends Controller
         $encomenda = new Encomenda();
         $encomenda->fill($request->validated());
 
-        if (auth()->user()->tipo == 'C') {
-            $encomenda->cliente_id = auth()->user()->id;
 
-            foreach ($carrinho->items as $cart) {
-                $encomenda->preco_total += ($cart['subtotal']);
-            }
-        }
-        $encomenda->save();
+
 
         //criar tshirts através do carrinho
 
-        $tshirt = new Tshirt();
-        $tshirt->fill($request->validated());
+        if (auth()->user()->tipo == 'C') {
+            $encomenda->cliente_id = auth()->user()->id;
+            $encomenda->preco_total += $carrinho->precoTotal;
+            $encomenda->save();
+            foreach ($carrinho->items as $cart) {
+                $tshirt = new Tshirt();
+                $tshirt->encomenda_id = $encomenda->id;
 
+                $tshirt->estampa_id = Estampa::query()->where('id', $cart['estampa'])->first()->id;
+                $tshirt->cor_codigo = Cor::query()->where('codigo', $cart['cor'])->first()->codigo;
+
+                $tshirt->tamanho = $cart['tamanho'];
+                $tshirt->quantidade = $cart['qtd'];
+                $tshirt->preco_un = $cart['preco_un'];
+                $tshirt->subtotal = $cart['subtotal'];
+
+                $tshirt->save();
+            }
+        }
 
 
         return redirect()->route('admin.encomendas')
