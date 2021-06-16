@@ -100,7 +100,7 @@ class EncomendaController extends Controller
             }
             return view('encomendas.create', compact('encomenda'));
         }
-        else {
+        else if ((auth()->check() && auth()->user()->tipo == 'A') || (auth()->check() && auth()->user()->tipo == 'F')){
             return redirect()->route('carrinho.index')
                 ->with('alert-msg', 'Não foram criadas encomendas pois o seu user não é cliente!')
                 ->with('alert-type', 'danger');
