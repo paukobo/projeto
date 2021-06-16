@@ -149,7 +149,7 @@ class EncomendaController extends Controller
             }
         }
 
-
+        $request->session()->forget('carrinho');
         return redirect()->route('admin.encomendas')
             ->with('alert-msg', 'Encomenda nº "' . $encomenda->id . '" foi criada com sucesso!')
             ->with('alert-type', 'success');
