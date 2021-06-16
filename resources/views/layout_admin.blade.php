@@ -119,13 +119,23 @@
 
 
             <!-- Nav Item - Catalogo -->
-            <li class="nav-item {{ Route::currentRouteName() == 'admin.catalogo' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.catalogo') }}">
-                <i class="fas fa-box-open"></i>
-                    <span>Catálogo</span>
-                </a>
-            </li>
+            @if (auth()->check() && (auth()->user()->tipo == 'F' || auth()->user()->tipo == 'A'))
+                <li class="nav-item {{ Route::currentRouteName() == 'admin.catalogo' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.catalogo') }}">
+                    <i class="fas fa-box-open"></i>
+                        <span>Catálogo</span>
+                    </a>
+                </li>
+            @endif
 
+            @if (auth()->check() && (auth()->user()->tipo == 'C'))
+                <li class="nav-item {{ Route::currentRouteName() == 'catalogo.index' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('catalogo.index') }}">
+                    <i class="fas fa-box-open"></i>
+                        <span>Catálogo</span>
+                    </a>
+                </li>
+            @endif
 
             <!-- Nav Item - Estatísticas -->
             @if(auth()->check() && auth()->user()->tipo == 'A')
@@ -201,11 +211,10 @@
                                     Perfil
                                 </a>
                             @endif
-                            {{-- <a class="dropdown-item" href="{{ route('admin.users.resetPass', auth()->user())}}">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                            <a class="dropdown-item" href="{{route('admin.users.editPassword')}}">
+                                <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Alterar Password
-                            </a> --}}
-
+                            </a>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
                                 <i class="fas fa-sign-out-alt fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Logout

@@ -83,7 +83,7 @@ class EncomendaController extends Controller
     {
 
         $carrinho = $request->session()->get('carrinho');
-        dd($carrinho);
+        //dd($carrinho);
 
         if ($carrinho == null) {
             return redirect()->route('carrinho.index')
@@ -91,16 +91,16 @@ class EncomendaController extends Controller
                 ->with('alert-type', 'danger');
         }
 
-        $encomenda = new Encomenda;
+        $encomenda = new Encomenda();
 
         if (auth()->check() && auth()->user()->tipo == 'C') {
             $encomenda->cliente_id = auth()->user()->id;
-
-            $encomenda->preco_total = $carrinho->precoTotal;
-
+            foreach ($carrinho->items as $cart) {
+                $encomenda->preco_total += ($cart['subtotal']);
+            }
             return view('encomendas.create', compact('encomenda'));
         }
-        else {
+        else if ((auth()->check() && auth()->user()->tipo == 'A') || (auth()->check() && auth()->user()->tipo == 'F')){
             return redirect()->route('carrinho.index')
                 ->with('alert-msg', 'Não foram criadas encomendas pois o seu user não é cliente!')
                 ->with('alert-type', 'danger');
@@ -111,7 +111,7 @@ class EncomendaController extends Controller
     public function store(EncomendaPost $request)
     {
         $carrinho = session('carrinho', null);
-        dd($carrinho);
+        //dd($carrinho);
 
         if ($carrinho == null) {
             return redirect()->route('carrinho.index')
@@ -120,17 +120,23 @@ class EncomendaController extends Controller
         }
 
         //criar encomenda
-        $encomenda = new Encomenda;
+        $encomenda = new Encomenda();
         $encomenda->fill($request->validated());
 
         if (auth()->user()->tipo == 'C') {
             $encomenda->cliente_id = auth()->user()->id;
-            $encomenda->preco_total = $carrinho->precoTotal;
 
+            foreach ($carrinho->items as $cart) {
+                $encomenda->preco_total += ($cart['subtotal']);
+            }
         }
         $encomenda->save();
 
         //criar tshirts através do carrinho
+
+        $tshirt = new Tshirt();
+        $tshirt->fill($request->validated());
+
 
 
         return redirect()->route('admin.encomendas')

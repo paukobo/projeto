@@ -101,7 +101,12 @@
         </div>
     </div>
 </div>
+
+<a href="{{route('home')}}" style="float: right;" class="btn btn-primary btn-sm" role="button" aria-pressed="true">
+    Voltar Atrás
+</a>
 {{ $estampas->withQueryString()->links() }}
+
 </div>
 
 

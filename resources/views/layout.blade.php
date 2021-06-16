@@ -34,6 +34,9 @@
             <div class="avatar-area">
                 <a class="nav-link" href="{{ route('login') }}">Login</a>
             </div>
+            <div class="avatar-area">
+                <a class="nav-link" href="{{ route('clientes.create') }}">Register</a>
+            </div>
         @endauth
         <div id="menuIcon">
             <div class="bar1"></div>
