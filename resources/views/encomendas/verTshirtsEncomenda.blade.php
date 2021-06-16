@@ -30,5 +30,6 @@
             @endforeach
         </tbody>
     </table>
+    <a href="{{route('admin.encomendas')}}" class="btn btn-secondary">Voltar atrás</a>
     {{ $encomendas->withQueryString()->links() }}
 @endsection

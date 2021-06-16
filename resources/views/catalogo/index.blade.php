@@ -4,7 +4,12 @@
 <link href="{{ asset('css/catalogo.css') }}" rel="stylesheet">
 @endsection
 @section('content')
-
+@if (session('alert-msg'))
+@include('partials.message')
+@endif
+@if ($errors->any())
+@include('partials.errors-message')
+@endif
 <div id="overlay" class="tshirt-preview">
     <script src="{{asset('js/fabric.min.js')}}"></script>
     <div class="preview-body">
