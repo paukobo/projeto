@@ -83,6 +83,7 @@ class EncomendaController extends Controller
     {
 
         $carrinho = $request->session()->get('carrinho');
+        //dd($carrinho);
 
         if ($carrinho == null) {
             return redirect()->route('carrinho.index')
@@ -90,12 +91,12 @@ class EncomendaController extends Controller
                 ->with('alert-type', 'danger');
         }
 
-        $encomenda = new Encomenda;
+        $encomenda = new Encomenda();
 
         if (auth()->check() && auth()->user()->tipo == 'C') {
             $encomenda->cliente_id = auth()->user()->id;
             foreach ($carrinho->items as $cart) {
-                $encomenda->preco_total += ($cart['qtd'] * $cart['preco_un']);
+                $encomenda->preco_total += ($cart['subtotal']);
             }
             return view('encomendas.create', compact('encomenda'));
         }
@@ -110,7 +111,7 @@ class EncomendaController extends Controller
     public function store(EncomendaPost $request)
     {
         $carrinho = session('carrinho', null);
-        dd($carrinho);
+        //dd($carrinho);
 
         if ($carrinho == null) {
             return redirect()->route('carrinho.index')
@@ -119,19 +120,23 @@ class EncomendaController extends Controller
         }
 
         //criar encomenda
-        $encomenda = new Encomenda;
+        $encomenda = new Encomenda();
         $encomenda->fill($request->validated());
 
         if (auth()->user()->tipo == 'C') {
             $encomenda->cliente_id = auth()->user()->id;
 
             foreach ($carrinho->items as $cart) {
-                $encomenda->preco_total += ($cart['qtd'] * $cart['preco_un']);
+                $encomenda->preco_total += ($cart['subtotal']);
             }
         }
         $encomenda->save();
 
         //criar tshirts através do carrinho
+
+        $tshirt = new Tshirt();
+        $tshirt->fill($request->validated());
+
 
 
         return redirect()->route('admin.encomendas')

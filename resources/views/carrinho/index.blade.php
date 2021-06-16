@@ -73,7 +73,7 @@
     <div>Preço Total: <?php
                         $preco_total = 0;
                         foreach ($carrinho->items as $cart) {
-                            $preco_total += ($cart['qtd'] * $cart['preco_un']);
+                            $preco_total += ($cart['subtotal']);
                         }
 
                         echo $preco_total;?>
