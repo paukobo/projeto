@@ -2,10 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
-//use App\Models\Cliente;
 use App\Models\User;
+use Illuminate\Http\Request;
 use App\Http\Requests\UserPost;
+use App\Http\Requests\PasswordPost;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Storage;
 
@@ -23,13 +23,17 @@ class UserController extends Controller
         return view('users.admin', compact ('users'));//, compact('clientes'/* , 'cursos', 'selectedCurso' */));
     }
 
+    public function view(User $user){
+        return view('users.view', compact ('user'));
+    }
+
     public function edit(User $user)
     {
         /* $cursos = Curso::pluck('nome', 'abreviatura'); */
         //return view('clientes.edit', compact('cliente'/* , 'cursos' */));
         return view('users.edit', compact ('user'));
     }
-    public function create()
+    public function create(User $user)
     {
         /* $cursos = Curso::pluck('nome', 'abreviatura'); */
         $user = new User;
@@ -42,8 +46,8 @@ class UserController extends Controller
         $validated_data = $request->validated();
         $newUser = new User;
         $newUser->fill($validated_data);
-        $newUser->tipo = 'F';
-        $newUser->password = Hash::make('123');
+        $newUser->tipo = $request->tipo;
+        $newUser->password = Hash::make('123'); //default porque é o admin que cria
         if ($request->hasFile('foto')) {
             $path = $request->foto->store('public/fotos');
             $newUser->foto_url = basename($path);
@@ -75,12 +79,6 @@ class UserController extends Controller
     public function destroy(User $user)
     {
         $oldName = $user->name;
-        //$user = $cliente->user;
-        /* if (count($cliente->disciplinas)) {
-            return redirect()->route('admin.clientes')
-                ->with('alert-msg', 'Não foi possível apagar o Cliente "' . $oldName . '", porque este cliente está associado a disciplina(s)!')
-                ->with('alert-type', 'danger');
-        } */
 
         Storage::delete('public/fotos/' . $user->foto_url);
         $user->delete();
@@ -129,4 +127,17 @@ class UserController extends Controller
             ->with('alert-type', 'success');
     }
 
+    public function editPassword(){
+        return view('users.resetPass');
+    }
+
+    public function updatePassword(PasswordPost $request){
+        $user=auth()->user();
+        $user->password=Hash::make($request->password);//se a password for a nova
+        $user->save();
+
+        return redirect()->route('admin.users')
+            ->with('alert-msg', ' A Password foi alterada com sucesso!')
+            ->with('alert-type', 'success');
+    }
 }

@@ -1,14 +1,7 @@
 @extends('layout_admin')
-@section('title', 'Clientes')
+@section('title', 'Dashboard')
 @section('content')
     <div class="row mb-3">
-        <div class="col-3">
-            {{-- @can('create', App\Models\Cliente::class)
-                <a href="{{ route('admin.clientes.create') }}" class="btn btn-success" role="button" aria-pressed="true">
-                    Novo Cliente
-                </a>
-            @endcan --}}
-        </div>
         <div class="col-9">
             {{-- <form method="GET" action="{{ route('admin.clientes') }}" class="form-group">
                 <div class="input-group">
