@@ -1,4 +1,4 @@
-@extends('layout_admin')
+@extends('layout1')
 @section('content')
 <h1>Carrinho de Compras</h1>
 

@@ -26,7 +26,7 @@ class CarrinhoPolicy
      */
     public function viewAny(User $user)
     {
-        return ($user->tipo=='C' || $user->tipo=='F');
+        return ($user->tipo=='C' || $user->tipo=='F' || auth()->check() );
     }
 
     /**
