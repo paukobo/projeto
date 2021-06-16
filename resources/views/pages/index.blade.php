@@ -15,9 +15,13 @@
                 </div>
                 <div class="card-body">
                     <h5 class="card-title">{{$estampa->nome}}</h5>
-                    <p class="card-text">{{$estampa->descricao}}</p>
-                    <button href="" class="btn mr-2 center catalogo" onclick="on({{$estampa->id}})">Check offer</button>
 
+                    <form method="GET" action="{{route('catalogo.index')}}" class="form-group">
+                        <input type="hidden" id="inputCategoria" name="categoria" value="{{$estampa->categoria_id}}">
+                        <div class="input-group-append">
+                            <button class="btn mr-2 catalogo"  type="submit" style="margin:20%">Mais como esta!</button>
+                        </div>
+                    </form>
                     @if ($estampa->cliente)
                         <a href="{{ route('admin.catalogo.estampas.edit', $estampa) }}" class="btn btn-warning btn-sm" role="button" aria-pressed="true">
                             <i class="fas fa-pen"></i>
