@@ -119,13 +119,23 @@
 
 
             <!-- Nav Item - Catalogo -->
-            <li class="nav-item {{ Route::currentRouteName() == 'admin.catalogo' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.catalogo') }}">
-                <i class="fas fa-box-open"></i>
-                    <span>Catálogo</span>
-                </a>
-            </li>
+            @if (auth()->check() && (auth()->user()->tipo == 'F' || auth()->user()->tipo == 'A'))
+                <li class="nav-item {{ Route::currentRouteName() == 'admin.catalogo' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.catalogo') }}">
+                    <i class="fas fa-box-open"></i>
+                        <span>Catálogo</span>
+                    </a>
+                </li>
+            @endif
 
+            @if (auth()->check() && (auth()->user()->tipo == 'C'))
+                <li class="nav-item {{ Route::currentRouteName() == 'catalogo.index' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('catalogo.index') }}">
+                    <i class="fas fa-box-open"></i>
+                        <span>Catálogo</span>
+                    </a>
+                </li>
+            @endif
 
             <!-- Nav Item - Estatísticas -->
             @if(auth()->check() && auth()->user()->tipo == 'A')
@@ -189,7 +199,7 @@
                                     src="{{ asset('storage/fotos/' . Auth::user()->url_foto) }}">
                             @else
                                 <div class="circle">
-                                    <span class="initials">{{ generateInitials(Auth::user()->name) }}</span>
+                                    <span class="initials">{{generateInitials(Auth::user()->name) }}</span>
                                 </div>
                             @endisset
                         </a>

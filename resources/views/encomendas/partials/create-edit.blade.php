@@ -42,6 +42,16 @@
         @endif
     @endif
 
+    @if(auth()->check() && auth()->user()->tipo == 'C')
+        <div class="form-group">
+            <label for="inputEstado">Estado</label>
+            <input type="text" class="form-control" name="estado" id="inputEstado" value="{{old('estado', $encomenda->estado??'pendente')}}" readonly>
+            @error('estado')
+                <div class="small text-danger">{{$message}}</div>
+            @enderror
+        </div>
+    @endif
+
 
 
     <input type="hidden" class="form-control" name="cliente_id" id="inputClienteID" value="{{old('cliente_id', ($encomenda->cliente_id??auth()->user()->id))}}">

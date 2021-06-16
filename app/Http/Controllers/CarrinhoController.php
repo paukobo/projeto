@@ -60,11 +60,11 @@ class CarrinhoController extends Controller
             $msg = 'Foram adicionadas ' . $request->quantidade . ' tshirts! Quantidade de tshirts atuais = ' .  $qtd;
         }
         if ($qtd <= 0) {
-            unset($carrinho[$key]);
+            unset($carrinho->items[$key]);
             $msg = 'Foram removidas todas as tshirts!';
         } else {
             $precos = Preco::first();
-            if($qtd > 5){
+            if($qtd > $precos->quantidade_desconto){
                 $subtotal = ($precos->preco_un_catalogo_desconto * $qtd);
             }else{
                 $subtotal = ($precos->preco_un_catalogo * $qtd);
@@ -89,11 +89,11 @@ class CarrinhoController extends Controller
             $request->session()->put('carrinho', $carrinho);
             return back()
                 ->with('alert-msg', 'Foram removidas todas as tshirts')
-                ->with('alert-type', 'success');
+                ->with('alert-type', 'danger');
         }
         return back()
             ->with('alert-msg', 'A tshirt não existe no carrinho!')
-            ->with('alert-type', 'warning');
+            ->with('alert-type', 'danger');
     }
 
     public function store(Request $request)
