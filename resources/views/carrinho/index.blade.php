@@ -1,4 +1,8 @@
+<<<<<<< HEAD
 @extends('layout_cart')
+=======
+@extends('layout_admin')
+>>>>>>> parent of e0c9297 (Merge branch 'main' of https://github.com/paukobo/projeto into main)
 @section('content')
 <h1>Carrinho de Compras</h1>
 

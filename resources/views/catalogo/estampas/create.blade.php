@@ -7,7 +7,7 @@
         @include('catalogo.estampas.partials.create-edit')
         <div class="form-group text-right">
                 <button type="submit" class="btn btn-success" name="ok">Save</button>
-                <a href="{{route('catalogo.index')}}" class="btn btn-secondary">Cancel</a>
+                <a href="{{route('admin.catalogo')}}" class="btn btn-secondary">Cancel</a>
         </div>
     </form>
 @endsection

@@ -22,7 +22,59 @@
 
 <body>
 
+<<<<<<< HEAD
     <div>
+=======
+    <div class="page">
+        <nav class="page__menu menu">
+
+            <ul class="menu__list r-list">
+                <div id="logo">
+                    <img src="/img/plain_white.png" alt="Logo">
+                </div>
+                <li class="menu__group"><a href="{{ route('home') }}"
+                        class="menu__link r-link text-underlined">Inicio</a></li>
+                <li class="menu__group"><a href="{{ route('catalogo.index') }}"
+                        class="menu__link r-link text-underlined">Catalogo</a></li>
+                <li class="menu__group"><a href="{{ route('carrinho.index') }}"
+                        class="menu__link r-link text-underlined">Carrinho</a></li>
+                <li class="menu__group"><a href="{{ route('admin.catalogo.estampas.create') }}"
+                        class="menu__link r-link text-underlined">Criar Estampa</a></li>
+                @auth
+                    <div class="avatar-area">
+                        <span class="name-user">{{ Auth::user()->name }}</span>
+                        @isset(Auth::user()->url_foto)
+                            <img class="img-profile rounded-circle"
+                                src="{{ asset('storage/fotos/' . Auth::user()->url_foto) }}">
+                        @else
+                            <div class="circle">
+                                <span class="initials">&nbsp;{{ generateInitials(Auth::user()->name) }}</span>
+                            </div>
+                        @endisset
+                        <span style="padding: 5px">-
+                            <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                    document.getElementById('logout-form').submit();"
+                                class="menu__link r-link text-underlined" style="padding: 2px">Logout</a>
+                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                @csrf
+                            </form>
+                        </span>
+                    </div>
+                @else
+                    <div class="avatar-area">
+                        <a class="menu__link r-link text-underlined" href="{{ route('login') }}"
+                            style="padding: 5px">Login</a>
+                        <a class="menu__link r-link text-underlined" href="{{ route('clientes.create') }}"
+                            style="padding: 5px">Register</a>
+                    </div>
+                @endauth
+            </ul>
+        </nav>
+    </div>
+
+
+    <div class="main">
+>>>>>>> parent of e0c9297 (Merge branch 'main' of https://github.com/paukobo/projeto into main)
         @yield('content')
     </div>
     <div>

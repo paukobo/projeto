@@ -26,7 +26,11 @@ class CarrinhoPolicy
      */
     public function viewAny(User $user)
     {
+<<<<<<< HEAD
         return $user->tipo == 'C';
+=======
+        return ($user->tipo=='C' || $user->tipo=='F');
+>>>>>>> parent of e0c9297 (Merge branch 'main' of https://github.com/paukobo/projeto into main)
     }
 
     /**
