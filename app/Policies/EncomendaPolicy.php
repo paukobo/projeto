@@ -48,6 +48,8 @@ class EncomendaPolicy
     {
         if ($user->tipo == 'C'){
             return true;
+        } else {
+            return false;
         }
     }
 

@@ -69,23 +69,21 @@ class EncomendaController extends Controller
 
     public function verTshirtsEncomendas(Encomenda $encomenda)
     {
-
         $qry = Tshirt::query();
 
-        if (auth()->check() && auth()->user()->tipo == 'C') {
+        $qry = $qry->where('encomenda_id', $encomenda->id);
 
-            $qry = $qry->where('encomenda_id', $encomenda->id);
+        $encomendas = $qry->paginate(10);
 
-            $encomendas = $qry->paginate(10);
+        return view('encomendas.verTshirtsEncomenda', compact('encomendas', 'encomenda'));
 
-            return view('encomendas.verTshirtsEncomenda', compact('encomendas', 'encomenda'));
-        }
     }
 
     public function create(Request $request)
     {
 
-        $carrinho = $request->session()->get('carrinho', []);
+        $carrinho = $request->session()->get('carrinho');
+        dd($carrinho);
 
         if ($carrinho == null) {
             return redirect()->route('carrinho.index')
@@ -95,20 +93,25 @@ class EncomendaController extends Controller
 
         $encomenda = new Encomenda;
 
-        if (auth()->user()->tipo == 'C') {
+        if (auth()->check() && auth()->user()->tipo == 'C') {
             $encomenda->cliente_id = auth()->user()->id;
-            foreach ($carrinho as $cart) {
-                $encomenda->preco_total += ($cart['qtd'] * $cart['preco_un']);
-            }
-        }
 
-        return view('encomendas.create', compact('encomenda'));
+            $encomenda->preco_total = $carrinho->precoTotal;
+
+            return view('encomendas.create', compact('encomenda'));
+        }
+        else {
+            return redirect()->route('carrinho.index')
+                ->with('alert-msg', 'Não foram criadas encomendas pois o seu user não é cliente!')
+                ->with('alert-type', 'danger');
+        }
     }
 
 
     public function store(EncomendaPost $request)
     {
         $carrinho = session('carrinho', null);
+        dd($carrinho);
 
         if ($carrinho == null) {
             return redirect()->route('carrinho.index')
@@ -122,10 +125,8 @@ class EncomendaController extends Controller
 
         if (auth()->user()->tipo == 'C') {
             $encomenda->cliente_id = auth()->user()->id;
+            $encomenda->preco_total = $carrinho->precoTotal;
 
-            foreach ($carrinho as $cart) {
-                $encomenda->preco_total += ($cart['qtd'] * $cart['preco_un']);
-            }
         }
         $encomenda->save();
 

@@ -25,6 +25,8 @@
                 <th>Quantidade</th>
                 <th>ID Estampa</th>
                 <th>Cor Código</th>
+                <th></th>
+                <th>Tamanho</th>
                 <th>Preço Unidade</th>
                 <th>Subtotal</th>
             </tr>
@@ -35,8 +37,10 @@
                 <td>{{ $cart['qtd'] }} </td>
                 <td>{{ $cart['estampa'] }} </td>
                 <td>{{ $cart['cor'] }} </td>
+                <td><span style="height: 20px; width: 20px; background-color: #{{ $cart['cor'] }}; border-radius: 50%; border: 1px solid black; display: inline-block;"></span></td>
+                <td>{{ $cart['tamanho'] }}</td>
                 <td>{{ $cart['preco_un'] }} </td>
-                <td>{{ $cart['preco_un'] * $cart['qtd'] }} </td>
+                <td>{{ $cart['subtotal'] }} </td>
 
 
                 <td>

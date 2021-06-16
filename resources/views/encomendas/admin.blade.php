@@ -57,11 +57,13 @@
 
             <td nowrap>
                 @can('view', $encomenda)
-                <a href="{{ route('admin.verTshirtsEncomendas', $encomenda) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">
-                    <i class="fas fa-tshirt"></i>
-                </a>
-                @else
-                <span class="btn btn-secondary btn-sm disabled"><i class="fas fa-tshirt"></i></span>
+                    @if(((auth()->check() && auth()->user()->tipo == 'F') && ($encomenda->estado == 'pendente' || $encomenda->estado == 'paga')) || (auth()->check() && auth()->user()->tipo == 'C')|| (auth()->check() && auth()->user()->tipo == 'A'))
+                        <a href="{{ route('admin.verTshirtsEncomendas', $encomenda) }}" class="btn btn-primary btn-sm" role="button" aria-pressed="true">
+                            <i class="fas fa-tshirt"></i>
+                        </a>
+                    @else
+                    <span class="btn btn-secondary btn-sm disabled"><i class="fas fa-tshirt"></i></span>
+                    @endif
                 @endcan
 
                 @can('update', $encomenda)
