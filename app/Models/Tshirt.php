@@ -9,8 +9,6 @@ class Tshirt extends Model
 {
     use HasFactory;
 
-    public $timestamps = false;
-
     protected $fillable=[
         'encomenda_id',
         'estampa_id',

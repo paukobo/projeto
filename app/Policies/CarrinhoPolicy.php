@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Carrinho;
+use App\Carrinho;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -26,7 +26,7 @@ class CarrinhoPolicy
      */
     public function viewAny(User $user)
     {
-        return ($user->tipo=='C' || $user->tipo=='F');
+        return $user->tipo == 'C';
     }
 
     /**
@@ -38,9 +38,6 @@ class CarrinhoPolicy
      */
     public function view(User $user, Carrinho $carrinho)
     {
-        if($user->tipo == 'C' || $user->tipo == 'F'){
-            return true;
-        }
         return false;
     }
 
@@ -52,11 +49,7 @@ class CarrinhoPolicy
      */
     public function create(User $user)
     {
-        if ($user->tipo == 'C'){
-            return true;
-        } else {
-            return false;
-        }
+        return false;
     }
 
     /**
@@ -68,7 +61,7 @@ class CarrinhoPolicy
      */
     public function update(User $user, Carrinho $carrinho)
     {
-        return true;
+        return false;
     }
 
     /**

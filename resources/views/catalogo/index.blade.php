@@ -8,7 +8,8 @@
 <div id="overlay" class="tshirt-preview">
     <script src="{{asset('js/fabric.min.js')}}"></script>
     <div class="preview-body">
-        <div class="preview-area">
+        <form method="POST" action="{{ route('carrinho.adicionarCarrinho') }}" class="form-group">
+            @csrf
             <div id="tshirt-div">
                 <img id="tshirt-backgroundpicture" src="{{asset('storage/tshirt_base/transparent_tshirt.png')}}"/>
                 <div id="drawingArea" class="drawing-area">
@@ -17,38 +18,34 @@
                     </div>
                 </div>
             </div>
-        </div>
-        <div class="preview-options">
-            <h3 id="estampaNome"></h3>
-            <form method="POST" action="{{ route('carrinho.adicionarCarrinho') }}" class="form-group">
-                @csrf
-                <input type="hidden" id="inputId" name="id">
-                <label for="inputQuantidade">Quantidade:</label>
-                <input type="number" id="inputQuantidade" name="quantidade" min="1" max="99" value="1">
-                <br>
-                <label for="inputCor">Cor:</label>
-                <select class="custom-select" name="cor" id="inputCor" aria-label="Cor">
-                    @foreach ($cores as $nome => $codigo)
-                        <option value={{$codigo}}>{{$nome}}</option>
-                    @endforeach
-                </select>
-                <br>
-                <label for="inputTamanho">Tamanho:</label>
-                <select class="custom-select" name="tamanho" id="inputTamanho" aria-label="Tamanho">
-                    @foreach ($tamanho as $tam)
-                    <option value={{$tam}}>{{$tam}}</option>
-                    @endforeach
-                </select>
-                <div class="input-group-append" style="padding-top: 15px">
-                    <button type="submit" class="btn btn-outline-secondary catalogo" name="ok">Adicionar ao Carrinho</button>
-                </div>
-            </form>
-        </div>
+
+            <input type="hidden" id="inputId" name="id">
+            <label for="inputQuantidade">Quantidade:</label>
+            <input type="number" id="inputQuantidade" name="quantidade" min="1" max="99" value="1">
+            <br>
+            <label for="inputCor">Cor:</label>
+            <select class="custom-select" name="cor" id="inputCor" aria-label="Cor">
+                @foreach ($cores as $nome => $codigo)
+                <option value={{$codigo}}>{{$nome}}</option>
+                @endforeach
+            </select>
+            <br>
+            <label for="inputTamanho">Tamanho:</label>
+            <select class="custom-select" name="tamanho" id="inputTamanho" aria-label="Tamanho">
+                @foreach ($tamanho as $tam)
+                <option value={{$tam}}>{{$tam}}</option>
+                @endforeach
+            </select>
+            <div class="input-group-append">
+                <button type="submit" class="btn btn-success" name="ok">Adicionar ao Carrinho</button>
+            </div>
+        </form>
     </div>
     <div class="preview-background" onclick="off()"></div>
 </div>
 
 <div class="col-9">
+    <a href="{{route('admin.catalogo.estampas.create')}}" class="btn mr-2 center catalogo">Criar Estampa</a>
     <form method="GET" action="{{route('catalogo.index')}}" class="form-group">
         <label for="inputCategoria">Categoria:</label>
         <select class="custom-select" name="categoria" id="inputCategoria" aria-label="Categoria">
@@ -62,7 +59,7 @@
         <input type="text" class="form-control" name="search" id="search" value="{{Request::input('search')}}">
         <br>
         <div class="input-group-append">
-            <button class="btn btn-outline-secondary catalogo" type="submit" style="z-index: 0">Filtrar</button>
+            <button class="btn btn-outline-secondary catalogo" type="submit" style="z-index: 1">Filtrar</button>
         </div>
     </form>
 </div>
@@ -101,11 +98,65 @@
     </div>
 </div>
 
-
+<a href="{{route('home')}}" style="float: right;" class="btn btn-primary btn-sm" role="button" aria-pressed="true">
+    Voltar Atrás
+</a>
 {{ $estampas->withQueryString()->links() }}
 
 </div>
 
 
-<script src="{{asset('js/catalogo.js')}}"></script>
+<script>
+    let canvas = new fabric.Canvas('tshirt-canvas');
+
+    function updateTshirtImage(imageURL){
+        // Create a new image that can be used in Fabric with the URL
+        fabric.Image.fromURL(imageURL, function(img) {
+            // Define the image as background image of the Canvas
+            console.log(img.width);
+            console.log(img.height);
+            /*console.log(canvas.width);
+            console.log(canvas.height);*/
+            /*if(img.width >= img.height){
+                console.log('width > height');
+                newScale = canvas.height / img.height
+            }else{
+                console.log('height > width');
+                newScale = canvas.width / img.width
+            }*/
+            newScale = canvas.width / img.width
+            console.log(newScale);
+            canvas.setBackgroundImage(img, canvas.renderAll.bind(canvas), {
+                // Scale the image to the canvas size
+                scaleX: newScale,
+                scaleY: newScale
+            });
+        });
+    }
+
+    // Update the TShirt color according to the selected color by the user
+    document.getElementById("inputCor").addEventListener("change", function(){
+
+        document.getElementById("tshirt-div").style.backgroundColor = this.value;
+
+    }, false);
+
+
+</script>
+<script>
+
+    function on(id) {
+        document.getElementById("overlay").style.display = "block";
+        document.getElementById("inputQuantidade").value = "1";
+        document.getElementById("inputId").value = id;
+        updateTshirtImage(document.getElementById(id).src);
+        //document.getElementById("previewImage").src =  ;
+        //document.getElementById("previewImage").alt = document.getElementById(id).alt ;
+    }
+
+    function off() {
+        document.getElementById("overlay").style.display = "none";
+        console.log("off");
+    }
+</script>
 @endsection

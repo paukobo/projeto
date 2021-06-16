@@ -3,9 +3,7 @@
 namespace App\Http\Controllers;
 
 
-use App\Models\Cor;
 use App\Models\Tshirt;
-use App\Models\Estampa;
 use App\Models\Carrinho;
 use App\Models\Encomenda;
 use Illuminate\Http\Request;
@@ -85,7 +83,6 @@ class EncomendaController extends Controller
     {
 
         $carrinho = $request->session()->get('carrinho');
-        //dd($carrinho);
 
         if ($carrinho == null) {
             return redirect()->route('carrinho.index')
@@ -93,15 +90,16 @@ class EncomendaController extends Controller
                 ->with('alert-type', 'danger');
         }
 
+        $encomenda = new Encomenda;
 
         if (auth()->check() && auth()->user()->tipo == 'C') {
-            $encomenda = new Encomenda();
-
             $encomenda->cliente_id = auth()->user()->id;
-            $encomenda->preco_total += $carrinho->precoTotal;
+            foreach ($carrinho->items as $cart) {
+                $encomenda->preco_total += ($cart['qtd'] * $cart['preco_un']);
+            }
             return view('encomendas.create', compact('encomenda'));
         }
-        else if ((auth()->check() && auth()->user()->tipo == 'A') || (auth()->check() && auth()->user()->tipo == 'F')){
+        else {
             return redirect()->route('carrinho.index')
                 ->with('alert-msg', 'Não foram criadas encomendas pois o seu user não é cliente!')
                 ->with('alert-type', 'danger');
@@ -112,7 +110,7 @@ class EncomendaController extends Controller
     public function store(EncomendaPost $request)
     {
         $carrinho = session('carrinho', null);
-        //dd($carrinho);
+        dd($carrinho);
 
         if ($carrinho == null) {
             return redirect()->route('carrinho.index')
@@ -121,35 +119,21 @@ class EncomendaController extends Controller
         }
 
         //criar encomenda
-        $encomenda = new Encomenda();
+        $encomenda = new Encomenda;
         $encomenda->fill($request->validated());
-
-
-
-
-        //criar tshirts através do carrinho
 
         if (auth()->user()->tipo == 'C') {
             $encomenda->cliente_id = auth()->user()->id;
-            $encomenda->preco_total += $carrinho->precoTotal;
-            $encomenda->save();
+
             foreach ($carrinho->items as $cart) {
-                $tshirt = new Tshirt();
-                $tshirt->encomenda_id = $encomenda->id;
-
-                $tshirt->estampa_id = Estampa::query()->where('id', $cart['estampa'])->first()->id;
-                $tshirt->cor_codigo = Cor::query()->where('codigo', $cart['cor'])->first()->codigo;
-
-                $tshirt->tamanho = $cart['tamanho'];
-                $tshirt->quantidade = $cart['qtd'];
-                $tshirt->preco_un = $cart['preco_un'];
-                $tshirt->subtotal = $cart['subtotal'];
-
-                $tshirt->save();
+                $encomenda->preco_total += ($cart['qtd'] * $cart['preco_un']);
             }
         }
+        $encomenda->save();
 
-        $request->session()->forget('carrinho');
+        //criar tshirts através do carrinho
+
+
         return redirect()->route('admin.encomendas')
             ->with('alert-msg', 'Encomenda nº "' . $encomenda->id . '" foi criada com sucesso!')
             ->with('alert-type', 'success');
@@ -165,6 +149,9 @@ class EncomendaController extends Controller
     public function update(EncomendaPost $request, Encomenda $encomenda)
     {
         $encomenda->fill($request->validated());
+        /* if($encomenda->estado=='fechada'){
+
+        } */
         $encomenda->save();
         return redirect()->route('admin.encomendas')
             ->with('alert-msg', 'Encomenda "' . $encomenda->id . '" foi alterada com sucesso!')

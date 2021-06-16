@@ -1,4 +1,4 @@
-@extends('layout_admin')
+@extends('layout_cart')
 @section('content')
 <h1>Carrinho de Compras</h1>
 
@@ -13,12 +13,10 @@
     </form>
     </p>
     <p>
-    @if (!auth()->check() || auth()->user()->tipo == 'C')
-        <form action="{{ route('carrinho.store') }}" method="POST">
-            @csrf
-            <input type="submit" class="btn btn-success" value="Confirmar carrinho">
-        </form>
-    @endif
+    <form action="{{ route('carrinho.store') }}" method="POST">
+        @csrf
+        <input type="submit" class="btn btn-success" value="Confirmar carrinho">
+    </form>
     </p>
 </div>
     <table class="table table-bordered">
@@ -75,7 +73,7 @@
     <div>Preço Total: <?php
                         $preco_total = 0;
                         foreach ($carrinho->items as $cart) {
-                            $preco_total += ($cart['subtotal']);
+                            $preco_total += ($cart['qtd'] * $cart['preco_un']);
                         }
 
                         echo $preco_total;?>

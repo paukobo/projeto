@@ -13,28 +13,21 @@ class ClienteController extends Controller
 {
     public function admin(Request $request)
     {
-        /* $selectedCurso = $request->curso ?? ''; */
+
         $qry =  Cliente::query();
-        /* if ($selectedCurso) {
-            $qry->where('curso', $selectedCurso);
-        } */
         $clientes = $qry->paginate(10);
-        /* $cursos = Curso::pluck('nome', 'abreviatura');  */
-        return view('clientes.admin', compact ('clientes'));//, compact('clientes'/* , 'cursos', 'selectedCurso' */));
+
+        return view('clientes.admin', compact ('clientes'));
     }
 
     public function edit(Cliente $cliente)
     {
-        /* $cursos = Curso::pluck('nome', 'abreviatura'); */
-        //return view('clientes.edit', compact('cliente'/* , 'cursos' */));
         return view('clientes.edit', compact ('cliente'));
     }
     public function create()
     {
-        /* $cursos = Curso::pluck('nome', 'abreviatura'); */
         $cliente = new Cliente;
         $cliente->user = new User;
-        //return view('clientes.create', compact('cliente'/* , 'cursos' */));
         return view('clientes.create', compact ('cliente'));
     }
 
@@ -82,7 +75,8 @@ class ClienteController extends Controller
     {
         $oldName = $cliente->user->name;
         $user = $cliente->user;
-        /* if (count($cliente->encomendas)) {
+
+        /* if (count($cliente->encomendas->estado=='pendente')) {
             return redirect()->route('admin.clientes')
                 ->with('alert-msg', 'Não foi possível apagar o Cliente "' . $oldName . '", porque este cliente tem encomenda(s) pendente(s)!')
                 ->with('alert-type', 'danger');

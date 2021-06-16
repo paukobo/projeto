@@ -168,6 +168,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     Route::get('charts', [ChartController::class, 'index'])->name('charts');
     Route::get('charts_encomendas', [ChartController::class, 'index_encomendas'])->name('charts.index_encomendas');
     Route::get('charts_estatisticas_gerais', [ChartController::class, 'numbers_encomendas'])->name('charts.numbers_encomendas');
+
+    /* Route::post('sendemail', [ReciboController::class, 'send_email'])->name('email.send_with_notification1'); */
 });
 
 // carrinho de compras

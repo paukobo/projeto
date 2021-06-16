@@ -26,7 +26,6 @@
                     <td>{{ $encomenda->quantidade }}</td>
                     <td>{{ $encomenda->preco_un }}</td>
                     <td>{{ $encomenda->subtotal }}</td>
-
                 </tr>
             @endforeach
         </tbody>
