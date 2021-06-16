@@ -87,15 +87,33 @@ body {
     border-radius: 5px;
     position: fixed;
     height: 80%;
-    width: 50%;
-    transform: translate(50%, 12%);
+    width: 70%;
+    transform: translate(22%, 12%);
     z-index: 3;
-    background-color: rgba(255, 255, 255, 1);
+    background-color: rgb(197, 197, 197);
     cursor: unset;
     padding: 2%;
     border: 3px solid #1f1f1f;
 }
 
+.preview-options{
+    right: 0;
+    position: fixed;
+    padding: 3%;
+    width: 50%;
+}
+.preview-area{
+    left: 0;
+    position: fixed;
+    width: 50%;
+    border-right: 3px solid #1f1f1f;
+}
+
+.center{
+    display: block;
+    margin-left: auto;
+    margin-right: auto;
+}
 
 .drawing-area{
     position: absolute;
