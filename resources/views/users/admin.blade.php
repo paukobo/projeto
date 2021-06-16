@@ -48,7 +48,7 @@
                     {{-- <td>{{ $user->cursoRef->nome }}</td> --}}
                     <td nowrap>
                         @can('view', $user)
-                            <a href="{{ route('admin.users.edit', $user) }}" class="btn btn-primary btn-sm"
+                            <a href="{{ route('admin.users.view', $user) }}" class="btn btn-primary btn-sm"
                                 role="button" aria-pressed="true"><i class="fas fa-eye"></i></a>
                         @else
                             <span class="btn btn-secondary btn-sm disabled"><i class="fas fa-eye"></i></span>

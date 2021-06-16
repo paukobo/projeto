@@ -36,6 +36,6 @@ class VerifyPass implements Rule
      */
     public function message()
     {
-        return 'The validation error message.';
+        return 'A password que inseriu não corresponde com a presente na base de dados.';
     }
 }

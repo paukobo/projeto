@@ -48,6 +48,8 @@ Route::middleware(['auth','verified'])->prefix('admin')->name('admin.')->group(f
     // admininstração de users
     Route::get('users', [UserController::class, 'admin'])->name('users')
         ->middleware('can:viewAny,App\Models\User');
+    Route::get('users/{user}/view', [UserController::class, 'view'])->name('users.view')
+        ->middleware('can:view,user');
     Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit')
         ->middleware('can:view,user');
     Route::get('users/create', [UserController::class, 'create'])->name('users.create')
@@ -75,8 +77,9 @@ Route::middleware(['auth','verified'])->prefix('admin')->name('admin.')->group(f
     Route::delete('clientes/{cliente}/foto', [ClienteController::class, 'destroy_foto'])->name('clientes.foto.destroy')
         ->middleware('can:update,cliente');
 
-    Route::get('users/{user}', [UserController::class, 'editPassword'])->name('users.editPassword');
-    Route::get('users/{user}', [UserController::class, 'updatePassword'])->name('users.updatePassword');
+    Route::get('users/edit/Password', [UserController::class, 'editPassword'])->name('users.editPassword');
+    Route::patch('users/update/Password', [UserController::class, 'updatePassword'])->name('users.updatePassword');
+
 
     // administração de tshirts
     //Route::get('tshirts', [TshirtController::class, 'index'])->name('tshirts');

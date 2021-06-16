@@ -83,12 +83,28 @@ class UserPolicy
         return ($user->tipo=='A' && $model->id!=$user->id);
     }
 
-    public function editPassword(User $user){
-        return true;
+    /**
+     * Determine whether the user can edit the password.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return mixed
+     */
+
+    public function editPassword(User $user, User $model){
+        return $model->id==$user->id;
     }
 
-    public function updatePassword(User $user){
-        return true;
+    /**
+     * Determine whether the user can update the password.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return mixed
+     */
+
+    public function updatePassword(User $user, User $model){
+        return $model->id==$user->id;
     }
 
     /**

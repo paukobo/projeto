@@ -190,7 +190,7 @@
                                 </a>
                             @endif
                             <a class="dropdown-item" href="{{route('admin.users.editPassword')}}">
-                                <i class="fas fa-user fa-sm fa-fw mr-2 text-gray-400"></i>
+                                <i class="fas fa-key fa-sm fa-fw mr-2 text-gray-400"></i>
                                 Alterar Password
                             </a>
                             <a class="dropdown-item" href="#" data-toggle="modal" data-target="#logoutModal">
@@ -207,7 +207,6 @@
 
             <!-- Begin Page Content -->
             <div class="container-fluid">
-
                 @if (session('alert-msg'))
                     @include('partials.message')
                 @endif

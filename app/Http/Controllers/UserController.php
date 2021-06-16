@@ -23,6 +23,10 @@ class UserController extends Controller
         return view('users.admin', compact ('users'));//, compact('clientes'/* , 'cursos', 'selectedCurso' */));
     }
 
+    public function view(User $user){
+        return view('users.view', compact ('user'));
+    }
+
     public function edit(User $user)
     {
         /* $cursos = Curso::pluck('nome', 'abreviatura'); */
@@ -128,8 +132,12 @@ class UserController extends Controller
     }
 
     public function updatePassword(PasswordPost $request){
-        $validated_data = $request->validated();
-        $user->fill($validated_data);
+        $user=auth()->user();
+        $user->password=Hash::make($request->password);//se a password for a nova
         $user->save();
+
+        return redirect()->route('admin.users')
+            ->with('alert-msg', ' A Password foi alterada com sucesso!')
+            ->with('alert-type', 'success');
     }
 }
