@@ -83,7 +83,6 @@ class EncomendaController extends Controller
     {
 
         $carrinho = $request->session()->get('carrinho');
-        dd($carrinho);
 
         if ($carrinho == null) {
             return redirect()->route('carrinho.index')
@@ -95,9 +94,9 @@ class EncomendaController extends Controller
 
         if (auth()->check() && auth()->user()->tipo == 'C') {
             $encomenda->cliente_id = auth()->user()->id;
-
-            $encomenda->preco_total = $carrinho->precoTotal;
-
+            foreach ($carrinho->items as $cart) {
+                $encomenda->preco_total += ($cart['qtd'] * $cart['preco_un']);
+            }
             return view('encomendas.create', compact('encomenda'));
         }
         else {
@@ -125,8 +124,10 @@ class EncomendaController extends Controller
 
         if (auth()->user()->tipo == 'C') {
             $encomenda->cliente_id = auth()->user()->id;
-            $encomenda->preco_total = $carrinho->precoTotal;
 
+            foreach ($carrinho->items as $cart) {
+                $encomenda->preco_total += ($cart['qtd'] * $cart['preco_un']);
+            }
         }
         $encomenda->save();
 

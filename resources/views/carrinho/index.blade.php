@@ -70,7 +70,15 @@
             @endforeach
         </tbody>
     </table>
-    <div>Preço Total: <?php echo $carrinho->precoTotal ?> €</div>
+    <div>Preço Total: <?php
+                        $preco_total = 0;
+                        foreach ($carrinho->items as $cart) {
+                            $preco_total += ($cart['qtd'] * $cart['preco_un']);
+                        }
+
+                        echo $preco_total;?>
+    €
+    </div>
 @else
     <div>Não tem items no carrinho!</div>
 @endif

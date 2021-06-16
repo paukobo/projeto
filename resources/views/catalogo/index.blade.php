@@ -16,7 +16,7 @@
             <label for="inputCor">Cor:</label>
             <select class="custom-select" name="cor" id="inputCor" aria-label="Cor">
                 @foreach ($cores as $nome => $codigo)
-                    <option value={{$codigo}}>{{$nome}}</option>
+                <option value={{$codigo}}>{{$nome}}</option>
                 @endforeach
             </select>
             <br>
@@ -87,7 +87,12 @@
         </div>
     </div>
 </div>
+
+<a href="{{route('home')}}" style="float: right;" class="btn btn-primary btn-sm" role="button" aria-pressed="true">
+    Voltar Atrás
+</a>
 {{ $estampas->withQueryString()->links() }}
+
 </div>
 
 

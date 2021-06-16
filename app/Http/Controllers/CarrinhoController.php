@@ -52,10 +52,10 @@ class CarrinhoController extends Controller
         // dd($carrinho);
         $key = $request->estampa."_".$request->cor."_".$request->tamanho;
         // dd($key);
-        $qtd = $carrinho[$key]['qtd'] ?? 0;
+        $qtd = $carrinho->items[$key]['qtd'] ?? 0;
         $qtd += $request->quantidade;
         if ($request->quantidade < 0) {
-            $msg = 'Foram removidas ' . $request->quantidade . ' tshirts! Quantidade de inscrições atuais = ' .  $qtd;
+            $msg = 'Foram removidas ' . $request->quantidade . ' tshirts! Quantidade de tshirts atuais = ' .  $qtd;
         } elseif ($request->quantidade > 0) {
             $msg = 'Foram adicionadas ' . $request->quantidade . ' tshirts! Quantidade de tshirts atuais = ' .  $qtd;
         }
@@ -69,8 +69,8 @@ class CarrinhoController extends Controller
             }else{
                 $subtotal = ($precos->preco_un_catalogo * $qtd);
             }
-            $carrinho[$key]['qtd'] = $qtd;
-            $carrinho[$key]['subtotal'] = $subtotal;
+            $carrinho->items[$key]['qtd'] = $qtd;
+            $carrinho->items[$key]['subtotal'] = $subtotal;
         }
         $request->session()->put('carrinho', $carrinho);
         return back()
@@ -82,12 +82,10 @@ class CarrinhoController extends Controller
     public function destroy_Tshirt(Request $request)
     {
         $carrinho = $request->session()->get('carrinho', []);
-        //dd($carrinho);
-        // $key = $carrinho->getKey($item['estampa'],$item['cor'],$item['tamanho']);
         $key = $request->estampa."_".$request->cor."_".$request->tamanho;
         //dd($key);
         if (isset($key, $carrinho)) {
-            unset($carrinho[$key]);
+            unset($carrinho->items[$key]);
             $request->session()->put('carrinho', $carrinho);
             return back()
                 ->with('alert-msg', 'Foram removidas todas as tshirts')
