@@ -88,7 +88,7 @@
     position: fixed;
     height: 80%;
     width: 70%;
-    transform: translate(22%, 12%);
+    transform: translate(22%, 0%);
     z-index: 3;
     background-color: rgb(197, 197, 197);
     cursor: unset;
