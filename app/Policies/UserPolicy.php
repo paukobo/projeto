@@ -17,9 +17,7 @@ class UserPolicy
      */
     public function viewAny(User $user)
     {
-        if($user->tipo=='A'){
-            return ($user->tipo=='F' || $user->tipo=='A');
-        }
+        return $user->tipo=='A';
     }
 
     /**
@@ -31,12 +29,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        if($user->tipo=='A'){
-            return ($user->tipo=='F' || $user->tipo=='A' || $user->id);
-        }elseif($user->tipo=='F'){
-            return $user->id;
-        }
-
+        return ($user->tipo=='A' && $model->tipo!='C');
     }
 
     /**
@@ -61,9 +54,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        if($user->tipo=='A'){
-            return ($user->tipo=='F' || $user->tipo=='A' || $user->id);
-        }
+        return ($user->tipo=='A' && $model->tipo!='C');
     }
 
     /**
@@ -81,18 +72,48 @@ class UserPolicy
     }
 
     /**
-     * Determine whether the user can restore the model.
+     * Determine whether the user can block the model.
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\User  $model
      * @return mixed
      */
 
-    public function block(User $user){
-        if($user->tipo=='A'){
-            return true;
-        }
+    public function block(User $user, User $model){
+        return ($user->tipo=='A' && $model->id!=$user->id);
     }
+
+    /**
+     * Determine whether the user can edit the password.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return mixed
+     */
+
+    public function editPassword(User $user, User $model){
+        return $model->id==$user->id;
+    }
+
+    /**
+     * Determine whether the user can update the password.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return mixed
+     */
+
+    public function updatePassword(User $user, User $model){
+        return $model->id==$user->id;
+    }
+
+    /**
+     * Determine whether the user can restore the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\User  $model
+     * @return mixed
+     */
 
     public function restore(User $user, User $model)
     {

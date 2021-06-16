@@ -70,6 +70,9 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
         ->middleware('can:update,cliente');
 
 
+    Route::get('users/edit/Password', [UserController::class, 'editPassword'])->name('users.editPassword');
+    Route::patch('users/update/Password', [UserController::class, 'updatePassword'])->name('users.updatePassword');
+
     // admininstração de cores
     Route::get('cores', [CorController::class, 'admin'])->name('cores');
     Route::get('cores/{cor}/edit', [CorController::class, 'edit'])->name('cores.edit')

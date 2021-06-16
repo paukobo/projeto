@@ -11,7 +11,7 @@
         @isset($cliente->user->foto_url)
             <div class="form-group">
                 <img src="{{$cliente->user->foto_url ? asset('storage/fotos/' . $cliente->user->foto_url) : asset('img/default_img.png') }}"
-                     alt="Foto do docente"  class="img-profile"
+                     alt="Foto do user"  class="img-profile"
                      style="max-width:100%">
             </div>
         @endisset
@@ -22,7 +22,7 @@
             @endisset
             <button type="submit" class="btn btn-success" name="ok">Save</button>
             <button type="submit" class="btn btn-primary" name="verifyEmail" form="form_verification_email">Send Verification Email</button>
-            <a href="{{route('admin.clientes')}}" class="btn btn-secondary">Cancel</a>
+            <a href="{{route('admin.clientes')}}" class="btn btn-danger">Cancel</a>
         </div>
         @endcan
     </form>

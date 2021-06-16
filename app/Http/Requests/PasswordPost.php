@@ -2,10 +2,11 @@
 
 namespace App\Http\Requests;
 
-use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\VerifyPass;
 use Illuminate\Validation\Rule;
+use Illuminate\Foundation\Http\FormRequest;
 
-class UserPost extends FormRequest
+class PasswordPost extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -25,10 +26,9 @@ class UserPost extends FormRequest
     public function rules()
     {
         return [
-            'name' =>           'required',
-            'email' =>          'required|email|unique:users,email,'.$this->id,
-            'foto' =>           'nullable|image|max:8192',
-            'tipo' =>           'required'
+            'oldPass' =>        ['required',new VerifyPass()],
+            'newPass' =>        'required',
+            'confirmPass' =>    'required',
         ];
     }
 }

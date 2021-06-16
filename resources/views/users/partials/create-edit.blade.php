@@ -12,7 +12,6 @@
         <div class="small text-danger">{{$message}}</div>
     @enderror
 </div>
-
 <div class="form-group">
     <label for="inputFoto">Upload da Foto</label>
     <input type="file" class="form-control" name="foto" id="inputFoto">

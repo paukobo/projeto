@@ -24,7 +24,7 @@ class ClientePolicy
     /**
      * Determine whether the user can view the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\User     $user
      * @param  \App\Models\Cliente  $cliente
      * @return mixed
      */
@@ -47,19 +47,19 @@ class ClientePolicy
     /**
      * Determine whether the user can update the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\User     $user
      * @param  \App\Models\Cliente  $cliente
      * @return mixed
      */
     public function update(User $user, Cliente $cliente)
     {
-        return $user->id==$cliente->id;
+        return $user->tipo=='C' && $user->id==$cliente->id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\User     $user
      * @param  \App\Models\Cliente  $cliente
      * @return mixed
      */
@@ -71,7 +71,7 @@ class ClientePolicy
     /**
      * Determine whether the user can restore the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\User     $user
      * @param  \App\Models\Cliente  $cliente
      * @return mixed
      */
@@ -83,7 +83,7 @@ class ClientePolicy
     /**
      * Determine whether the user can permanently delete the model.
      *
-     * @param  \App\Models\User  $user
+     * @param  \App\Models\User     $user
      * @param  \App\Models\Cliente  $cliente
      * @return mixed
      */

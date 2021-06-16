@@ -44,7 +44,7 @@ class ClienteController extends Controller
         $newUser = new User;
         $newUser->fill($validated_data);
         $newUser->tipo = 'C';
-        $newUser->password = Hash::make('123');
+        $newUser->password = Hash::make($request->password);
         if ($request->hasFile('foto')) {
             $path = $request->foto->store('public/fotos');
             $newUser->foto_url = basename($path);
