@@ -56,7 +56,7 @@
             <td nowrap>
                 @if(auth()->check() && auth()->user()->tipo == 'C')
                     @if($encomenda->estado=='fechada')
-                        <a href="{{ route('pdfview') }}" class="btn btn-success" role="button" aria-pressed="true">
+                        <a href="{{ route('pdfview', $encomenda)}}" class="btn btn-success" role="button" aria-pressed="true">
                             Ver Recibo
                         </a>
                     @else

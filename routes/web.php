@@ -190,6 +190,6 @@ Route::get('clientes/create', [ClienteController::class, 'create'])->name('clien
 Route::post('clientes', [ClienteController::class, 'store'])->name('clientes.store');
 /* ->middleware('can:create,App\Models\Cliente'); */
 
-Route::get('pdfview', [ReciboController::class, 'pdfview'])->name('pdfview');
+Route::get('pdfview/{encomenda}', [ReciboController::class, 'pdfview'])->name('pdfview');
 
 Auth::routes(['register' => false, 'verify' => true]);
