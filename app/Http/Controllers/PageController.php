@@ -10,7 +10,7 @@ class PageController extends Controller
 {
     public function index()
     {
-        $estampas = Estampa::query()->whereNull('cliente_id')->get();
+        $estampas = Estampa::query()->whereNull('cliente_id')->pluck('id');
 
         $qry = DB::table('tshirts')
         ->groupBy('estampa_id')->whereIn('estampa_id',$estampas)
