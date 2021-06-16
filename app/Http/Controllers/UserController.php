@@ -64,6 +64,7 @@ class UserController extends Controller
     {
         $validated_data = $request->validated();
         $user->fill($validated_data);
+        $user->tipo = $request->tipo;
         if ($request->hasFile('foto')) {
             Storage::delete('public/fotos' . $user->foto_url);
             $path = $request->foto->store('public/fotos');

@@ -26,7 +26,7 @@ class VerifyPass implements Rule
      */
     public function passes($attribute, $value)
     {
-        return Hash::check(auth()->user()->password, $value);
+        return Hash::check($value, auth()->user()->password);
     }
 
     /**

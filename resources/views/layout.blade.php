@@ -31,12 +31,12 @@
                 @endisset
             </div>
         @else
-            <div class="avatar-area">
-                <a class="nav-link" href="{{ route('login') }}">Login</a>
+        <div class="form-group avatar-area">
+            <a class="nav-link" href="{{ route('login') }}">Login</a>
             </div>
-            <div class="avatar-area">
-                <a class="nav-link" href="{{ route('clientes.create') }}">Register</a>
+            <a class="nav-link" href="{{ route('clientes.create') }}">Register</a>
             </div>
+        </div>
         @endauth
         <div id="menuIcon">
             <div class="bar1"></div>
@@ -70,9 +70,7 @@
 
                     <li>
                         <i class="fab fa-wpforms"></i>
-                        <a href="{{ route('logout') }}"
-                            onclick="event.preventDefault();
-                                                                    document.getElementById('logout-form').submit();">Logout</a>
+                        <a href="{{ route('logout') }}"onclick="event.preventDefault();document.getElementById('logout-form').submit();">Logout</a>
                         <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
                             @csrf
                         </form>

@@ -9,16 +9,18 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\CorController;
 use App\Http\Controllers\PageController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\ChartController;
 use App\Http\Controllers\PrecoController;
+use App\Http\Controllers\ReciboController;
 use App\Http\Controllers\TshirtController;
 use App\Http\Controllers\ClienteController;
 use App\Http\Controllers\CarrinhoController;
 use App\Http\Controllers\CatalogoController;
 use App\Http\Controllers\CategoriaController;
-use App\Http\Controllers\ChartController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EncomendaController;
 use App\Http\Controllers\EstatisticasController;
+
 
 /*
 |--------------------------------------------------------------------------
@@ -41,6 +43,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     // admininstração de users
     Route::get('users', [UserController::class, 'admin'])->name('users')
         ->middleware('can:viewAny,App\Models\User');
+    Route::get('users/{user}/view', [UserController::class, 'view'])->name('users.view')
+        ->middleware('can:view,user');
     Route::get('users/{user}/edit', [UserController::class, 'edit'])->name('users.edit')
         ->middleware('can:view,user');
     Route::get('users/create', [UserController::class, 'create'])->name('users.create')
@@ -186,5 +190,6 @@ Route::get('clientes/create', [ClienteController::class, 'create'])->name('clien
 Route::post('clientes', [ClienteController::class, 'store'])->name('clientes.store');
 /* ->middleware('can:create,App\Models\Cliente'); */
 
+Route::get('pdfview', [ReciboController::class, 'pdfview'])->name('pdfview');
 
 Auth::routes(['register' => false, 'verify' => true]);

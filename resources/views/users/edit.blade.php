@@ -6,14 +6,6 @@
         @method('PUT')
         <input type="hidden" name="id" value="{{$user->id}}">
         @include('users.partials.create-edit')
-
-        @isset($user->foto_url)
-            <div class="form-group">
-                <img src="{{$user->foto_url ? asset('storage/fotos/' . $user->foto_url) : asset('img/default_img.png') }}"
-                     alt="Foto do docente"  class="img-profile"
-                     style="max-width:100%">
-            </div>
-        @endisset
         @can('update',$user)
         <div class="form-group text-right">
             @isset($user->foto_url)
