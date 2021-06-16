@@ -135,8 +135,8 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
     //->middleware('can:create,App\Models\Estampa');
     Route::post('catalogo', [CatalogoController::class, 'store'])->name('catalogo.estampas.store');
     //->middleware('can:create,App\Models\Estampa');
-    Route::put('catalogo/{estampa}', [CatalogoController::class, 'update'])->name('catalogo.estampas.update');
-    //->middleware('can:update,estampa');
+    Route::put('catalogo/{estampa}', [CatalogoController::class, 'update'])->name('catalogo.estampas.update')
+    ->middleware('can:update,estampa');
     Route::delete('catalogo/{estampa}', [CatalogoController::class, 'destroy'])->name('catalogo.estampas.destroy');
     //->middleware('can:delete,estampa');
 
@@ -172,6 +172,6 @@ Route::get('clientes/create', [ClienteController::class, 'create'])->name('clien
 Route::post('clientes', [ClienteController::class, 'store'])->name('clientes.store');
 /* ->middleware('can:create,App\Models\Cliente'); */
 
-Route::get('pdfview', [ReciboController::class, 'pdfview'])->name('pdfview');
+Route::get('pdfview/{encomenda}', [ReciboController::class, 'pdfview'])->name('pdfview');
 
 Auth::routes(['register' => false, 'verify' => true]);

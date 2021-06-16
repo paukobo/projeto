@@ -22,13 +22,13 @@
                     </tr>
                 </thead>
                 <tbody>
-                    {{-- @foreach ($tshirts as $tshirt => $item)
+                    @foreach ($tshirts as $tshirt => $item)
                         <tr>
                             <td>{{ ++$tshirt }}</td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->tamanho }}</td>
                             <td>{{ $item->name }}</td>
                         </tr>
-                    @endforeach --}}
+                    @endforeach
                 </tbody>
             </table>
