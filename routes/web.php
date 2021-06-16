@@ -38,8 +38,6 @@ Route::get('/', [PageController::class, 'index'])->name('home');
 
 Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(function () {
 
-    Route::get('/', [DashboardController::class, 'index'])->name('dashboard');
-
     // admininstração de users
     Route::get('users', [UserController::class, 'admin'])->name('users')
         ->middleware('can:viewAny,App\Models\User');
@@ -113,21 +111,6 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
         ->middleware('can:update,preco');
 
 
-    // administração de tshirts
-    Route::get('tshirts', [TshirtController::class, 'index'])->name('tshirts');
-    Route::get('tshirts', [TshirtController::class, 'admin_index'])->name('tshirts');
-    Route::get('tshirts/{tshirt}/edit', [TshirtController::class, 'edit'])->name('tshirts.edit')
-        ->middleware('can:view,tshirt');
-    Route::get('tshirts/create', [TshirtController::class, 'create'])->name('tshirts.create')
-        ->middleware('can:create,App\Models\Tshirt');
-    Route::post('tshirts', [TshirtController::class, 'store'])->name('tshirts.store')
-        ->middleware('can:create,App\Models\Tshirt');
-    Route::put('tshirts/{tshirt}', [TshirtController::class, 'update'])->name('tshirts.update')
-        ->middleware('can:update,tshirt');
-    Route::delete('tshirts/{tshirt}', [TshirtController::class, 'destroy'])->name('tshirts.destroy')
-        ->middleware('can:delete,tshirt');
-
-
     // admininstração de encomendas
     Route::get('encomendas', [EncomendaController::class, 'admin'])->name('encomendas');
     Route::get('verTshirtsEncomendas/{encomenda}', [EncomendaController::class, 'verTshirtsEncomendas'])->name('verTshirtsEncomendas');
@@ -172,7 +155,6 @@ Route::middleware(['auth', 'verified'])->prefix('admin')->name('admin.')->group(
 
 // carrinho de compras
 Route::get('carrinho', [CarrinhoController::class, 'index'])->name('carrinho.index');
-//Route::post('carrinho/tshirts/{tshirt}', [CarrinhoController::class, 'store_Tshirt'])->name('carrinho.store_Tshirt');
 Route::post('carrinho/adicionarCarrinho', [CarrinhoController::class, 'adicionarCarrinho'])->name('carrinho.adicionarCarrinho');
 Route::put('carrinho/tshirts', [CarrinhoController::class, 'update_Tshirt'])->name('carrinho.update_Tshirt');
 Route::delete('carrinho/tshirts', [CarrinhoController::class, 'destroy_Tshirt'])->name('carrinho.destroy_Tshirt');

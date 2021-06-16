@@ -33,30 +33,38 @@
                         class="menu__link r-link text-underlined">Inicio</a></li>
                 <li class="menu__group"><a href="{{ route('catalogo.index') }}"
                         class="menu__link r-link text-underlined">Catalogo</a></li>
-                <li class="menu__group"><a href="{{ route('carrinho.index') }}"
-                        class="menu__link r-link text-underlined">Carrinho</a></li>
+                @if((auth()->check() && auth()->user()->tipo == 'C') || (auth()->check() && auth()->user()->tipo == 'F') || (!auth()->check()))
+                    <li class="menu__group"><a href="{{ route('carrinho.index') }}"
+                            class="menu__link r-link text-underlined">Carrinho</a></li>
+                @endif
                 <li class="menu__group"><a href="{{ route('admin.catalogo.estampas.create') }}"
                         class="menu__link r-link text-underlined">Criar Estampa</a></li>
                 @auth
-                    <div class="avatar-area">
-                        <span class="name-user">{{ Auth::user()->name }}</span>
-                        @isset(Auth::user()->url_foto)
-                            <img class="img-profile rounded-circle"
-                                src="{{ asset('storage/fotos/' . Auth::user()->url_foto) }}">
-                        @else
-                            <div class="circle">
-                                <span class="initials">&nbsp;{{ generateInitials(Auth::user()->name) }}</span>
-                            </div>
-                        @endisset
-                        <span style="padding: 5px">-
-                            <a href="{{ route('logout') }}" onclick="event.preventDefault();
-                                    document.getElementById('logout-form').submit();"
-                                class="menu__link r-link text-underlined" style="padding: 2px">Logout</a>
-                            <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
-                                @csrf
-                            </form>
-                        </span>
-                    </div>
+                    @if (auth()->check() && auth()->user()->tipo == 'A')
+                        <li class="menu__group"><a href="{{ route('admin.charts') }}" class="menu__link r-link text-underlined">Admininstração</a></li>
+                    @endif
+                    @if (auth()->check() && auth()->user()->tipo == 'C')
+                        <li class="menu__group"><a href="{{ route('admin.clientes.edit', auth()->user()->cliente) }}" class="menu__link r-link text-underlined">Admininstração</a></li>
+                    @endif
+                        <div class="avatar-area">
+                            <span class="name-user">{{ Auth::user()->name }}</span>
+                            @isset(Auth::user()->url_foto)
+                                <img class="img-profile rounded-circle"
+                                    src="{{ asset('storage/fotos/' . Auth::user()->url_foto) }}">
+                            @else
+                                <div class="circle">
+                                    <span class="initials">&nbsp;{{ generateInitials(Auth::user()->name) }}</span>
+                                </div>
+                            @endisset
+                            <span style="padding: 5px">-
+                                <a href="{{ route('logout') }}" onclick="event.preventDefault();
+                                        document.getElementById('logout-form').submit();"
+                                    class="menu__link r-link text-underlined" style="padding: 2px">Logout</a>
+                                <form id="logout-form" action="{{ route('logout') }}" method="POST" style="display: none;">
+                                    @csrf
+                                </form>
+                            </span>
+                        </div>
                 @else
                     <div class="avatar-area">
                         <a class="menu__link r-link text-underlined" href="{{ route('login') }}"
