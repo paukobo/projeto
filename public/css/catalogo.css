@@ -95,3 +95,38 @@ body {
     padding: 2%;
     border: 3px solid #1f1f1f;
 }
+
+
+.drawing-area{
+    position: absolute;
+    top: 60px;
+    left: 122px;
+    z-index: 10;
+    width: 300px;
+    height: 400px;
+}
+
+.canvas-container{
+    width: 300px;
+    height: 400px;
+    position: relative;
+    user-select: none;
+}
+
+#tshirt-div{
+    width: 452px;
+    height: 548px;
+    position: relative;
+    background-color: #fff;
+}
+
+#tshirt-canvas{
+    position: absolute;
+    width: 300px;
+    height: 400px;
+    left: 0px;
+    top: 0px;
+    user-select: none;
+    cursor: default;
+}
+
