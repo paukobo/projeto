@@ -27,7 +27,7 @@
         <ul class="navbar-nav bg-gradient-dark sidebar sidebar-dark accordion" id="accordionSidebar">
 
             <!-- Sidebar - Brand -->
-            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{route('admin.dashboard')}}">
+            <a class="sidebar-brand d-flex align-items-center justify-content-center" href="{{url('/')}}">
                 <div class="sidebar-brand-icon">
                     <img src="/img/plain_white.png" alt="Logo" class="logo-img">
                 </div>
@@ -36,17 +36,6 @@
 
             <!-- Divider -->
             <hr class="sidebar-divider my-0">
-
-            <!-- Nav Item - Dashboard -->
-            <li class="nav-item {{Route::currentRouteName()=='admin.dashboard'? 'active': ''}}">
-                <a class="nav-link" href="{{route('admin.dashboard')}}">
-                    <i class="fas fa-fw fa-tachometer-alt"></i>
-                    <span>Dashboard</span>
-                </a>
-            </li>
-
-            <!-- Divider -->
-            <hr class="sidebar-divider">
 
              <!-- Nav Item - Users -->
             {{-- @can('viewAny', App\Models\Cliente::class) --}}
@@ -80,14 +69,6 @@
                 </li>
             @endcan
 
-            <!-- Nav Item - Tshirt -->
-            <li class="nav-item {{ Route::currentRouteName() == 'admin.tshirts' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.tshirts') }}">
-                <i class="fas fa-tshirt"></i>
-                    <span>Tshirt</span>
-                </a>
-            </li>
-
             <!-- Nav Item - Carrinho -->
             @can('viewAny', App\Models\Carrinho::class)
                 <li class="nav-item {{ Route::currentRouteName() == 'carrinho.index' ? 'active' : '' }}">
@@ -119,13 +100,23 @@
 
 
             <!-- Nav Item - Catalogo -->
-            <li class="nav-item {{ Route::currentRouteName() == 'admin.catalogo' ? 'active' : '' }}">
-                <a class="nav-link" href="{{ route('admin.catalogo') }}">
-                <i class="fas fa-box-open"></i>
-                    <span>Catálogo</span>
-                </a>
-            </li>
+            @if (auth()->check() && (auth()->user()->tipo == 'F' || auth()->user()->tipo == 'A'))
+                <li class="nav-item {{ Route::currentRouteName() == 'admin.catalogo' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('admin.catalogo') }}">
+                    <i class="fas fa-box-open"></i>
+                        <span>Catálogo</span>
+                    </a>
+                </li>
+            @endif
 
+            @if (auth()->check() && (auth()->user()->tipo == 'C'))
+                <li class="nav-item {{ Route::currentRouteName() == 'catalogo.index' ? 'active' : '' }}">
+                    <a class="nav-link" href="{{ route('catalogo.index') }}">
+                    <i class="fas fa-box-open"></i>
+                        <span>Catálogo</span>
+                    </a>
+                </li>
+            @endif
 
             <!-- Nav Item - Estatísticas -->
             @if(auth()->check() && auth()->user()->tipo == 'A')
@@ -137,16 +128,6 @@
                 </li>
             @endif
 
-            <!-- Divider -->
-            <hr class="sidebar-divider d-none d-md-block">
-
-            <!-- Nav Item -->
-            <li class="nav-item">
-                <a class="nav-link" href="{{ url('/') }}">
-                    <i class="fas fa-fw fa-home"></i>
-                    <span>Parte Publica</span>
-                </a>
-            </li>
 
             <!-- Divider -->
             <hr class="sidebar-divider d-none d-md-block">
@@ -189,7 +170,7 @@
                                     src="{{ asset('storage/fotos/' . Auth::user()->url_foto) }}">
                             @else
                                 <div class="circle">
-                                    <span class="initials">{{ generateInitials(Auth::user()->name) }}</span>
+                                    <span class="initials">{{generateInitials(Auth::user()->name) }}</span>
                                 </div>
                             @endisset
                         </a>

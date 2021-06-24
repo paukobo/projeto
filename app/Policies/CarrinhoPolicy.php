@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Carrinho;
+use App\Models\Carrinho;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
@@ -26,11 +26,7 @@ class CarrinhoPolicy
      */
     public function viewAny(User $user)
     {
-<<<<<<< HEAD
-        return $user->tipo == 'C';
-=======
-        return ($user->tipo=='C' || $user->tipo=='F');
->>>>>>> parent of e0c9297 (Merge branch 'main' of https://github.com/paukobo/projeto into main)
+        return ($user->tipo=='C' || $user->tipo=='F' || auth()->check() );
     }
 
     /**
@@ -42,6 +38,9 @@ class CarrinhoPolicy
      */
     public function view(User $user, Carrinho $carrinho)
     {
+        if($user->tipo == 'C' || $user->tipo == 'F'){
+            return true;
+        }
         return false;
     }
 
@@ -53,7 +52,11 @@ class CarrinhoPolicy
      */
     public function create(User $user)
     {
-        return false;
+        if ($user->tipo == 'C'){
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
@@ -65,7 +68,7 @@ class CarrinhoPolicy
      */
     public function update(User $user, Carrinho $carrinho)
     {
-        return false;
+        return true;
     }
 
     /**

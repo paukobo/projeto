@@ -26,9 +26,11 @@
                     <td>{{ $encomenda->quantidade }}</td>
                     <td>{{ $encomenda->preco_un }}</td>
                     <td>{{ $encomenda->subtotal }}</td>
+
                 </tr>
             @endforeach
         </tbody>
     </table>
+    <a href="{{route('admin.encomendas')}}" class="btn btn-secondary">Voltar atrás</a>
     {{ $encomendas->withQueryString()->links() }}
 @endsection

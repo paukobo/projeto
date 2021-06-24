@@ -13,11 +13,14 @@ class UserController extends Controller
 {
     public function admin(Request $request)
     {
+        /* $selectedCurso = $request->curso ?? ''; */
         $qry =  User::query();
-
+        /* if ($selectedCurso) {
+            $qry->where('curso', $selectedCurso);
+        } */
         $users = $qry->paginate(10);
-
-        return view('users.admin', compact ('users'));
+        /* $cursos = Curso::pluck('nome', 'abreviatura');  */
+        return view('users.admin', compact ('users'));//, compact('clientes'/* , 'cursos', 'selectedCurso' */));
     }
 
     public function view(User $user){
@@ -26,11 +29,15 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
+        /* $cursos = Curso::pluck('nome', 'abreviatura'); */
+        //return view('clientes.edit', compact('cliente'/* , 'cursos' */));
         return view('users.edit', compact ('user'));
     }
     public function create(User $user)
     {
+        /* $cursos = Curso::pluck('nome', 'abreviatura'); */
         $user = new User;
+        //return view('clientes.create', compact('cliente'/* , 'cursos' */));
         return view('users.create', compact ('user'));
     }
 
